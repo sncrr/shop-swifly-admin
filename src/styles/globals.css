@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+  top: 0;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  padding-top: 4rem;
+  position: relative;
+}
+/* 
+  RICH TEXT 
+*/
+.rich-text-ul {
+  list-style: disc;
+  margin-left: 1.5em;
+}
+
+.rich-text-ul .rich-text-ul {
+  list-style: circle;
+  margin-left: calc(1.5em + 1vw); /* Add 1vw for each level of nesting */
+}
+
+.rich-text-ol {
+  list-style: decimal;
+  margin-left: 1.5em;
+}
+
+.rich-text-ol .rich-text-ol {
+  list-style: decimal;
+  margin-left: calc(1.5em + 1vw); /* Add 1vw for each level of nesting */
+}
+
+
+/*
+  ANIMATIONS
+*/
+.fade {
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.fade-visible {
+  opacity: 1;
+}
+
+.fade-invisible {
+  opacity: 0;
+}
+
+.fade-down-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-down-invisible {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.fade-up-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-up-invisible {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-right-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-right-invisible {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.fade-left-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-left-invisible {
+  opacity: 0;
+  transform: translateX(-40px);
+}
