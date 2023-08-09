@@ -37,13 +37,13 @@ export function ModalContainer ({
 
 } : any) {
 
-  const modalState = useSelector((state:any) => state.modal);
-
-  const { loader } = modalState;
+  const { 
+    loaderModal 
+  } = useSelector((state:any) => state.modal);
 
   return (
     <>
-      { loader && <Loader isOpen={loader} />}
+      { loaderModal && <Loader isOpen={loaderModal} />}
     </>
   )
 }

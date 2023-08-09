@@ -2,60 +2,58 @@ import axios from "axios";
 import { API_URL } from "../constants/global-constant";
 import { Category } from "../types/Category";
 
-export async function getAllCategories() : Promise<Category[]> {
-  
-  let result = new Array<Category>()
-
-  await axios.get(`${API_URL}/category/all`)
-    .then((response) => {
-      result = response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  
-    return result;
+export async function getAllCategories() {
+  try {
+    const response = await axios.get(`${API_URL}/category/all`);
+    return response.data;
+  }
+  catch (error) {
+    throw error;
+  }
 }
 
 export async function getCategory(id: string) : Promise<Category> {
-  
-  let result : Category = {};
-
-  await axios.get(`${API_URL}/category/${id}`)
-    .then((response) => {
-      result = response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  
-    return result;
+  try {
+    const response = await axios.get(`${API_URL}/category/${id}`)
+    return response.data;
+  }
+  catch (error) {
+    throw error;
+  }
 }
 
 export async function createCategory (payload: any) : Promise<Category> {
-  let result : Category = {}
-
-  await axios.post(`${API_URL}/category`, payload)
-    .then((response) => {
-      result = response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  
-    return result;
+  try {
+    const response = await axios.post(
+      `${API_URL}/category`, 
+      payload.data
+    );
+    return response.data;
+  } 
+  catch (error) {
+    throw error;
+  }
 }
 
-export async function updateCategory(id:string, payload:any) : Promise<Category> {
-  let result : Category = {}
+export async function updateCategory(payload:any) : Promise<Category> {
+  try {
+    const response = await axios.put(
+      `${API_URL}/category/${payload.id}`, 
+      payload.data
+    );
+    return response.data;
+  } 
+  catch (error) {
+    throw error;
+  }
+}
 
-  await axios.put(`${API_URL}/category/${id}`, payload)
-    .then((response) => {
-      result = response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-  
-    return result;
+export async function deleteCategory(id:string) : Promise<boolean> {
+  try {
+    const response = await axios.delete(`${API_URL}/category/${id}`);
+    return response.data;
+  } 
+  catch (error) {
+    throw error;
+  }
 }

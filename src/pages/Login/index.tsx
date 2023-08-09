@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { FormControl, FormGroup, FormLabel } from "../../components/forms";
 import { useDispatch } from 'react-redux';
-import { setUser } from "../../reducer/slices/userSlice";
 import { AdminController } from "../../controllers";
 import { Submit } from '../../components/forms/Submit';
 import { setAccessToken } from '../../utils/authUtils';
+import { setUser } from '../../root/slices/userSlice';
 
 function Login () {
 

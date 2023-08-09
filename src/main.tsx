@@ -2,10 +2,10 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './styles/globals.css'
 import { Provider } from 'react-redux'
-import store from './reducer/store.ts'
+import rootStore from './root/store.ts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-<Provider store={store}>
-  <App />
-</Provider>
+  <Provider store={rootStore}>
+    <App />
+  </Provider>
 )

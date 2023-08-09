@@ -2,13 +2,15 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Category } from "../../../types/Category";
 import { colors } from "../../../theme";
-import { ChevronCompactDown, ChevronCompactRight } from "../../../assets/svgs";
-import { Link, useNavigate } from "react-router-dom";
+import { ChevronCompactDown, ChevronCompactRight, PlusSquareDotted } from "../../../assets/svgs";
+import { Link } from "react-router-dom";
 import { Paths } from "../../../constants";
+import { GhostBtn } from "../../../components/buttons";
 
 interface Props {
   categories: Category[],
-  navigate: any
+  navigate: any,
+  selected: Category
 }
 
 const TreeContainer = styled.div`
@@ -129,17 +131,22 @@ function TreeNode({ node, navigate }: any) {
   )
 }
 
-function CategoryTree({ categories, navigate }: Props) {
+function CategoryTree({ categories, navigate, selected }: Props) {
 
   const list = reorganizeArray(categories);
 
+  const handleCreate = () => {
+    navigate(Paths.CATEGORY);
+  }
+
   return (
     <div>
-      <Link 
-        to={Paths.CATEGORY}
-      >
-        Create new
-      </Link>
+      <div className="p-2 text-blue-600">
+      <GhostBtn onClick={handleCreate}>
+        <PlusSquareDotted />
+        <span>Create new</span>
+      </GhostBtn>
+      </div>
       <TreeContainer>
         <ul className="main-list">
           {

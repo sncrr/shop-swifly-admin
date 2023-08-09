@@ -1,12 +1,10 @@
-import { colors } from '../../theme';
-
 export interface SvgProps {
   color?: string;
   size?: number;
 }
 
 export const defualtSize = 16;
-export const defaultColor = colors.mainColor;
+export const defaultColor = "currentColor";
 
 
 export { BarChart } from './BarChart'
@@ -17,4 +15,7 @@ export { CaretRightFill } from './CaretRightFill'
 export { ChevronCompactDown } from './ChevronCompactDown'
 export { ChevronCompactRight } from './ChevronCompactRight'
 export { Coin } from './Coin'
+export { ExclamationTriangle } from './ExclamationTriangle'
 export { PersonLinesFill } from './PersonLinesFill'
+export { PlusSquareDotted } from './PlusSquareDotted'
+export { Trash } from './Trash'

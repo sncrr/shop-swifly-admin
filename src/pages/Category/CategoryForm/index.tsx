@@ -1,82 +1,45 @@
-import { useEffect, useState } from 'react';
 import { Form, FormControl, FormGroup, FormInput, FormLabel, FormTextArea } from "../../../components/forms";
 import { FormRow } from "../../../components/forms/FormRow";
 import { FormSelect } from "../../../components/forms/FormSelect";
 import { Submit } from "../../../components/forms/Submit";
-import { CategoryController } from "../../../controllers";
-import { hideLoader, showLoader } from "../../../reducer/slices/modalSlice";
+// import { hideLoader, showLoader } from "../../../components/modals/reducer";
 import { Category } from "../../../types/Category";
 import { formUtils } from "../../../utils";
-import { handleCreateCategory, handleUpdateCategory } from '../actions';
-import { H1 } from '../../../components/typographies';
 import * as ToastActions from '../../../components/toasts/actions';
+import { saveCategory } from "../actions";
 
 interface Props {
   categories: Category[],
   dispatch: any,
   navigate: any,
+  selected: Category
 }
 
 
-export function CategoryForm({ categories, dispatch, navigate }: Props) {
-
-  const queryString = location.search;
-  const selectedId = queryString.slice(1);
-
-  const [selected, setSelected] = useState<Category>(new Category());
-
-  useEffect(() => {
-    if (selectedId) {
-      loadSelectedCategory();
-    }
-    else {
-      setSelected(new Category());
-    }
-  }, [selectedId])
-
-  const loadSelectedCategory = async () => {
-    let result = await CategoryController.getCategory(selectedId);
-    if (result) {
-      setSelected(result);
-    }
-  }
+export function CategoryForm({ 
+  categories,
+  dispatch,
+  selected,
+}: Props) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     let data = formUtils.getFormData(e.target);
 
-    dispatch(showLoader())
+    if(!data.parent) {
+      data.parent = null;
+    }
 
-    // let result;
-    // //UPDATE
-    // if (selectedId && selected) {
-    //   result = await handleUpdateCategory(dispatch, selectedId, data);
-    //   if(result) {
-    //     ToastActions.showSuccessMessage(dispatch, "Category updated successfully");
-    //   }
-    // }
-    // //CREATE
-    // else {
-    //   result = await handleCreateCategory(dispatch, data);
-    //   if(result && result._id) {
-    //     ToastActions.showSuccessMessage(dispatch, "Category added successfully");
-    //     navigate(`?${result._id}`)
-    //   }
-    // }
-
-    
-
-    // dispatch(hideLoader())
+    dispatch(saveCategory({
+      id: selected._id,
+      data,
+      navigateToItem: true
+    }));
   }
 
   return (
     <div>
-      <H1>
-        {
-          selectedId && selectedId  ? selected.name : "CREATE NEW"
-        }
-      </H1>
       <Form onSubmit={handleSubmit}>
         <FormRow>
           <FormGroup>
@@ -99,7 +62,7 @@ export function CategoryForm({ categories, dispatch, navigate }: Props) {
                 title="parent"
                 labelKey="name"
                 valueKey="_id"
-                defaultValue={selected.parent?._id}
+                defaultValue={selected.parent}
                 options={[
                   {
                     name: "None",

@@ -1,7 +1,7 @@
 // Save the access token to a secure HttpOnly cookie
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
-import { setUser } from '../reducer/slices/userSlice';
 import { AdminController } from '../controllers';
+import { setUser } from '../root/slices/userSlice';
 // import * as jwt from 'jose'
 
 const ACCESS_TOKEN_COOKIE_NAME = 'access_token';
