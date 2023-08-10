@@ -1,9 +1,10 @@
 import * as constant from './constants';
+import * as CategoryController from './controllers';
+import * as CategoryAction from './actions';
+import * as ToastAction from '../../components/toasts/actions';
 import { put, call, takeLatest, takeLeading } from 'redux-saga/effects';
-import { CategoryController } from '../../controllers';
 import { Category } from '../../types/Category';
 import SagaProps from '../../types/SagaProps';
-import * as CategoryAction from './actions';
 import { 
   fetchCategoriesSuccess, 
   fetchCategoriesFailed,
@@ -12,14 +13,12 @@ import {
   deleteCategorySuccess,
   deleteCategoryFailed, 
 } from './actions';
-import { hideLoader, showLoader } from '../../components/modals/actions';
-import { push, replace } from 'connected-react-router';
+import { hideLoader } from '../../components/modals/actions';
+import { replace } from 'connected-react-router';
+import * as ToastConstant from '../../components/toasts/constants';
 
 function* onFetchCategories () {
   try {
-
-    // yield put(showLoader());
-
     const data: Category[] = yield call(CategoryController.getAllCategories);
 
     yield put(fetchCategoriesSuccess(data));
@@ -32,9 +31,11 @@ function* onFetchCategories () {
 }
 
 function* onSaveCategory(action: any) {
-  try {
-    // yield put(showLoader());
+  const { toastId } = yield put(ToastAction.createPromiseToast({
+    message: "Saving Category",
+  }));
 
+  try {
     const { id, navigateToItem } = action.payload;
     const data: Category = id ? 
       yield call(CategoryController.updateCategory, action.payload) :
@@ -48,27 +49,48 @@ function* onSaveCategory(action: any) {
         yield put(replace(`?${data._id}`));
       }
     }
-    yield put(hideLoader());
+    yield put(ToastAction.updateToast(toastId, {
+      message: "Category saved successfully",
+      result: ToastConstant.STATUS_SUCCESS
+    }));
   } 
   catch (error) {
     yield put(saveCategoryFailed(error));
-    yield put(hideLoader());
+
+    yield put(ToastAction.updateToast(toastId, {
+      message: "Category saving failed",
+      result: ToastConstant.STATUS_FAILED
+    }));
   }
 }
 
 function* onDeleteCategory(action: SagaProps) {
+  
+  const { toastId } = yield put(ToastAction.createPromiseToast({
+    message: "Deleting category...",
+  }));
+
   try {
-    // yield put(showLoader());
     const data: boolean = yield call(CategoryController.deleteCategory, action.payload);
     
     if(data) {
       yield put(deleteCategorySuccess(data));
       yield put(CategoryAction.fetchCategories());
       yield put(replace(``));
+
+      yield put(ToastAction.updateToast(toastId, {
+        message: "Category deleted successfully",
+        result: ToastConstant.STATUS_SUCCESS
+      }));
     }
   } 
   catch (error) {
     yield put(deleteCategoryFailed(error));
+
+    yield put(ToastAction.updateToast(toastId, {
+      message: "Category deleting failed",
+      result: ToastConstant.STATUS_FAILED
+    }));
   }
 }
 

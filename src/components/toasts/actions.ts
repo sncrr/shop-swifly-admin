@@ -1,15 +1,48 @@
-import { addToast, removeToast } from "./reducer";
+import * as constant from './constants';
 
-export function showSuccessMessage (dispatch:any, message : string) {
-    const id = (new Date).getTime().toString();
+export const createPromiseToast = (data: any) => {
 
-    dispatch(addToast({
-        id: id,
-        type: "success",
-        message: message
-    }))
+    let toastId = new Date().getTime().toString();
 
-    setTimeout(() => {
-        dispatch(removeToast(id));
-    }, 3000);
+    return ({
+        type: constant.CREATE_PROMISE_TOAST,
+        data: {
+            type: 'promise',
+            ...data
+        },
+        toastId
+    })
 }
+
+export const successPromiseToast = (data: any) => ({
+    type: constant.SUCCESS_PROMISE_TOAST,
+    data
+})
+
+export const failedPromiseToast = (data: any) => ({
+    type: constant.FAILED_PROMISE_TOAST,
+    data
+})
+
+export const showToast = (data: any) => ({
+    type: constant.SHOW_TOAST,
+    data
+})
+
+export const updateToast = (toastId: string, data: any) => ({
+    type: constant.UPDATE_TOAST,
+    data: {
+        toastId,
+        data
+    }
+})
+
+export const hideToast = (toastId: any) => ({
+    type: constant.HIDE_TOAST,
+    data: toastId
+})
+
+export const destroyToast = (toastId: any) => ({
+    type: constant.DESTROY_TOAST,
+    data: toastId
+})
