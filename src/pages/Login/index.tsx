@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormControl, FormGroup, FormLabel } from "../../components/forms";
+import { FormControl, FormGroup, FormInput, FormLabel } from "../../components/forms";
 import { useDispatch } from 'react-redux';
 import { AdminController } from "../../controllers";
 import { Submit } from '../../components/forms/Submit';
@@ -13,6 +13,7 @@ function Login () {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: any) => {
+
     e.preventDefault();
 
     setIsLoading(true);
@@ -21,7 +22,7 @@ function Login () {
     let password = e.target.password?.value;
 
     let result = await AdminController.authenticate(username, password);
-
+    console.log("LOGIN", result)
     if(result && result.access_token) {
       dispatch(setUser(result.access_token));
   
@@ -32,7 +33,7 @@ function Login () {
   }
 
   return (
-    <div className="flex justify-center w-full h-full overflow-auto bg-gray-800 p-2">
+    <div className="flex justify-center w-full h-full bg-gray-800 p-2">
       <div className="mx-auto bg-white rounded-sm p-8 self-center">
         <h6>ACCOUNT LOGIN</h6>
         <form className="mt-4" onSubmit={handleSubmit}>
@@ -41,7 +42,7 @@ function Login () {
               Username
             </FormLabel>
             <FormControl>
-              <input
+              <FormInput
                 type="text"
                 name="username"
                 required
@@ -54,7 +55,7 @@ function Login () {
               Password
             </FormLabel>
             <FormControl>
-              <input
+              <FormInput
                 type="password"
                 name="password"
                 required
@@ -83,10 +84,9 @@ function Login () {
               </button>
             </div>
           </div>
-          <div className="mt-6">
-            <Submit disabled={isLoading}>
+          <div className="mt-6 flex">
+            <Submit className="w-full" disabled={isLoading}>
               LOG IN
-              {/* <Spinner color={colors.white} width='1.5rem' /> */}
             </Submit>
           </div>
         </form>

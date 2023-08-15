@@ -15,8 +15,8 @@ export function setAccessToken (token: string) {
 
 export async function getAccessToken (): Promise<string> {
   const accessToken = parseCookies()[ACCESS_TOKEN_COOKIE_NAME];
-  const verifyToken = await AdminController.verifyJWT(accessToken);
-
+  // const verifyToken = await AdminController.verifyJWT(accessToken);
+  
   return accessToken;
 };
 

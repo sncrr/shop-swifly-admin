@@ -1,4 +1,6 @@
 
+export const HIDE_DELAY = 2000
+export const ANIMATION_SPEED = 500
 export const STATUS_SUCCESS = "success"
 export const STATUS_FAILED = "failed"
 

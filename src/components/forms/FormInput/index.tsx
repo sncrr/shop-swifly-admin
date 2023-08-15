@@ -20,10 +20,10 @@ const Input = styled.input`
 
 export function FormInput (props: Props) {
 
-  const [value, setValue] = useState<string | undefined>("");
+  const [value, setValue] = useState("");
 
   useEffect(() => {
-    setValue(props.defaultValue)
+    // setValue(props.defaultValue)
   }, [props.defaultValue])
   
   return (

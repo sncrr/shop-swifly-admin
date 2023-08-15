@@ -1,6 +1,7 @@
 import { connect, useDispatch } from "react-redux";
 import { PromiseToast } from "./PromiseToast";
 import styled from "styled-components";
+import { ANIMATION_SPEED } from "./constants";
 
 const Container = styled.div`
   @keyframes slideOut {
@@ -26,11 +27,11 @@ const Container = styled.div`
   }
 
   .slide-in {
-    animation: slideIn 0.5s ease-in-out forwards;
+    animation: slideIn ${ANIMATION_SPEED}ms ease-in-out forwards;
   }
 
   .slide-out {
-    animation: slideOut 0.5s ease-in-out forwards;
+    animation: slideOut ${ANIMATION_SPEED}ms ease-in-out forwards;
   }
 `
 
@@ -51,8 +52,9 @@ function Main ({state}:any) {
                             dispatch={dispatch}
                             toastId={item.toastId}
                             message={item.message}
-                            toHide={item.toHide}
                             result={item.result}
+                            toHide={item.toHide}
+                            toShow={item.toShow}
                         />
                     ))
                 }

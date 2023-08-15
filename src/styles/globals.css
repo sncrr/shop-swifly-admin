@@ -5,15 +5,16 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 #root {
-  min-height: 100vh;
+  height: 100%;
+  overflow:auto; 
   top: 0;
   width: auto;
   margin: 0;
   padding: 0;
-  padding-top: 4rem;
   position: relative;
 }
 /* 

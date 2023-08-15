@@ -7,8 +7,9 @@ export const createPromiseToast = (data: any) => {
     return ({
         type: constant.CREATE_PROMISE_TOAST,
         data: {
+            ...data,
             type: 'promise',
-            ...data
+            toShow: true
         },
         toastId
     })

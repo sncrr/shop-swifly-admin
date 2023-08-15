@@ -9,6 +9,7 @@ import { styled } from "styled-components";
 import Category from "../../pages/Category";
 
 const MainContainer =styled.div`
+  padding-top: 4rem;
   margin-left: 4rem;
   width: calc(100% - 4rem);
   /* min-height: calc(100% - 4rem); */

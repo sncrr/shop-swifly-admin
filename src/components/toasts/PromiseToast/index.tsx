@@ -1,56 +1,69 @@
-import styled from "styled-components"
 import { hideToast, updateToast } from "../actions"
 import { useEffect } from "react";
-import { STATUS_FAILED, STATUS_SUCCESS } from "../constants";
+import { ANIMATION_SPEED, HIDE_DELAY, STATUS_FAILED, STATUS_SUCCESS } from "../constants";
 
 interface Props {
   dispatch: any,
   toastId: string,
   message: string,
-  toHide: boolean,
   result: string,
+  toShow: boolean,
+  toHide: boolean,
 }
 
-export function PromiseToast({ 
-  dispatch, 
-  toastId, 
-  message, 
+export function PromiseToast({
+  dispatch,
+  toastId,
+  message,
+  result,
+  toShow,
   toHide,
-  result
 }: Props) {
+
+  console.log("SHOW", toShow);
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      dispatch(updateToast(toastId, {
+        toShow: false
+      }))
+    }, ANIMATION_SPEED)
+
+  }, [])
 
   useEffect(() => {
     if(result) {
       setTimeout(() => {
         dispatch(hideToast(toastId))
-      }, 2000)
+      }, HIDE_DELAY)
     }
   }, [result])
 
   const handleClose = () => {
-      dispatch(hideToast(toastId));
+    dispatch(hideToast(toastId));
   }
 
   const getClassName = () => {
     let className = "p-2 w-72 h-12 m-2 text-white select-none transition-colors";
 
-    if(result === STATUS_SUCCESS) {
+    if (result === STATUS_SUCCESS) {
       className += " bg-green-400"
     }
-    else if(result === STATUS_FAILED) {
+    else if (result === STATUS_FAILED) {
       className += " bg-red-400"
     }
     else {
       className += " bg-yellow-600"
     }
 
-    if(toHide) {
+    if (toHide) {
       className += " slide-out"
     }
-    else {
+    else if (toShow) {
       className += " slide-in"
     }
-    
+
     return className;
   }
 
