@@ -7,6 +7,7 @@ import Dashboard from "../../pages/Dashboard";
 import NotFound from "../../pages/404";
 import { styled } from "styled-components";
 import Category from "../../pages/Category";
+import Store from "../../pages/Store";
 
 const MainContainer =styled.div`
   padding-top: 4rem;
@@ -27,6 +28,7 @@ export function Admin () {
           <Route path={Paths.DASHBOARD} element={<Dashboard />} />
           <Route path={Paths.CATEGORY} element={<Category />} />
           <Route path={Paths.PRODUCT} element={<Dashboard />} />
+          <Route path={Paths.STORE} element={<Store />} />
           <Route
             path={Paths.ADMIN}
             element={<Navigate to={Paths.DASHBOARD} replace />}

@@ -1,0 +1,13 @@
+
+export const FETCH_STORES = 'store/FETCH_STORES'
+export const FETCH_STORES_SUCCESS = 'store/FETCH_STORES_SUCCESS'
+export const FETCH_STORES_FAILED = 'store/FETCH_STORES_FAILED'
+
+
+export const SAVE_STORE = 'store/SAVE_STORE'
+export const SAVE_STORE_SUCCESS = 'store/SAVE_STORE_SUCCESS'
+export const SAVE_STORE_FAILED = 'store/SAVE_STORE_FAILED'
+
+export const DELETE_STORE = 'store/DELETE_STORE'
+export const DELETE_STORE_SUCCESS = 'store/DELETE_STORE_SUCCESS'
+export const DELETE_STORE_FAILED = 'store/DELETE_STORE_FAILED'

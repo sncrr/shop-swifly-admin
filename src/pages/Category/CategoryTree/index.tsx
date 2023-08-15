@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Category } from "../../../types/Category";
+import { Category } from "../../../types/Inventory/Category";
 import { colors } from "../../../theme";
 import { ChevronCompactDown, ChevronCompactRight, PlusSquareDotted } from "../../../assets/svgs";
 import { Link } from "react-router-dom";

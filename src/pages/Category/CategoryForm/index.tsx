@@ -3,7 +3,7 @@ import { FormRow } from "../../../components/forms/FormRow";
 import { FormSelect } from "../../../components/forms/FormSelect";
 import { Submit } from "../../../components/forms/Submit";
 // import { hideLoader, showLoader } from "../../../components/modals/reducer";
-import { Category } from "../../../types/Category";
+import { Category } from "../../../types/Inventory/Category";
 import { formUtils } from "../../../utils";
 import * as ToastActions from '../../../components/toasts/actions';
 import { saveCategory } from "../actions";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 
-export function CategoryForm({ 
+export function CategoryForm({
   categories,
   dispatch,
   selected,
@@ -27,7 +27,7 @@ export function CategoryForm({
 
     let data = formUtils.getFormData(e.target);
 
-    if(!data.parent) {
+    if (!data.parent) {
       data.parent = null;
     }
 
@@ -41,39 +41,36 @@ export function CategoryForm({
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        <FormRow>
-          <FormGroup>
-            <FormLabel>Name</FormLabel>
-            <FormControl>
-              <FormInput
-                type="text"
-                name="name"
-                defaultValue={selected.name}
-                required
-              />
-            </FormControl>
-          </FormGroup>
-
-          <FormGroup>
-            <FormLabel>Parent</FormLabel>
-            <FormControl>
-              <FormSelect
-                name="parent"
-                title="parent"
-                labelKey="name"
-                valueKey="_id"
-                defaultValue={selected.parent}
-                options={[
-                  {
-                    name: "None",
-                    value: ""
-                  },
-                  ...categories
-                ]}
-              />
-            </FormControl>
-          </FormGroup>
-        </FormRow>
+        <FormGroup>
+          <FormLabel>Name</FormLabel>
+          <FormControl>
+            <FormInput
+              type="text"
+              name="name"
+              defaultValue={selected.name}
+              required
+            />
+          </FormControl>
+        </FormGroup>
+        <FormGroup>
+          <FormLabel>Parent</FormLabel>
+          <FormControl>
+            <FormSelect
+              name="parent"
+              title="parent"
+              labelKey="name"
+              valueKey="_id"
+              defaultValue={selected.parent}
+              options={[
+                {
+                  name: "None",
+                  value: ""
+                },
+                ...categories
+              ]}
+            />
+          </FormControl>
+        </FormGroup>
         <FormGroup>
           <FormLabel>Description</FormLabel>
           <FormControl>
@@ -83,7 +80,6 @@ export function CategoryForm({
             />
           </FormControl>
         </FormGroup>
-
         <FormRow className="p-1 justify-end">
           <Submit>SAVE</Submit>
         </FormRow>

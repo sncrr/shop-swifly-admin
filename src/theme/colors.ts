@@ -7,3 +7,6 @@ export const white = "#FFFFFF";
 export const black = "#000000";
 
 export const inputFocus = "#c7d0dc";
+
+
+export const gray10th = "#f2f2f2";
