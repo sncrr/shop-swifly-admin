@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BarChart, BarChartLineFill, Box2 } from "../../../assets/svgs";
+import { BarChart, BarChartLineFill, Box2, Shop } from "../../../assets/svgs";
 import { Coin } from "../../../assets/svgs/Coin";
 import { colors } from "../../../theme";
 import { NavList } from "./NavList";
@@ -29,10 +29,6 @@ const Container = styled.aside`
 
 export function Sidebar({ }: Props) {
 
-  const handleNavigate = (path: string) => {
-    return `${path}`
-  }
-
   return (
     <Container>
       <div>
@@ -42,7 +38,7 @@ export function Sidebar({ }: Props) {
       <div>
         <NavList>
           <NavListItem>
-            <Link to={handleNavigate(Paths.DASHBOARD)}>
+            <Link to={Paths.DASHBOARD}>
               <BarChart color={ICON_COLOR} size={ICON_SIZE} />
               <span>Dashboard</span>
             </Link>
@@ -54,12 +50,12 @@ export function Sidebar({ }: Props) {
             </div>
             <NavSubList>
               <NavSubItem>
-                <Link to={handleNavigate(Paths.CATEGORY)}>
+                <Link to={Paths.CATEGORY}>
                   Categories
                 </Link>
               </NavSubItem>
               <NavSubItem>
-                <Link to={handleNavigate(Paths.PRODUCT)}>
+                <Link to={Paths.PRODUCT}>
                   Products
                 </Link>
               </NavSubItem>
@@ -70,19 +66,36 @@ export function Sidebar({ }: Props) {
             <span>Profit</span>
             <NavSubList>
               <NavSubItem>
-                <Link to={handleNavigate(Paths.CATEGORY)}>
+                <Link to={Paths.CATEGORY}>
                   Orders
                 </Link>
               </NavSubItem>
               <NavSubItem>
-                <Link to={handleNavigate(Paths.PRODUCT)}>
+                <Link to={Paths.PRODUCT}>
                   Invoices
                 </Link>
               </NavSubItem>
             </NavSubList>
           </NavListItem>
           <NavListItem>
-            <BarChartLineFill color={ICON_COLOR} size={ICON_SIZE} />
+            <Shop color={ICON_COLOR} size={ICON_SIZE} />
+            <NavSubList>
+              <NavSubItem>
+                <Link to={Paths.STORE}>
+                  Stores
+                </Link>
+              </NavSubItem>
+              <NavSubItem>
+                <Link to={Paths.STORE}>
+                  Delivery
+                </Link>
+              </NavSubItem>
+              <NavSubItem>
+                <Link to={Paths.STORE}>
+                  Pick Up
+                </Link>
+              </NavSubItem>
+            </NavSubList>
           </NavListItem>
         </NavList>
       </div>

@@ -2,7 +2,7 @@ import { Trash } from "../../../assets/svgs"
 import { showConfirmDialog } from "../../../components/alerts/actions"
 import { GhostBtn } from "../../../components/buttons"
 import { H1 } from "../../../components/typographies"
-import { Category } from "../../../types/Category"
+import { Category } from "../../../types/Inventory/Category"
 import { deleteCategory } from "../actions"
 import * as ToastActions from '../../../components/toasts/actions'
 import { Paths } from "../../../constants"

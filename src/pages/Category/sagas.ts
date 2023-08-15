@@ -3,7 +3,7 @@ import * as CategoryController from './controllers';
 import * as CategoryAction from './actions';
 import * as ToastAction from '../../components/toasts/actions';
 import { put, call, takeLatest, takeLeading } from 'redux-saga/effects';
-import { Category } from '../../types/Category';
+import { Category } from '../../types/Inventory/Category';
 import SagaProps from '../../types/SagaProps';
 import { 
   fetchCategoriesSuccess, 

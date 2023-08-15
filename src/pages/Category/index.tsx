@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CategoryForm } from "./CategoryForm";
 import { CategoryTree } from "./CategoryTree";
-import { Category as CategoryClass } from "../../types/Category";
+import { Category as CategoryClass } from "../../types/Inventory/Category";
 import { CategoryController } from "../../controllers";
 import { CategoryHeader } from "./CategoryHeader";
 import { fetchCategories } from "./actions";

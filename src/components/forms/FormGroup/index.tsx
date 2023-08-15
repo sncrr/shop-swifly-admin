@@ -1,14 +1,22 @@
-import React, { ReactNode } from 'react';
+// import React, { ReactNode } from 'react';
 
-interface Props {
-  children: ReactNode
-}
+import { styled } from "styled-components";
 
-export const FormGroup: React.FC<Props> = ({children}) => {
+// interface Props {
+//   children: ReactNode
+// }
 
-  return (
-    <div className='form-group my-2 p-1'>
-      {children}
-    </div>
-  )
-}
+// export const FormGroup: React.FC<Props> = ({children}) => {
+
+//   return (
+//     <div className='form-group flex my-2 p-1'>
+//       {children}
+//     </div>
+//   )
+// }
+
+export const FormGroup = styled.div`
+  display: flex;
+  margin: 0.5rem 0;
+  padding: 0.25rem;
+`

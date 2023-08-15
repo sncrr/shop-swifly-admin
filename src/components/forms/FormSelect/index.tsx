@@ -7,7 +7,7 @@ import Select from 'react-select'
 
 interface Props {
   options: any[],
-  name: string,
+  name?: string,
   title?: string,
   labelKey?: string, // Key to get the label from a json object
   valueKey?: string, // Key to get the value from a json object

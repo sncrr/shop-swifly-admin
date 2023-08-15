@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../../constants/global-constant";
-import { Category } from "../../types/Category";
+import { Category } from "../../types/Inventory/Category";
 
 export async function getAllCategories() {
   try {

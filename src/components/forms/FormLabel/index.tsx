@@ -8,8 +8,13 @@ interface Props {
 export const FormLabel: React.FC<Props> = ({children, htmlFor}) => {
 
   return (
-    <label className="text-sm" htmlFor={htmlFor}>
-      {children}
-    </label>
+    <div className="w-40 flex justify-end pt-2">
+      <label className="text-right font-semibold w-full" htmlFor={htmlFor}>
+        {children}
+      </label>
+      <label className='font-semibold ml-2 mr-6'>
+        :
+      </label>
+    </div>
   )
 }

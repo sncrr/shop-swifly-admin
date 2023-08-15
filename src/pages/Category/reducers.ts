@@ -1,4 +1,4 @@
-import ReducerProps from '../../types/ReducerProps';
+import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';
 
 const initialState = {
