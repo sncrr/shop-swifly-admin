@@ -8,8 +8,9 @@ export const authenticate = async (username:string, password:string): Promise<an
   let result;
 
   await axios
-    .get(`${GlobalConstants.BASE_URL}/admin/auth`,{
-      params: {username, password}
+    .post(`${GlobalConstants.SERVER_URL}/admin/login`, {
+      username,
+      password
     })
     .then((res) => {
       result = res.data
@@ -29,11 +30,7 @@ export const verifyJWT = async (token:string): Promise<any> => {
   let result;
 
   await axios
-    .get(`${GlobalConstants.BASE_URL}/admin/verify_token/${token}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    .get(`${GlobalConstants.SERVER_URL}/admin/verify_token/${token}`)
     .then((res) => {
       result = res.data
     })

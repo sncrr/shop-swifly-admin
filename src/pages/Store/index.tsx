@@ -1,10 +1,11 @@
 import { connect } from "react-redux";
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { StoreList } from "./StoreList";
 import { StoreForm } from "./StoreForm";
+import { Paths } from "../../constants";
 
 function Main ({state}:any) {
   
@@ -12,10 +13,11 @@ function Main ({state}:any) {
   const navigate = useNavigate();
 
   return (
-    <section>
-        <StoreList />
-        <StoreForm />
-    </section>
+    <Routes>
+      <Route path={Paths.BASE} element={<StoreList />} />
+      <Route path={Paths.ADD} element={<StoreForm />} />
+      <Route path={Paths.UPDATE} element={<StoreForm />} />
+    </Routes>
   )
 }
 

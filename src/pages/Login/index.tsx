@@ -22,7 +22,7 @@ function Login () {
     let password = e.target.password?.value;
 
     let result = await AdminController.authenticate(username, password);
-    console.log("LOGIN", result)
+
     if(result && result.access_token) {
       dispatch(setUser(result.access_token));
   

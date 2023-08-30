@@ -15,9 +15,7 @@ interface Props {
 }
 
 const Container = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
+  width: 100%;
 `
 
 // const Select = styled.select`
@@ -80,20 +78,31 @@ export function FormSelect({
         value={value && value._id ? value._id : ''}
         onChange={() => {}}
       />
-      <Select
-        defaultValue={value}
-        value={value}
-        onChange={setValue}
-        options={list}
-        styles={{
-          control: (baseStyles, state) => ({
-            ...baseStyles,
-            borderWidth: 0,
-            borderStyle: state.isFocused ? 'none' : 'none',
-            boxShadow: 'none'
-          }),
-        }}
-      />
+      <Container>
+        <Select
+          defaultValue={value}
+          value={value}
+          onChange={setValue}
+          options={list}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderWidth: 0,
+              borderStyle: state.isFocused ? 'none' : 'none',
+              boxShadow: 'none'
+            }),
+            valueContainer: (baseStyles) => ({
+              ...baseStyles,
+              padding: 0,
+              margin: 0,
+            }),
+            dropdownIndicator: (baseStyles) => ({
+              ...baseStyles,
+              paddingRight: 0,
+            }),
+          }}
+        />
+      </Container>
     </>
   )
 

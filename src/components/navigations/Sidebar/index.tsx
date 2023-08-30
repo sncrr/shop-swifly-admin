@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BarChart, BarChartLineFill, Box2, Shop } from "../../../assets/svgs";
+import { BarChart, Box2, Shop } from "../../../assets/svgs";
 import { Coin } from "../../../assets/svgs/Coin";
 import { colors } from "../../../theme";
 import { NavList } from "./NavList";
@@ -8,6 +8,7 @@ import { NavSubList } from "./NavSubList";
 import { Paths } from "../../../constants";
 import { NavSubItem } from "./NavSubItem";
 import { styled } from "styled-components";
+import { navigations } from "./navigations";
 
 
 const ICON_SIZE = 20;
@@ -28,6 +29,8 @@ const Container = styled.aside`
 `
 
 export function Sidebar({ }: Props) {
+  
+
 
   return (
     <Container>
@@ -37,66 +40,36 @@ export function Sidebar({ }: Props) {
 
       <div>
         <NavList>
-          <NavListItem>
-            <Link to={Paths.DASHBOARD}>
-              <BarChart color={ICON_COLOR} size={ICON_SIZE} />
-              <span>Dashboard</span>
-            </Link>
-          </NavListItem>
-          <NavListItem>
-            <div>
-              <Box2 color={ICON_COLOR} size={ICON_SIZE} />
-              <span>Inventory</span>
-            </div>
-            <NavSubList>
-              <NavSubItem>
-                <Link to={Paths.CATEGORY}>
-                  Categories
-                </Link>
-              </NavSubItem>
-              <NavSubItem>
-                <Link to={Paths.PRODUCT}>
-                  Products
-                </Link>
-              </NavSubItem>
-            </NavSubList>
-          </NavListItem>
-          <NavListItem>
-            <Coin color={ICON_COLOR} size={ICON_SIZE} />
-            <span>Profit</span>
-            <NavSubList>
-              <NavSubItem>
-                <Link to={Paths.CATEGORY}>
-                  Orders
-                </Link>
-              </NavSubItem>
-              <NavSubItem>
-                <Link to={Paths.PRODUCT}>
-                  Invoices
-                </Link>
-              </NavSubItem>
-            </NavSubList>
-          </NavListItem>
-          <NavListItem>
-            <Shop color={ICON_COLOR} size={ICON_SIZE} />
-            <NavSubList>
-              <NavSubItem>
-                <Link to={Paths.STORE}>
-                  Stores
-                </Link>
-              </NavSubItem>
-              <NavSubItem>
-                <Link to={Paths.STORE}>
-                  Delivery
-                </Link>
-              </NavSubItem>
-              <NavSubItem>
-                <Link to={Paths.STORE}>
-                  Pick Up
-                </Link>
-              </NavSubItem>
-            </NavSubList>
-          </NavListItem>
+          {
+            navigations.map((item, index) => (
+              <NavListItem key={index}>
+                {
+                  item.children ? (
+                    <div>
+                      <item.icon color={ICON_COLOR} size={ICON_SIZE} />
+                      <span>{item.label}</span>
+                      <NavSubList>
+                        {
+                          item.children.map((child, childIndex) => (
+                            <NavSubItem key={childIndex}>
+                              <Link to={child.path}>
+                                {child.label}
+                              </Link>
+                            </NavSubItem>
+                          ))
+                        }
+                      </NavSubList>
+                    </div>
+                  ) : (
+                    <Link to={item.path}>
+                      <item.icon color={ICON_COLOR} size={ICON_SIZE} />
+                      <span>{item.label}</span>
+                    </Link>
+                  )
+                }
+              </NavListItem>
+            ))
+          }
         </NavList>
       </div>
     </Container>

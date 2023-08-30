@@ -19,7 +19,6 @@ const Input = styled.input`
   height: 100%;
   display: inline;
   min-height: 2.5rem;
-  padding: 0 0.5rem;
   background-color: transparent;
 
   &:placeholder-shown {

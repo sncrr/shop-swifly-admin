@@ -1,49 +1,74 @@
 import { FormControl, FormGroup, FormInput } from '../../forms'
 import { FormSelect } from '../../forms/FormSelect'
-import { FunnelFill } from '../../../assets/svgs'
-import { FillButton } from '../../buttons/FillButton'
+import { FunnelFill, Search } from '../../../assets/svgs'
 import { styled } from 'styled-components'
+import { useState } from 'react'
+import { colors } from '../../../theme'
+import { FillBtn, FillLink } from '../../buttons'
+import { Paths } from '../../../constants'
+
+const VIEW_FILTER = 'view_filter';
+const VIEW_COLUMN = 'view_column';
 
 const Container = styled.div`
-    #filter-view {
-        display: none;
-    }
 
-    #filter-toggle:hover ~ #filter-view {
-        display: block;
-    }
 `
 
 export function TableActions() {
 
+    const [actionView, setActionView] = useState("");
+
+    const toggleAction = (selected:string) => {
+
+        if(actionView === selected) {
+            setActionView('');
+        }
+        else {
+            setActionView(selected)
+        }
+    }
+
     return (
         <Container className='w-full relative'>
             <div className='flex items-center justify-end w-full space-x-8'>
-                <input id='filter-toggle' type='checkbox' />
-                <label htmlFor='filter-toggle'>
+                <div onClick={() => toggleAction(VIEW_FILTER)}>
                     <FunnelFill />
-                </label>
-                <div>
-                    <span>Columns</span>
                 </div>
-                <FillButton>
+                <div onClick={() => toggleAction(VIEW_COLUMN)}>
+                    <label htmlFor='column-toggle'>
+                        Columns
+                    </label>
+                </div>
+                <FillLink to={Paths.STORE_ADD}>
                     Create New
-                </FillButton>
+                </FillLink>
             </div>
-            <div id='filter-view' className='bg-white border-t w-full z-10 h-40'>
-
+            <div>
+                {
+                    actionView == VIEW_FILTER ? (
+                        <div className='bg-white border-t w-full z-10 h-40'>
+                            Filter
+                        </div>
+                    ) :
+                    actionView == VIEW_COLUMN ? (
+                        <div className='bg-white border-t w-full z-10 h-40'>
+                            Columns
+                        </div>
+                    ) : null
+                }
             </div>
-            <div className='flex justify-between'>
+            <div className='flex flex-wrap justify-between'>
                 <div>
                     <FormGroup className='w-80'>
                         <FormControl className='w-full'>
                             <FormInput
                                 placeholder="Search by keyword"
                             />
+                            <Search color={colors.inputFocus} size={20} />
                         </FormControl>
                     </FormGroup>
                 </div>
-                <div className='flex space-x-8'>
+                <div className='flex flex-wrap space-x-8'>
                     <div>
                         <FormGroup className='items-center'>
                             <FormControl className='w-16'>

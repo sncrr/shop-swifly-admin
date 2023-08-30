@@ -1,14 +1,13 @@
 import { connect } from "react-redux";
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CategoryForm } from "./CategoryForm";
 import { CategoryTree } from "./CategoryTree";
 import { Category as CategoryClass } from "../../types/Inventory/Category";
-import { CategoryController } from "../../controllers";
 import { CategoryHeader } from "./CategoryHeader";
 import { fetchCategories } from "./actions";
 import { useDispatch } from "react-redux";
+import { getCategory } from "./controllers";
 
 function Main ({state}:any) {
   
@@ -35,7 +34,7 @@ function Main ({state}:any) {
   }, [selectedId])
 
   const loadSelectedCategory = async () => {
-    let result = await CategoryController.getCategory(selectedId);
+    let result = await getCategory(selectedId);
     if (result) {
       setSelected(result);
     }
@@ -43,7 +42,7 @@ function Main ({state}:any) {
 
   return (
     <section className="flex">
-      <div className="w-80">
+      <div className="w-80 border-r">
         <CategoryTree
           categories={categories}
           navigate={navigate}

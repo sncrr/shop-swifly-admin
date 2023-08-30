@@ -1,11 +1,6 @@
-import { Form, FormControl, FormGroup, FormInput, FormLabel, FormTextArea } from "../../../components/forms";
-import { FormRow } from "../../../components/forms/FormRow";
-import { FormSelect } from "../../../components/forms/FormSelect";
-import { Submit } from "../../../components/forms/Submit";
-// import { hideLoader, showLoader } from "../../../components/modals/reducer";
+import { ButtonGroup, Form, FormControl, FormGroup, FormInput, FormLabel, FormSelect, FormTextArea, Submit } from "../../../components/forms";
 import { Category } from "../../../types/Inventory/Category";
 import { formUtils } from "../../../utils";
-import * as ToastActions from '../../../components/toasts/actions';
 import { saveCategory } from "../actions";
 
 interface Props {
@@ -14,7 +9,6 @@ interface Props {
   navigate: any,
   selected: Category
 }
-
 
 export function CategoryForm({
   categories,
@@ -43,7 +37,7 @@ export function CategoryForm({
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel>Name</FormLabel>
-          <FormControl>
+          <FormControl $flex1>
             <FormInput
               type="text"
               name="name"
@@ -54,7 +48,7 @@ export function CategoryForm({
         </FormGroup>
         <FormGroup>
           <FormLabel>Parent</FormLabel>
-          <FormControl>
+          <FormControl $flex1>
             <FormSelect
               name="parent"
               title="parent"
@@ -73,16 +67,16 @@ export function CategoryForm({
         </FormGroup>
         <FormGroup>
           <FormLabel>Description</FormLabel>
-          <FormControl>
+          <FormControl $flex1>
             <FormTextArea
               name="description"
               defaultValue={selected.description}
             />
           </FormControl>
         </FormGroup>
-        <FormRow className="p-1 justify-end">
-          <Submit>SAVE</Submit>
-        </FormRow>
+        <ButtonGroup>
+          <Submit>Save</Submit>
+        </ButtonGroup>
       </Form>
     </div>
   )

@@ -18,7 +18,7 @@ export function MainRoutes () {
   }, [])
 
   const checkUserInfo = async () => {
-    let accessToken = await getAccessToken();
+    let accessToken = getAccessToken();
 
     if(accessToken) {
       dispatch(setUser(accessToken));
@@ -43,7 +43,7 @@ export function MainRoutes () {
             </>
           ) : (
             <Route
-              path="/*"
+              path="/"
               element={<Navigate to={Paths.LOGIN} replace />}
             />
           )

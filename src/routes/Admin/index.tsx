@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Sidebar } from "../../components/navigations/Sidebar";
 import { Header } from "../../components/navigations/Header";
@@ -28,7 +29,7 @@ export function Admin () {
           <Route path={Paths.DASHBOARD} element={<Dashboard />} />
           <Route path={Paths.CATEGORY} element={<Category />} />
           <Route path={Paths.PRODUCT} element={<Dashboard />} />
-          <Route path={Paths.STORE} element={<Store />} />
+          <Route path={`${Paths.STORE}/*`} element={<Store />} />
           <Route
             path={Paths.ADMIN}
             element={<Navigate to={Paths.DASHBOARD} replace />}

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { colors } from "../../../theme";
+import { Link } from "react-router-dom";
 
-export const FillBtn = styled.button.attrs(() => ({
+export const FillLink = styled(Link).attrs(() => ({
   className: "space-x-1"
 }))`
   

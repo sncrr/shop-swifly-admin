@@ -1,10 +1,9 @@
-import axios from "axios";
-import { API_URL } from "../../constants/global-constant";
 import { Category } from "../../types/Inventory/Category";
+import { request } from "../../controllers/request";
 
 export async function getAllCategories() {
   try {
-    const response = await axios.get(`${API_URL}/category/all`);
+    const response = await request.get(`/category/all`);
     return response.data;
   }
   catch (error) {
@@ -14,7 +13,7 @@ export async function getAllCategories() {
 
 export async function getCategory(id: string) : Promise<Category> {
   try {
-    const response = await axios.get(`${API_URL}/category/${id}`)
+    const response = await request.get(`/category/${id}`)
     return response.data;
   }
   catch (error) {
@@ -24,8 +23,8 @@ export async function getCategory(id: string) : Promise<Category> {
 
 export async function createCategory (payload: any) : Promise<Category> {
   try {
-    const response = await axios.post(
-      `${API_URL}/category`, 
+    const response = await request.post(
+      `/category`, 
       payload.data
     );
     return response.data;
@@ -37,8 +36,8 @@ export async function createCategory (payload: any) : Promise<Category> {
 
 export async function updateCategory(payload:any) : Promise<Category> {
   try {
-    const response = await axios.put(
-      `${API_URL}/category/${payload.id}`, 
+    const response = await request.put(
+      `/category/${payload.id}`, 
       payload.data
     );
     return response.data;
@@ -50,7 +49,7 @@ export async function updateCategory(payload:any) : Promise<Category> {
 
 export async function deleteCategory(id:string) : Promise<boolean> {
   try {
-    const response = await axios.delete(`${API_URL}/category/${id}`);
+    const response = await request.delete(`/category/${id}`);
     return response.data;
   } 
   catch (error) {

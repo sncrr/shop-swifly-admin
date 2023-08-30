@@ -13,7 +13,7 @@ export function setAccessToken (token: string) {
   });
 };
 
-export async function getAccessToken (): Promise<string> {
+export function getAccessToken (): string {
   const accessToken = parseCookies()[ACCESS_TOKEN_COOKIE_NAME];
   // const verifyToken = await AdminController.verifyJWT(accessToken);
   

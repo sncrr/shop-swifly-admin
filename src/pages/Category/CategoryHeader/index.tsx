@@ -35,7 +35,7 @@ export function CategoryHeader ({
   }
 
   return (
-    <div className="flex">
+    <div className="flex mx-2 mt-4 mb-8">
       <H1 className="flex-1">
         {
           selected && selected._id  ? selected.name : "CREATE NEW"

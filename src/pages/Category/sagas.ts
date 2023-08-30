@@ -4,7 +4,6 @@ import * as CategoryAction from './actions';
 import * as ToastAction from '../../components/toasts/actions';
 import { put, call, takeLatest, takeLeading } from 'redux-saga/effects';
 import { Category } from '../../types/Inventory/Category';
-import SagaProps from '../../types/SagaProps';
 import { 
   fetchCategoriesSuccess, 
   fetchCategoriesFailed,
@@ -64,7 +63,7 @@ function* onSaveCategory(action: any) {
   }
 }
 
-function* onDeleteCategory(action: SagaProps) {
+function* onDeleteCategory(action: any) {
   
   const { toastId } = yield put(ToastAction.createPromiseToast({
     message: "Deleting category...",
