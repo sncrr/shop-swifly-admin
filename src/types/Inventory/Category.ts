@@ -1,7 +1,7 @@
 
 export class Category {
 
-  readonly _id: string;
+  readonly _id?: string;
   readonly name?: string;
   readonly description?: string;
   readonly parent?: any
@@ -10,13 +10,13 @@ export class Category {
   readonly createdAt?: string;
   readonly updatedAt?: string;
 
-  constructor() {
-    this._id = "";
-    this.name = "";
-    this.description = "";
-    this.parent = null;
-    this.children = [];
-    this.createdAt = "";
-    this.updatedAt = "";
-  }
+  // constructor() {
+  //   this._id = "";
+  //   this.name = "";
+  //   this.description = "";
+  //   this.parent = null;
+  //   this.children = [];
+  //   this.createdAt = "";
+  //   this.updatedAt = "";
+  // }
 }

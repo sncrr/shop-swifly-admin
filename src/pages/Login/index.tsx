@@ -37,11 +37,11 @@ function Login () {
       <div className="mx-auto bg-white rounded-sm p-8 self-center">
         <h6>ACCOUNT LOGIN</h6>
         <form className="mt-4" onSubmit={handleSubmit}>
-          <FormGroup>
+          <FormGroup className='w-[25rem]'>
             <FormLabel htmlFor="username">
               Username
             </FormLabel>
-            <FormControl>
+            <FormControl className='w-full'>
               <FormInput
                 type="text"
                 name="username"
@@ -50,11 +50,11 @@ function Login () {
             </FormControl>
           </FormGroup>
 
-          <FormGroup>
+          <FormGroup className='w-[25rem]'>
             <FormLabel htmlFor="passord">
               Password
             </FormLabel>
-            <FormControl>
+            <FormControl className='w-full'>
               <FormInput
                 type="password"
                 name="password"
@@ -79,6 +79,7 @@ function Login () {
             <div className="space-x-1 mt-2">
               <button
                 className="underline"
+                type='button'
               >
                 Forgot Password
               </button>

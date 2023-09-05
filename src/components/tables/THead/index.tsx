@@ -39,8 +39,6 @@ export function THead({ children }: Props) {
         const initialWidthValue = columnWidth || initialWidth;
 
         const handleMouseMove = (event: MouseEvent) => {
-            console.log("MOVING");
-
             const newWidth = initialWidthValue + event.clientX - initialMouseX;
             setColumnWidth(newWidth);
         };

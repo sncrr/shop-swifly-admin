@@ -1,5 +1,11 @@
 import * as constant from './constants';
 
+//SETTER
+export const selectCategory = (data: any) => ({
+    type: constant.SELECT_CATEGORY,
+    data,
+})
+
 //FETCH CATEGORY
 export const fetchCategories = () => ({
     type: constant.FETCH_CATEGORIES
@@ -24,7 +30,7 @@ export const saveCategory = (payload: {
 });
 export const saveCategorySuccess = (data: any) => ({
     type: constant.SAVE_CATEGORY_SUCCESS,
-    data,
+    data
 });
 export const saveCategoryFailed = (error: any) => ({
     type: constant.SAVE_CATEGORY_FAILED,

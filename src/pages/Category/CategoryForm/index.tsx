@@ -26,10 +26,21 @@ export function CategoryForm({
     }
 
     dispatch(saveCategory({
-      id: selected._id,
+      id: selected?._id,
       data,
       navigateToItem: true
     }));
+  }
+
+  const getParent = (id: string) => {
+    console.log("ID", id);
+    if(id)
+      return categories.find(({_id}) => _id === id);
+    else 
+      return {
+        name: "None",
+        value: ""
+      }
   }
 
   return (
@@ -41,7 +52,7 @@ export function CategoryForm({
             <FormInput
               type="text"
               name="name"
-              defaultValue={selected.name}
+              defaultValue={selected?.name}
               required
             />
           </FormControl>
@@ -54,7 +65,7 @@ export function CategoryForm({
               title="parent"
               labelKey="name"
               valueKey="_id"
-              defaultValue={selected.parent}
+              defaultValue={getParent(selected?.parent)}
               options={[
                 {
                   name: "None",
@@ -70,7 +81,7 @@ export function CategoryForm({
           <FormControl $flex1>
             <FormTextArea
               name="description"
-              defaultValue={selected.description}
+              defaultValue={selected?.description}
             />
           </FormControl>
         </FormGroup>

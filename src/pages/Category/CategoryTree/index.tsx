@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { Category } from "../../../types/Inventory/Category";
 import { colors } from "../../../theme";
 import { ChevronCompactDown, ChevronCompactRight, PlusSquareDotted } from "../../../assets/svgs";
-import { Link } from "react-router-dom";
 import { Paths } from "../../../constants";
 import { GhostBtn } from "../../../components/buttons";
+import { useDispatch } from "react-redux";
+import { selectCategory } from "../actions";
 
 interface Props {
   categories: Category[],
@@ -20,7 +21,7 @@ const TreeContainer = styled.div`
   .main-list {
     
     ul {
-      border-left: 1px solid ${colors.inputFocus};
+      border-left: 1px dashed ${colors.inputFocus};
       margin-left: 0.5rem;
     }
 
@@ -134,8 +135,10 @@ function TreeNode({ node, navigate }: any) {
 function CategoryTree({ categories, navigate, selected }: Props) {
 
   const list = reorganizeArray(categories);
+  const dispatch = useDispatch();
 
   const handleCreate = () => {
+    dispatch(selectCategory(null));
     navigate(Paths.CATEGORY);
   }
 

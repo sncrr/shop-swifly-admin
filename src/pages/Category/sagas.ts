@@ -46,6 +46,7 @@ function* onSaveCategory(action: any) {
 
       if(navigateToItem) {
         yield put(replace(`?${data._id}`));
+        yield put(CategoryAction.selectCategory(data));
       }
     }
     yield put(ToastAction.updateToast(toastId, {

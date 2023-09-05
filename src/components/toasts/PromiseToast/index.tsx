@@ -20,8 +20,6 @@ export function PromiseToast({
   toHide,
 }: Props) {
 
-  console.log("SHOW", toShow);
-
   useEffect(() => {
 
     setTimeout(() => {

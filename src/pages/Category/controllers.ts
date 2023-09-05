@@ -1,9 +1,15 @@
 import { Category } from "../../types/Inventory/Category";
 import { request } from "../../controllers/request";
+import { createQuery } from "../../utils/requestUtils";
 
 export async function getAllCategories() {
   try {
-    const response = await request.get(`/category/all`);
+    const query = createQuery({
+      populate: 'parent',
+      sort: 'name'
+    });
+
+    const response = await request.get(`/category/all?${query}`);
     return response.data;
   }
   catch (error) {

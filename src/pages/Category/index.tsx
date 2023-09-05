@@ -5,7 +5,7 @@ import { CategoryForm } from "./CategoryForm";
 import { CategoryTree } from "./CategoryTree";
 import { Category as CategoryClass } from "../../types/Inventory/Category";
 import { CategoryHeader } from "./CategoryHeader";
-import { fetchCategories } from "./actions";
+import { fetchCategories, selectCategory } from "./actions";
 import { useDispatch } from "react-redux";
 import { getCategory } from "./controllers";
 
@@ -14,7 +14,8 @@ function Main ({state}:any) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [selected, setSelected] = useState<CategoryClass>(new CategoryClass());
+  // const [selected, setSelected] = useState<CategoryClass>(new CategoryClass());
+  const selected = state.selected;
   const categories = state.categories;
 
   const queryString = location.search;
@@ -28,15 +29,12 @@ function Main ({state}:any) {
     if (selectedId) {
       loadSelectedCategory();
     }
-    else {
-      setSelected(new CategoryClass());
-    }
   }, [selectedId])
 
   const loadSelectedCategory = async () => {
     let result = await getCategory(selectedId);
     if (result) {
-      setSelected(result);
+      dispatch(selectCategory(result));
     }
   }
 
