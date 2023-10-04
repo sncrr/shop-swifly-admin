@@ -14,9 +14,9 @@ function Main ({state}:any) {
 
   return (
     <Routes>
-      <Route path={Paths.BASE} element={<StoreList />} />
-      <Route path={Paths.ADD} element={<StoreForm />} />
-      <Route path={Paths.UPDATE} element={<StoreForm />} />
+      <Route path={`/${Paths.BASE}`} element={<StoreList stores={state.stores} />} />
+      <Route path={`/${Paths.ADD}`} element={<StoreForm />} />
+      <Route path={`/${Paths.UPDATE}`} element={<StoreForm />} />
     </Routes>
   )
 }

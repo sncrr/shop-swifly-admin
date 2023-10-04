@@ -6,9 +6,10 @@ import { Header } from "../../components/navigations/Header";
 import { Paths } from "../../constants";
 import Dashboard from "../../pages/Dashboard";
 import NotFound from "../../pages/404";
-import { styled } from "styled-components";
 import Category from "../../pages/Category";
 import Store from "../../pages/Store";
+import Product from '../../pages/Product';
+import { styled } from "styled-components";
 
 const MainContainer =styled.div`
   padding-top: 4rem;
@@ -27,8 +28,8 @@ export function Admin () {
       <MainContainer>
         <Routes>
           <Route path={Paths.DASHBOARD} element={<Dashboard />} />
-          <Route path={Paths.CATEGORY} element={<Category />} />
-          <Route path={Paths.PRODUCT} element={<Dashboard />} />
+          <Route path={`${Paths.CATEGORY}/*`} element={<Category />} />
+          <Route path={`${Paths.PRODUCT}/*`} element={<Product />} />
           <Route path={`${Paths.STORE}/*`} element={<Store />} />
           <Route
             path={Paths.ADMIN}

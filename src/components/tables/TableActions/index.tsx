@@ -39,7 +39,7 @@ export function TableActions() {
                         Columns
                     </label>
                 </div>
-                <FillLink to={Paths.STORE_ADD}>
+                <FillLink to={Paths.ADD}>
                     Create New
                 </FillLink>
             </div>

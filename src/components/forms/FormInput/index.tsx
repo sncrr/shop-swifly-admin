@@ -9,6 +9,8 @@ interface Props {
   required?: boolean,
   placeholder?: string,
   className?: string,
+  min?: number,
+  max?: number
 }
 
 const Input = styled.input`
@@ -48,6 +50,8 @@ export function FormInput (props: Props) {
       required={props.required}
       value={value}
       onChange={e => setValue(e.target.value)}
+      min={props.min}
+      max={props.max}
     />
   )
 }

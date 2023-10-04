@@ -1,7 +1,7 @@
 
 export const BASE = '/'
-export const ADD = '/add'
-export const UPDATE = '/update/:id'
+export const ADD = 'add'
+export const UPDATE = 'update/:id'
 
 export const LOGIN = '/login'
 export const SIGN_UP = '/sign_up'

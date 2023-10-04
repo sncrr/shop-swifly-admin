@@ -2,32 +2,32 @@ import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';
 
 const initialState = {
-    stores: [],
+    products: [],
     selected: null,
     data: null,
     error: null,
 };
 
-const storeReducer = (history:any) => (state = initialState, action: ReducerProps) => {
+const productReducer = (history:any) => (state = initialState, action: ReducerProps) => {
     
     switch (action.type) {
-        case constant.FETCH_STORES:
+        case constant.FETCH_PRODUCTS:
             return { 
                 ...state,
                 error: null 
             };
-        case constant.FETCH_STORES_SUCCESS:
+        case constant.FETCH_PRODUCTS_SUCCESS:
             return { 
                 ...state,
-                stores: action.data 
+                products: action.data 
             };
-        case constant.FETCH_STORES_FAILED:
+        case constant.FETCH_PRODUCTS_FAILED:
             return { 
                 ...state,
                 error: action.error 
             };
         
-        case constant.SELECT_STORE:
+        case constant.SELECT_PRODUCT:
             return {
                 ...state,
                 selected: action.data
@@ -38,4 +38,4 @@ const storeReducer = (history:any) => (state = initialState, action: ReducerProp
     }
 };
 
-export default storeReducer;
+export default productReducer;
