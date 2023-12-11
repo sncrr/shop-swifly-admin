@@ -1,5 +1,14 @@
+import { Store } from '../../types/Store/Store';
 import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';
+
+export interface StoreState {
+    products: Store[],
+    selected: Store | null
+    data: any,
+    error: any
+}
+
 
 const initialState = {
     stores: [],

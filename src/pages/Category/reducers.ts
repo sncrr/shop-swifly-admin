@@ -2,6 +2,13 @@ import { Category } from '../../types/Inventory/Category';
 import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';
 
+export interface CategoryState {
+    categories: Category[],
+    selected: Category | null
+    data: any,
+    error: any
+}
+
 const initialState = {
     categories: [],
     selected: null,

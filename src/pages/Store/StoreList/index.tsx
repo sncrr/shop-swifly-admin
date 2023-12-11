@@ -1,6 +1,7 @@
-import { GhostBtn, LinkBtn } from "../../../components/buttons";
+import { LinkBtn } from "../../../components/buttons";
 import { TBody, TData, THead, THeader, TRow, Table } from "../../../components/tables";
 import { TableActions } from "../../../components/tables/TableActions";
+import { Store } from "../../../types/Store/Store";
 
 export function StoreList ({stores} :any) {
 
@@ -21,7 +22,7 @@ export function StoreList ({stores} :any) {
                 </THeader>
                 <TBody>
                    {
-                    stores.map((item, index) => (
+                    stores.map((item:Store, index:number) => (
                         <TRow key={index}>
                             <TData>
                                 <input type="checkbox" />

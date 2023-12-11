@@ -1,5 +1,13 @@
+import { Product } from '../../types/Inventory/Product';
 import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';
+
+export interface ProductState {
+    products: Product[],
+    selected: Product | null
+    data: any,
+    error: any
+}
 
 const initialState = {
     products: [],

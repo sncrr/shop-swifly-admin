@@ -43,7 +43,7 @@ export function Admin () {
             path={Paths.SIGN_UP}
             element={<Navigate to={Paths.DASHBOARD} replace />}
           />
-          <Route path="*" element={<NotFound />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </MainContainer>
     </>

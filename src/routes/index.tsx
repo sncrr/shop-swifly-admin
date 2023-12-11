@@ -23,6 +23,9 @@ export function MainRoutes () {
     if(accessToken) {
       dispatch(setUser(accessToken));
     }
+    else {
+      dispatch(setUser(null))
+    }
   }
 
   return (
@@ -40,6 +43,7 @@ export function MainRoutes () {
                 path={Paths.LOGIN}
                 element={<Navigate to={Paths.ADMIN} replace />}
               />
+              <Route path="*" element={<NotFound />} />
             </>
           ) : (
             <Route
@@ -51,7 +55,11 @@ export function MainRoutes () {
         <Route path={Paths.LOGIN} element={<Login />} />
         
         {/* This catch-all route will handle any unmatched paths */}
-        <Route path="*" element={<NotFound />} />
+        {/* <Route path="*" element={<NotFound />} /> */}
+        {/* <Route
+          path="*"
+          element={<Navigate to={Paths.LOGIN} replace />}
+        /> */}
       </Routes>
     </BrowserRouter>
   )

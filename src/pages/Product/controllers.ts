@@ -1,5 +1,5 @@
 import { Product } from "../../types/Inventory/Product";
-import { request } from "../../controllers/request";
+import { formRequest, request } from "../../controllers/request";
 import { createQuery } from "../../utils/requestUtils";
 
 export async function getAllProducts() {
@@ -31,7 +31,7 @@ export async function createProduct (payload: any) : Promise<Product> {
   try {
     const response = await request.post(
       `/product`, 
-      payload.data
+      payload,
     );
     return response.data;
   } 

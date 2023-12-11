@@ -15,8 +15,7 @@ import { styled } from "styled-components";
 //   )
 // }
 
-export const FormGroup = styled.div`
-  display: flex;
-  margin: 0.5rem 0;
-  padding: 0.25rem;
+export const FormGroup = styled.tr`
+
+
 `

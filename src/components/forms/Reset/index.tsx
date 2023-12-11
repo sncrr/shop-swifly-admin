@@ -1,19 +1,14 @@
 import styled from 'styled-components';
 import { colors } from "../../../theme";
 
-interface Props {
-    value?: string
-}
-
-export const Button = styled.button.attrs(() => ({
-    id: 'submit',
-    type: 'submit'
+export const Reset = styled.input.attrs(() => ({
+  name: 'reset',
+  type: 'reset'
 }))`
   /* width: 100%; */
   /* min-width: 4rem; */
   padding: 0.75rem 2.5rem;
-  background-color: ${colors.mainColor};
-  color: ${colors.white};
+  color: ${colors.mainColor};
   font-size: 1rem;
   font-weight: 600;
   /* padding: 0.6rem; */
@@ -24,11 +19,3 @@ export const Button = styled.button.attrs(() => ({
     background-color: ${colors.mainColor}AA;
   }
 `;
-
-export function Submit(props : Props) {
-    return (
-        <Button>
-            { props.value }
-        </Button>
-    )
-}

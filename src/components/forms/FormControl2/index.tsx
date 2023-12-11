@@ -5,7 +5,8 @@ import { ReactNode } from 'react';
 interface Props {
   children: ReactNode,
   flexible?: boolean,
-  unbordered?: boolean
+  unbordered?: boolean,
+  className?: string,
 }
 
 export const Content = styled.div<{ $unbordered?: boolean; $flexible?: boolean; }>`
@@ -17,7 +18,11 @@ export const Content = styled.div<{ $unbordered?: boolean; $flexible?: boolean; 
   
   /* padding: 0 0.5rem; */
   width: 100%;
-  ${props => !props.$flexible ? "max-width: 30rem;" : ""}
+  ${props => !props.$flexible ? "max-width: 30rem;" : `
+    display: flex; 
+    align-items: 
+    center;
+  `}
 
   border-width: ${props => props.$unbordered ? "0" : "1px"};
 
@@ -30,13 +35,13 @@ export const Content = styled.div<{ $unbordered?: boolean; $flexible?: boolean; 
   ` : '' }
 `;
 
-export function FormControl (props : Props) {
+export function FormControl2 (props : Props) {
 
   return (
-    <td className='p-1'>
+    <div className={`p-1 ${props.className}`}>
       <Content $flexible={props.flexible} $unbordered={props.unbordered}>
         {props.children}
       </Content>
-    </td>
+    </div>
   )
 }

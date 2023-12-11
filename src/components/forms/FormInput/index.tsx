@@ -1,5 +1,6 @@
 import { useEffect, useState} from 'react';
 import styled from "styled-components";
+import { colors } from '../../../theme';
 
 
 interface Props {
@@ -10,7 +11,8 @@ interface Props {
   placeholder?: string,
   className?: string,
   min?: number,
-  max?: number
+  max?: number,
+  disabled?: boolean,
 }
 
 const Input = styled.input`
@@ -22,7 +24,12 @@ const Input = styled.input`
   display: inline;
   min-height: 2.5rem;
   background-color: transparent;
+  padding: 0.5rem;
 
+  &:disabled {
+    color: ${colors.inputFocus};
+  }
+  
   &:placeholder-shown {
     font-style: italic;
   }
@@ -52,6 +59,7 @@ export function FormInput (props: Props) {
       onChange={e => setValue(e.target.value)}
       min={props.min}
       max={props.max}
+      disabled={props.disabled}
     />
   )
 }

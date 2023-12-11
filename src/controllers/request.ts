@@ -8,3 +8,11 @@ export const request: AxiosInstance = axios.create({
     'Authorization': `Bearer ${getAccessToken()}`
   },
 });
+
+export const formRequest: AxiosInstance= axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Authorization': `Bearer ${getAccessToken()}`,
+    'Content-Type': 'multipart/form-data',
+  },
+});

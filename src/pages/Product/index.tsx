@@ -6,76 +6,71 @@ import { ProductList } from "./ProductList";
 import { ProductForm } from "./ProductForm";
 import { Paths } from "../../constants";
 import { useEffect } from "react";
-import { fetchProducts, selectProduct } from "./actions";
-import { getProduct } from "./controllers";
+import { fetchProducts } from "./actions";
+import { CategoryState } from "../Category/reducers";
+import { StoreState } from "../Store/reducers";
 
-function Main ({state, storeState}:any) {
-  
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+interface Props {
+	state: any,
+	storeState: StoreState,
+	categoryState: CategoryState,
+}
+function Main(props: Props) {
 
-  const selected = state.selected;
-  const products = state.products;
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-  const queryString = location.search;
-  const selectedId = queryString.slice(1);
+	const selected = props.state.selected;
+	const products = props.state.products;
 
-  useEffect(() => {
-    dispatch(fetchProducts())
-  }, [])
+	useEffect(() => {
+		dispatch(fetchProducts())
+	}, [])
 
-  useEffect(() => {
-    if (selectedId) {
-      loadSelectedCategory();
-    }
-  }, [selectedId])
-
-  const loadSelectedCategory = async () => {
-    let result = await getProduct(selectedId);
-    if (result) {
-      dispatch(selectProduct(result));
-    }
-  }
-
-  return (
-    <Routes>
-      <Route 
-        path={Paths.BASE} 
-        element={
-          <ProductList 
-            products={products}
-            navigate={navigate}
-            selected={selected}
-          />
-        } 
-      />
-      <Route 
-        path={`/${Paths.ADD}`} 
-        element={
-          <ProductForm 
-            dispatch={dispatch}
-            navigate={navigate}
-            storeState={storeState}
-          />
-        } 
-      />
-      <Route 
-        path={Paths.UPDATE}
-        element={
-          <ProductForm 
-            dispatch={dispatch}
-            navigate={navigate}
-            storeState={storeState}
-          />
-        } 
-      />
-    </Routes>
-  )
+	return (
+		<Routes>
+			<Route
+				path={Paths.BASE}
+				element={
+					<ProductList
+						products={products}
+						navigate={navigate}
+						selected={selected}
+					/>
+				}
+			/>
+			<Route
+				path={`/${Paths.ADD}`}
+				element={
+					<ProductForm
+						dispatch={dispatch}
+						navigate={navigate}
+						storeState={props.storeState}
+						categories={props.categoryState.categories}
+						selected={selected}
+					/>
+				}
+			/>
+			<Route
+				path={`/${Paths.EDIT}`}
+				element={
+					<ProductForm
+						dispatch={dispatch}
+						navigate={navigate}
+						storeState={props.storeState}
+						categories={props.categoryState.categories}
+						selected={selected}
+					/>
+				}
+			/>
+		</Routes>
+	)
 }
 
 const mapStateToProps = (state: any) => ({
-  state: state.product,
-  storeState: state.store
+	state: state.product,
+	storeState: state.store,
+	categoryState: state.category,
 });
 
 const Product = connect(mapStateToProps)(Main);

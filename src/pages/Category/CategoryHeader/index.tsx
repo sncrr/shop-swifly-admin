@@ -4,8 +4,6 @@ import { GhostBtn } from "../../../components/buttons"
 import { H1 } from "../../../components/typographies"
 import { Category } from "../../../types/Inventory/Category"
 import { deleteCategory } from "../actions"
-import * as ToastActions from '../../../components/toasts/actions'
-import { Paths } from "../../../constants"
 
 interface Props {
   dispatch: any,
@@ -24,7 +22,7 @@ export function CategoryHeader ({
       content: "This action cannot be undone.",
       onConfirm: async () => {
 
-        dispatch(deleteCategory(selected._id));
+        dispatch(deleteCategory(selected?._id));
           // let result = await deleteCategory(dispatch, selected._id);
           // if(result) {
           //   ToastActions.showSuccessMessage(dispatch, "Category deleted successfully");

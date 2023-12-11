@@ -1,4 +1,4 @@
-import { ButtonGroup, Form, FormControl, FormGroup, FormInput, FormLabel, FormSelect, FormTextArea, Submit } from "../../../components/forms";
+import { ButtonGroup, Form, FormControl, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormTextArea, Submit } from "../../../components/forms";
 import { Category } from "../../../types/Inventory/Category";
 import { formUtils } from "../../../utils";
 import { saveCategory } from "../actions";
@@ -33,7 +33,6 @@ export function CategoryForm({
   }
 
   const getParent = (id: string) => {
-    console.log("ID", id);
     if(id)
       return categories.find(({_id}) => _id === id);
     else 
@@ -46,47 +45,50 @@ export function CategoryForm({
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <FormLabel>Name</FormLabel>
-          <FormControl $flex1>
-            <FormInput
-              type="text"
-              name="name"
-              defaultValue={selected?.name}
-              required
-            />
-          </FormControl>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel>Parent</FormLabel>
-          <FormControl $flex1>
-            <FormSelect
-              name="parent"
-              title="parent"
-              labelKey="name"
-              valueKey="_id"
-              defaultValue={getParent(selected?.parent)}
-              options={[
-                {
-                  name: "None",
-                  value: ""
-                },
-                ...categories
-              ]}
-            />
-          </FormControl>
-        </FormGroup>
-        <FormGroup>
-          <FormLabel>Description</FormLabel>
-          <FormControl $flex1>
-            <FormTextArea
-              name="description"
-              defaultValue={selected?.description}
-            />
-          </FormControl>
-        </FormGroup>
+        <FormSection>
+          <FormGroup>
+            <FormLabel>Name</FormLabel>
+            <FormControl flexible>
+              <FormInput
+                type="text"
+                name="name"
+                defaultValue={selected?.name}
+                required
+              />
+            </FormControl>
+          </FormGroup>
+          <FormGroup>
+            <FormLabel>Parent</FormLabel>
+            <FormControl flexible>
+              <FormSelect
+                name="parent"
+                title="parent"
+                labelKey="name"
+                valueKey="_id"
+                defaultValue={getParent(selected?.parent)}
+                options={[
+                  {
+                    _id: "",
+                    name: "None"
+                  },
+                  ...categories
+                ]}
+              />
+            </FormControl>
+          </FormGroup>
+          <FormGroup>
+            <FormLabel>Description</FormLabel>
+            <FormControl flexible>
+              <FormTextArea
+                name="description"
+                defaultValue={selected?.description}
+              />
+            </FormControl>
+          </FormGroup>
+        </FormSection>
+        
         <ButtonGroup>
-          <Submit>Save</Submit>
+          <Submit value="Save" />
         </ButtonGroup>
       </Form>
     </div>

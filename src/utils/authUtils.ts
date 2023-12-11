@@ -8,7 +8,8 @@ const ACCESS_TOKEN_COOKIE_NAME = 'access_token';
 
 export function setAccessToken (token: string) {
   setCookie(null, ACCESS_TOKEN_COOKIE_NAME, token, {
-    maxAge: 3600, // Set the cookie expiration time in seconds (e.g., 1 hour)
+    // maxAge: 3600, // Set the cookie expiration time in seconds (e.g., 1 hour)
+    maxAge: 2851200,
     path: '/',
   });
 };

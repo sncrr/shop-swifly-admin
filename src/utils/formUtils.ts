@@ -1,12 +1,13 @@
 
-export function getFormData (target : any) {
+export function getFormData(target: any) {
 
-  const form = new FormData(target);
-  const formData: any = {};
+    const form = new FormData(target);
 
-  form.forEach(function(value:any, key:any) {
-    formData[key] = value == "None" ? null : value;
-  });
+    const formData: any = {};
 
-  return formData;
+    form.forEach(function (value: any, key: any) {
+        formData[key] = value == "None" ? null : value;
+    });
+
+    return formData;
 }

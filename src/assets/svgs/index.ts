@@ -7,6 +7,7 @@ export const defualtSize = 16;
 export const defaultColor = "currentColor";
 
 
+export { ArrowLeft } from './ArrowLeft'
 export { BarChart } from './BarChart'
 export { BarChartLineFill } from './BarChartLineFill'
 export { Box2 } from './Box2' 

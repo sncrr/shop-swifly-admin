@@ -1,9 +1,11 @@
 import { styled } from 'styled-components';
 import { colors } from '../../../theme';
+import { useState } from 'react';
 
 interface Props {
     name?: string,
     rounded?: boolean,
+    defaultValue?: number,
 }
 
 const Container = styled.div`
@@ -36,6 +38,7 @@ const Container = styled.div`
         background-color: #ccc;
         -webkit-transition: .4s;
         transition: .4s;
+        z-index: -10;
     }
 
     .slider:before {
@@ -48,6 +51,7 @@ const Container = styled.div`
         background-color: white;
         -webkit-transition: .4s;
         transition: .4s;
+        z-index: -10;
     }
 
     input:checked + .slider {
@@ -77,20 +81,36 @@ const Container = styled.div`
 
 export function FormToggle({
     name,
+    defaultValue,
     rounded = true
 }: Props) {
 
+    const [value, setValue] = useState(defaultValue ? defaultValue : 0);
+
     return (
         <Container>
+            <input className='w-0 h-0 opacity-0' type="number" name={name} value={value} onChange={() => {}} />
             {
                 rounded ? (
                     <label className="switch">
-                        <input type="checkbox" name={name} />
+                        <input 
+                            type="checkbox" 
+                            defaultChecked={defaultValue ? true : false}
+                            onChange={e => {
+                                setValue(e.target.checked ? 1 : 0)
+                            }}
+                        />
                         <span className="slider round"></span>
                     </label>
                 ) : (
                     <label className="switch">
-                        <input type="checkbox" name={name} />
+                        <input 
+                            type="checkbox" 
+                            defaultChecked={defaultValue ? true : false}
+                            onChange={e => {
+                                setValue(e.target.checked ? 1 : 0)
+                            }}
+                        />
                         <span className="slider"></span>
                     </label>
                 )

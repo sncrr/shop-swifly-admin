@@ -1,4 +1,5 @@
 
+export { BackBtn } from './BackButton';
 export { GhostBtn } from './GhostButton';
 export { FillBtn } from './FillButton';
 export { LinkBtn } from './LinkButton';

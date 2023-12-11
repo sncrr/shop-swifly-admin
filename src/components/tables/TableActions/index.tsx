@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, FormInput } from '../../forms'
+import { FormControl, FormControl2, FormInput } from '../../forms'
 import { FormSelect } from '../../forms/FormSelect'
 import { FunnelFill, Search } from '../../../assets/svgs'
 import { styled } from 'styled-components'
@@ -57,52 +57,54 @@ export function TableActions() {
                     ) : null
                 }
             </div>
-            <div className='flex flex-wrap justify-between'>
+            <div className='flex flex-wrap justify-between mt-1'>
                 <div>
-                    <FormGroup className='w-80'>
-                        <FormControl className='w-full'>
+                    <div className='w-80'>
+                        <FormControl2 flexible className='w-full'>
                             <FormInput
                                 placeholder="Search by keyword"
                             />
-                            <Search color={colors.inputFocus} size={20} />
-                        </FormControl>
-                    </FormGroup>
+                            <div className='mr-2'>
+                                <Search color={colors.inputFocus} size={20} />
+                            </div>
+                        </FormControl2>
+                    </div>
                 </div>
                 <div className='flex flex-wrap space-x-8'>
                     <div>
-                        <FormGroup className='items-center'>
-                            <FormControl className='w-16'>
+                        <div className='flex items-center'>
+                            <FormControl2 flexible className='w-16'>
                                 <FormInput
                                     className='text-center'
                                     defaultValue='20'
                                 />
-                            </FormControl>
+                            </FormControl2>
                             <div className='ml-2'>
                                 <label>per page</label>
                             </div>
-                        </FormGroup>
+                        </div>
                     </div>
                     <div className='flex items-center'>
                         <div>Prev</div>
                         <div className='mx-2'>
-                            <FormGroup className='items-center'>
-                                <FormControl className='w-14'>
+                            <div className='flex items-center'>
+                                <FormControl2 flexible className='w-14'>
                                     <FormInput
                                         className='text-center'
                                         defaultValue='20'
                                     />
-                                </FormControl>
+                                </FormControl2>
                                 <div className='ml-2'>
                                     <label>of 299</label>
                                 </div>
-                            </FormGroup>
+                            </div>
                         </div>
                         <div>Next</div>
                     </div>
 
                     <div>
-                        <FormGroup>
-                            <FormControl className='w-56'>
+                        <div>
+                            <FormControl2 flexible className='w-56'>
                                 <FormSelect
                                     options={[
                                         {
@@ -115,8 +117,8 @@ export function TableActions() {
                                         }
                                     ]}
                                 />
-                            </FormControl>
-                        </FormGroup>
+                            </FormControl2>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -8,62 +8,66 @@ import { fetchCategories, selectCategory } from "./actions";
 import { useDispatch } from "react-redux";
 import { getCategory } from "./controllers";
 
-function Main ({state}:any) {
-  
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+function Main({ state }: any) {
 
-  const selected = state.selected;
-  const categories = state.categories;
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-  const queryString = location.search;
-  const selectedId = queryString.slice(1);
+	const selected = state.selected;
+	const categories = state.categories;
 
-  useEffect(() => {
-    dispatch(fetchCategories())
-  }, [])
+	const queryString = location.search;
+	const selectedId = queryString.slice(1);
 
-  useEffect(() => {
-    if (selectedId) {
-      loadSelectedCategory();
-    }
-  }, [selectedId])
+	useEffect(() => {
+		dispatch(fetchCategories())
+	}, [])
 
-  const loadSelectedCategory = async () => {
-    let result = await getCategory(selectedId);
-    if (result) {
-      dispatch(selectCategory(result));
-    }
-  }
+	useEffect(() => {
+		if (selectedId) {
+			loadSelectedCategory();
+		}
+	}, [selectedId])
 
-  return (
-    <section className="flex">
-      <div className="w-80 border-r">
-        <CategoryTree
-          categories={categories}
-          navigate={navigate}
-          selected={selected}
-        />
-      </div>
-      <div className="flex-1 p-2">
-        <CategoryHeader
-          dispatch={dispatch}
-          navigate={navigate}
-          selected={selected}
-        />
-        <CategoryForm
-          categories={categories}
-          dispatch={dispatch}
-          navigate={navigate}
-          selected={selected}
-        />
-      </div>
-    </section>
-  )
+	const loadSelectedCategory = async () => {
+		try {
+			let result = await getCategory(selectedId);
+			if (result) {
+				dispatch(selectCategory(result));
+			}
+		} catch (error) {
+			navigate("/admin/categories");
+		}
+	}
+
+	return (
+		<section className="flex">
+			<div className="w-80 border-r">
+				<CategoryTree
+					categories={categories}
+					navigate={navigate}
+					selected={selected}
+				/>
+			</div>
+			<div className="flex-1 p-2">
+				<CategoryHeader
+					dispatch={dispatch}
+					navigate={navigate}
+					selected={selected}
+				/>
+				<CategoryForm
+					categories={categories}
+					dispatch={dispatch}
+					navigate={navigate}
+					selected={selected}
+				/>
+			</div>
+		</section>
+	)
 }
 
 const mapStateToProps = (state: any) => ({
-  state: state.category
+	state: state.category
 });
 
 const Category = connect(mapStateToProps)(Main);
