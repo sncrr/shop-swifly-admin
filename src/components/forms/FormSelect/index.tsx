@@ -13,6 +13,7 @@ interface Props {
 	multiple?: boolean,
 	required?: boolean,
 	onChanged?: any,
+	placeholder?: string,
 }
 
 const Container = styled.div`
@@ -28,6 +29,7 @@ export function FormSelect({
 	multiple,
 	required,
 	onChanged,
+	placeholder
 }: Props) {
 
 	let list = options;
@@ -71,6 +73,7 @@ export function FormSelect({
 						setValue(value);
 						onChanged ? onChanged(value) : {};
 					}}
+					placeholder={placeholder}
 					value={value}
 					options={list}
 					isMulti={multiple}
@@ -84,13 +87,16 @@ export function FormSelect({
 						}),
 						valueContainer: (baseStyles) => ({
 							...baseStyles,
-							padding: 0,
+							padding: "0 0.5rem",
 							margin: 0,
 						}),
 						dropdownIndicator: (baseStyles) => ({
 							...baseStyles,
-							paddingRight: 0,
+							padding: "0 0.5rem"
 						}),
+						indicatorSeparator: () => ({
+							width: 0
+						})
 					}}
 				/>
 			</Container>

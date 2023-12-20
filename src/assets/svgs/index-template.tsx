@@ -1,4 +1,4 @@
-import { SvgProps, defaultColor, defualtSize, } from ".";
+import { SvgProps, defaultColor, defualtSize, } from "./Icons";
 
 export function SvgName({
   color = defaultColor,

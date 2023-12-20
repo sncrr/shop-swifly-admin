@@ -23,7 +23,7 @@ export function StoreForm () {
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <FormLabel>Name</FormLabel>
-                    <FormControl $flex1>
+                    <FormControl flexible>
                         <FormInput
                             type="text"
                             name="name"
@@ -33,7 +33,7 @@ export function StoreForm () {
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Code</FormLabel>
-                    <FormControl $flex1>
+                    <FormControl flexible>
                         <FormInput
                             type="text"
                             name="code"
@@ -43,7 +43,7 @@ export function StoreForm () {
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Address</FormLabel>
-                    <FormControl $flex1>
+                    <FormControl flexible>
                         <FormInput
                             type="text"
                             name="address"
@@ -53,13 +53,13 @@ export function StoreForm () {
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Is Active</FormLabel>
-                    <FormControl $unbordered>
+                    <FormControl unbordered>
                         <FormToggle />
                     </FormControl>
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Time Open</FormLabel>
-                    <FormControl $flex1>
+                    <FormControl flexible>
                         <FormInput
                             type="time"
                             name="timeOpen"
@@ -69,7 +69,7 @@ export function StoreForm () {
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Time Close</FormLabel>
-                    <FormControl $flex1>
+                    <FormControl flexible>
                         <FormInput
                             type="time"
                             name="timeClose"
@@ -78,9 +78,7 @@ export function StoreForm () {
                     </FormControl>
                 </FormGroup>
                 <ButtonGroup>
-                    <Submit>
-                        Save
-                    </Submit>
+                    <Submit text="SAVE" />
                 </ButtonGroup>
             </Form>
         </section>

@@ -1,4 +1,4 @@
-import { ExclamationTriangle } from "../../../assets/svgs";
+import { ExclamationTriangle } from "../../../assets/svgs/Icons";
 import { DialogProps, clearAlert } from "../actions";
 
 export function Confirmation(props: DialogProps) {

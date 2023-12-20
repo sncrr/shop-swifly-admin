@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { colors } from "../../../theme";
 
 interface Props {
-    value?: string
+    text?: string
 }
 
 export const Button = styled.button.attrs(() => ({
@@ -28,7 +28,7 @@ export const Button = styled.button.attrs(() => ({
 export function Submit(props : Props) {
     return (
         <Button>
-            { props.value }
+            { props.text }
         </Button>
     )
 }

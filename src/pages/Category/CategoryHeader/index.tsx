@@ -1,4 +1,4 @@
-import { Trash } from "../../../assets/svgs"
+import { Trash } from "../../../assets/svgs/Icons"
 import { showConfirmDialog } from "../../../components/alerts/actions"
 import { GhostBtn } from "../../../components/buttons"
 import { H1 } from "../../../components/typographies"

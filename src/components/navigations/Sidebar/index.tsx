@@ -1,54 +1,72 @@
-import { Link } from "react-router-dom";
-import { BarChart, Box2, Shop } from "../../../assets/svgs";
-import { Coin } from "../../../assets/svgs/Coin";
+import { Link, useLocation } from "react-router-dom";
 import { colors } from "../../../theme";
 import { NavList } from "./NavList";
 import { NavListItem } from "./NavListItem";
 import { NavSubList } from "./NavSubList";
-import { Paths } from "../../../constants";
 import { NavSubItem } from "./NavSubItem";
 import { styled } from "styled-components";
 import { navigations } from "./navigations";
 
-
-const ICON_SIZE = 20;
-const ICON_COLOR = colors.white;
+const ICON_SIZE = 32;
+const ICON_COLOR = colors.black;
+const ICON_ACTIVE_COLOR = colors.active;
 
 interface Props {
 
 }
 
 const Container = styled.aside`
-  background-color: ${colors.mainDark};
-  height: 100vh;
-  width: 4rem;
+  background-color: ${colors.white};
+  height: calc(100vh - 5rem);
+  width: 7rem;
   position: fixed;
-  z-index: 10;
-  top: 0;
+  z-index: 50;
+  top: 5rem;
   left: 0;
+  border-right: 0.3rem solid ${colors.navBorder};
 `
 
-export function Sidebar({ }: Props) {
-  
+export const Sidebar = ({ }: Props) => {
 
+  const location = useLocation();
+
+  const getIsActive = (item: any) => {
+
+    if (item.path)
+      return location.pathname.includes(item.path)
+
+    else if (item.children)
+      for (let child of item.children)
+        if (location.pathname.includes(child.path))
+          return true;
+
+    return false;
+  }
 
   return (
     <Container>
-      <div>
+      <NavList>
+        {
+          navigations.map((item, index) => {
 
-      </div>
+            let isActive = getIsActive(item)
 
-      <div>
-        <NavList>
-          {
-            navigations.map((item, index) => (
-              <NavListItem key={index}>
+            return (
+              <NavListItem
+                key={index}
+                className="nav-list-item"
+                $isActive={isActive}
+              >
                 {
                   item.children ? (
                     <div>
-                      <item.icon color={ICON_COLOR} size={ICON_SIZE} />
+                      <item.icon
+                        color={isActive ? ICON_ACTIVE_COLOR : ICON_COLOR}
+                        size={ICON_SIZE}
+                      />
                       <span>{item.label}</span>
                       <NavSubList>
+                        <div className="title">{item.label}</div>
                         {
                           item.children.map((child, childIndex) => (
                             <NavSubItem key={childIndex}>
@@ -62,16 +80,19 @@ export function Sidebar({ }: Props) {
                     </div>
                   ) : (
                     <Link to={item.path}>
-                      <item.icon color={ICON_COLOR} size={ICON_SIZE} />
+                      <item.icon
+                        color={isActive ? ICON_ACTIVE_COLOR : ICON_COLOR}
+                        size={ICON_SIZE}
+                      />
                       <span>{item.label}</span>
                     </Link>
                   )
                 }
               </NavListItem>
-            ))
-          }
-        </NavList>
-      </div>
+            )
+          })
+        }
+      </NavList>
     </Container>
   )
 }

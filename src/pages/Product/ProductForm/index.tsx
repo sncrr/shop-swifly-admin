@@ -110,7 +110,7 @@ export function ProductForm(props: Props) {
                 <ButtonGroup>
                     {/* <Reset value="Reset"/> */}
                     <BackBtn navigate={props.navigate} />
-                    <Submit value="Save" />
+                    <Submit text="Save" />
                 </ButtonGroup>
                 <FormSection hasRequired>
                     <FormGroup>
@@ -139,8 +139,10 @@ export function ProductForm(props: Props) {
                         <FormLabel>Is Active</FormLabel>
                         <FormControl unbordered>
                             <FormToggle
-                                name="isActive"
-                                defaultValue={selected ? Number(selected.isActive) : 1}
+                                inputProps={{
+                                    name: "isActive",
+                                    defaultChecked: !!(selected && selected.isActive)
+                                }}
                             />
                         </FormControl>
                     </FormGroup>

@@ -26,3 +26,5 @@ export const CATEGORY = '/admin/categories'
 export const PRODUCT = '/admin/products'
 export const PRODUCT_ADD = '/admin/products/add'
 export const PRODUCT_EDIT = '/admin/products/edit/:id'
+
+export const CONFIGS = '/admin/configurations'

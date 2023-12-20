@@ -1,15 +1,21 @@
-import { BarChart, Box2, Coin, Shop } from "../../../assets/svgs";
+import { MenuConfigs } from "../../../assets/svgs/Icons/MenuConfigs";
+import { MenuContents } from "../../../assets/svgs/Icons/MenuContents";
+import { MenuCustomers } from "../../../assets/svgs/Icons/MenuCustomers";
+import { MenuDashboard } from "../../../assets/svgs/Icons/MenuDashboard";
+import { MenuInventory } from "../../../assets/svgs/Icons/MenuInventory";
+import { MenuStore } from "../../../assets/svgs/Icons/MenuStore";
+import { MenuTransactions } from "../../../assets/svgs/Icons/MenuTransactions";
 import { Paths } from "../../../constants";
 
 export const navigations = [
   {
     label: "Dashboard",
-    icon: BarChart,
+    icon: MenuDashboard,
     path: Paths.DASHBOARD,
   },
   {
     label: "Inventory",
-    icon: Box2,
+    icon: MenuInventory,
     children: [
       {
         label: "Categories",
@@ -22,8 +28,13 @@ export const navigations = [
     ]
   },
   {
-    label: "Profit",
-    icon: Coin,
+    label: "Customers",
+    icon: MenuCustomers,
+    children: []
+  },
+  {
+    label: "Transactions",
+    icon: MenuTransactions,
     children: [
       {
         label: "Orders",
@@ -37,7 +48,7 @@ export const navigations = [
   },
   {
     label: "Store",
-    icon: Shop,
+    icon: MenuStore,
     children: [
       {
         label: "Stores",
@@ -52,5 +63,15 @@ export const navigations = [
         path: Paths.PICK_UP,
       }
     ]
+  },
+  {
+    label: "Contents",
+    icon: MenuContents,
+    children: []
+  },
+  {
+    label: "Configs",
+    icon: MenuConfigs,
+    path: Paths.CONFIGS
   }
 ]

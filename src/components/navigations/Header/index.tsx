@@ -9,13 +9,13 @@ interface Props {
 const Container = styled.nav`
     background-color: ${colors.white};
     padding: 1rem;
-    margin-left: 4rem;
-    width: calc(100% - 4rem);
+    width: 100vw;
     position: fixed;
     top: 0;
     display: flex;
     justify-content: space-between;
-    height: 4rem;
+    height: 5rem;
+    border-bottom: 1px solid ${colors.navBorder};
 `
 
 export function Header ({} : Props) {

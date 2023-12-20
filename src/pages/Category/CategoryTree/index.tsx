@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Category } from "../../../types/Inventory/Category";
 import { colors } from "../../../theme";
-import { ChevronCompactDown, ChevronCompactRight, PlusSquareDotted } from "../../../assets/svgs";
+import { ChevronCompactDown, ChevronCompactRight, PlusSquareDotted } from "../../../assets/svgs/Icons";
 import { Paths } from "../../../constants";
 import { GhostBtn } from "../../../components/buttons";
 import { useDispatch } from "react-redux";

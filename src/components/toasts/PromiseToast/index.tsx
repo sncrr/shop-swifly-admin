@@ -38,18 +38,18 @@ export function PromiseToast({
     }
   }, [result])
 
-  const handleClose = () => {
-    dispatch(hideToast(toastId));
-  }
+  // const handleClose = () => {
+  //   dispatch(hideToast(toastId));
+  // }
 
   const getClassName = () => {
-    let className = "p-2 w-72 h-12 m-2 text-white select-none transition-colors";
+    let className = "p-4 w-64 text-sm m-2 rounded-md drop-shadow-md text-white select-none transition-colors";
 
     if (result === STATUS_SUCCESS) {
-      className += " bg-green-400"
+      className += " bg-green-500"
     }
     else if (result === STATUS_FAILED) {
-      className += " bg-red-400"
+      className += " bg-red-500"
     }
     else {
       className += " bg-yellow-600"
@@ -69,8 +69,7 @@ export function PromiseToast({
     <div
       className={getClassName()}
     >
-      <h1 className="font-bold">{message}</h1>
-      <button onClick={handleClose}>CLOSE</button>
+      {message}
     </div>
   )
 }

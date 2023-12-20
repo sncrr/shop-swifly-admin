@@ -6,6 +6,7 @@ export class Category {
   readonly description?: string;
   readonly parent?: any
   readonly children?: Category[]
+  readonly isEnabled?: boolean;
   
   readonly createdAt?: string;
   readonly updatedAt?: string;

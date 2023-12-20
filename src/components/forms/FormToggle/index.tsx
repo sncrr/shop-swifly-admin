@@ -1,17 +1,18 @@
 import { styled } from 'styled-components';
 import { colors } from '../../../theme';
-import { useState } from 'react';
+import { InputHTMLAttributes } from 'react';
 
 interface Props {
-    name?: string,
+    inputProps?: InputHTMLAttributes<HTMLInputElement>,
     rounded?: boolean,
-    defaultValue?: number,
 }
 
 const Container = styled.div`
     height: 2rem;
     display: flex;
     align-items: center;
+    position: relative;
+    
     /* The switch - the box around the slider */
     .switch {
         position: relative;
@@ -38,7 +39,6 @@ const Container = styled.div`
         background-color: #ccc;
         -webkit-transition: .4s;
         transition: .4s;
-        z-index: -10;
     }
 
     .slider:before {
@@ -48,10 +48,9 @@ const Container = styled.div`
         width: 1.5rem;
         left: 4px;
         bottom: 4px;
-        background-color: white;
+        background-color: #fff;
         -webkit-transition: .4s;
         transition: .4s;
-        z-index: -10;
     }
 
     input:checked + .slider {
@@ -79,37 +78,25 @@ const Container = styled.div`
 
 `;
 
-export function FormToggle({
-    name,
-    defaultValue,
-    rounded = true
-}: Props) {
-
-    const [value, setValue] = useState(defaultValue ? defaultValue : 0);
+export const FormToggle = (props: Props) => {
 
     return (
         <Container>
-            <input className='w-0 h-0 opacity-0' type="number" name={name} value={value} onChange={() => {}} />
+            {/* <input className='w-0 h-0 opacity-0' type="number" name={name} value={value} onChange={() => {}} /> */}
             {
-                rounded ? (
+                props.rounded === true ? (
                     <label className="switch">
                         <input 
-                            type="checkbox" 
-                            defaultChecked={defaultValue ? true : false}
-                            onChange={e => {
-                                setValue(e.target.checked ? 1 : 0)
-                            }}
+                            {...props.inputProps}
+                            type="checkbox"
                         />
                         <span className="slider round"></span>
                     </label>
                 ) : (
                     <label className="switch">
                         <input 
-                            type="checkbox" 
-                            defaultChecked={defaultValue ? true : false}
-                            onChange={e => {
-                                setValue(e.target.checked ? 1 : 0)
-                            }}
+                            {...props}
+                            type="checkbox"
                         />
                         <span className="slider"></span>
                     </label>

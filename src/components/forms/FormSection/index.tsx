@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import styled from "styled-components";
 import { colors } from '../../../theme';
-import { ChevronCompactRight } from '../../../assets/svgs';
+import { ChevronCompactRight } from '../../../assets/svgs/Icons';
 
 
 interface Props {

@@ -1,6 +1,6 @@
 import { GhostBtn, LinkBtn } from "../../../components/buttons";
 import { TBody, TData, THead, THeader, TRow, Table } from "../../../components/tables";
-import { TableActions } from "../../../components/tables/TableActions";
+import { TableControls } from "../../../components/tables/TableControls";
 import { Product } from "../../../types/Inventory/Product";
 import ProductHelper from "../helper";
 
@@ -22,7 +22,7 @@ export function ProductList(props: Props) {
 
 	return (
 		<div className="p-4">
-			<TableActions />
+			<TableControls />
 			<Table>
 				<THeader>
 					<TRow>

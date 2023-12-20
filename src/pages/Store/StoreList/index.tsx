@@ -1,6 +1,6 @@
 import { LinkBtn } from "../../../components/buttons";
 import { TBody, TData, THead, THeader, TRow, Table } from "../../../components/tables";
-import { TableActions } from "../../../components/tables/TableActions";
+import { TableControls } from "../../../components/tables/TableControls";
 import { Store } from "../../../types/Store/Store";
 
 export function StoreList ({stores} :any) {
@@ -8,7 +8,7 @@ export function StoreList ({stores} :any) {
 
     return (
         <div className="p-4">
-            <TableActions />
+            <TableControls />
             <Table>
                 <THeader>
                     <TRow>

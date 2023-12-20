@@ -1,75 +1,76 @@
 import { connect } from "react-redux";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { CategoryForm } from "./CategoryForm";
-import { CategoryTree } from "./CategoryTree";
-import { CategoryHeader } from "./CategoryHeader";
-import { fetchCategories, selectCategory } from "./actions";
-import { useDispatch } from "react-redux";
-import { getCategory } from "./controllers";
 
-function Main({ state }: any) {
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Paths } from "../../constants";
+import { useEffect } from "react";
+import { CategoryState } from "../Category/reducers";
+import { StoreState } from "../Store/reducers";
+import { fetchCategories } from "./actions";
+import CategoryList from "./CategoryList";
+
+interface Props {
+	categoryState: CategoryState,
+	storeState: StoreState,
+}
+function Main(props: Props) {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const selected = state.selected;
-	const categories = state.categories;
-
-	const queryString = location.search;
-	const selectedId = queryString.slice(1);
+	const selected = props.categoryState.selected;
+	const categories = props.categoryState.categories;
 
 	useEffect(() => {
 		dispatch(fetchCategories())
 	}, [])
 
-	useEffect(() => {
-		if (selectedId) {
-			loadSelectedCategory();
-		}
-	}, [selectedId])
-
-	const loadSelectedCategory = async () => {
-		try {
-			let result = await getCategory(selectedId);
-			if (result) {
-				dispatch(selectCategory(result));
-			}
-		} catch (error) {
-			navigate("/admin/categories");
-		}
-	}
-
 	return (
-		<section className="flex">
-			<div className="w-80 border-r">
-				<CategoryTree
-					categories={categories}
-					navigate={navigate}
-					selected={selected}
-				/>
-			</div>
-			<div className="flex-1 p-2">
-				<CategoryHeader
-					dispatch={dispatch}
-					navigate={navigate}
-					selected={selected}
-				/>
-				<CategoryForm
-					categories={categories}
-					dispatch={dispatch}
-					navigate={navigate}
-					selected={selected}
-				/>
-			</div>
-		</section>
+		<Routes>
+			<Route
+				path={Paths.BASE}
+				element={
+					<CategoryList
+						categories={categories}
+						navigate={navigate}
+						dispatch={dispatch}
+					/>
+				}
+			/>
+			{/* <Route
+				path={`/${Paths.ADD}`}
+				element={
+					<ProductForm
+						dispatch={dispatch}
+						navigate={navigate}
+						storeState={props.storeState}
+						categories={props.categoryState.categories}
+						selected={selected}
+					/>
+				}
+			/>
+			<Route
+				path={`/${Paths.EDIT}`}
+				element={
+					<ProductForm
+						dispatch={dispatch}
+						navigate={navigate}
+						storeState={props.storeState}
+						categories={props.categoryState.categories}
+						selected={selected}
+					/>
+				}
+			/> */}
+		</Routes>
 	)
 }
 
 const mapStateToProps = (state: any) => ({
-	state: state.category
+	state: state.product,
+	storeState: state.store,
+	categoryState: state.category,
 });
 
-const Category = connect(mapStateToProps)(Main);
+const Product = connect(mapStateToProps)(Main);
 
-export default Category;
+export default Product;

@@ -1,18 +1,10 @@
-import { useEffect, useState} from 'react';
+import { InputHTMLAttributes } from 'react';
 import styled from "styled-components";
 import { colors } from '../../../theme';
 
 
-interface Props {
-  type?: string,
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name?: string,
-  defaultValue?: string,
-  required?: boolean,
-  placeholder?: string,
-  className?: string,
-  min?: number,
-  max?: number,
-  disabled?: boolean,
 }
 
 const Input = styled.input`
@@ -35,31 +27,11 @@ const Input = styled.input`
   }
 `;
 
-export function FormInput (props: Props) {
-
-  const [value, setValue] = useState<string>("");
-
-  useEffect(() => {
-    if(props.defaultValue) {
-      setValue(props.defaultValue)
-    }
-    else {
-      setValue("")
-    }
-  }, [props.defaultValue])
+export const FormInput = (props : Props) => {
   
   return (
     <Input
-      className={props.className}
-      placeholder={props.placeholder}
-      name={props.name}
-      type={props.type}
-      required={props.required}
-      value={value}
-      onChange={e => setValue(e.target.value)}
-      min={props.min}
-      max={props.max}
-      disabled={props.disabled}
+      {...props}
     />
   )
 }

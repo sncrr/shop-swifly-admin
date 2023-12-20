@@ -1,3 +1,4 @@
+import { FormProvider, useForm } from "react-hook-form";
 import { ButtonGroup, Form, FormControl, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormTextArea, Submit } from "../../../components/forms";
 import { Category } from "../../../types/Inventory/Category";
 import { formUtils } from "../../../utils";
@@ -16,7 +17,21 @@ export function CategoryForm({
   selected,
 }: Props) {
 
-  const handleSubmit = async (e: any) => {
+  const getParent = (id: string) => {
+    if (id)
+      return categories.find(({ _id }) => _id === id);
+    else
+      return {
+        name: "None",
+        value: ""
+      }
+  }
+
+  const { register, handleSubmit } = useForm({
+
+  });
+
+  const onSubmit = async (e: any) => {
     e.preventDefault();
 
     let data = formUtils.getFormData(e.target);
@@ -32,32 +47,20 @@ export function CategoryForm({
     }));
   }
 
-  const getParent = (id: string) => {
-    if(id)
-      return categories.find(({_id}) => _id === id);
-    else 
-      return {
-        name: "None",
-        value: ""
-      }
-  }
-
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
-        <FormSection>
-          <FormGroup>
-            <FormLabel>Name</FormLabel>
-            <FormControl flexible>
-              <FormInput
-                type="text"
-                name="name"
-                defaultValue={selected?.name}
-                required
-              />
-            </FormControl>
-          </FormGroup>
-          <FormGroup>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <FormSection>
+        <FormGroup>
+          <FormLabel>Name</FormLabel>
+          <FormControl flexible>
+            <FormInput 
+              name="name"
+              required
+              defaultValue={selected?.name}
+            />
+          </FormControl>
+        </FormGroup>
+        {/* <FormGroup>
             <FormLabel>Parent</FormLabel>
             <FormControl flexible>
               <FormSelect
@@ -84,13 +87,12 @@ export function CategoryForm({
                 defaultValue={selected?.description}
               />
             </FormControl>
-          </FormGroup>
-        </FormSection>
-        
-        <ButtonGroup>
-          <Submit value="Save" />
-        </ButtonGroup>
-      </Form>
-    </div>
+          </FormGroup> */}
+      </FormSection>
+
+      <ButtonGroup>
+        <Submit text="Save" />
+      </ButtonGroup>
+    </Form>
   )
 }

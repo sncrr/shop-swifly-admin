@@ -16,8 +16,12 @@ export const Content = styled.div<{ $unbordered?: boolean; $flexible?: boolean; 
   min-height: calc(2.5rem + 2px);
   border-radius: 0.1rem; */
   
+  
   /* padding: 0 0.5rem; */
+
   width: 100%;
+  border-radius: 0.3rem;
+
   ${props => !props.$flexible ? "max-width: 30rem;" : `
     display: flex; 
     align-items: 

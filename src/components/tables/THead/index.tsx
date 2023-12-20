@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { colors } from "../../../theme";
 
 interface Props {
+    width?: string;
+    fixWidth?: boolean;
     children?: React.ReactNode;
 }
 
 const Container = styled.th`
-    border: 1px solid ${colors.inputFocus};
-    background-color: ${colors.mainColor};
-    color: ${colors.white};
+    /* border: 1px solid ${colors.inputFocus}; */
+    background-color: ${colors.tableHead};
+    /* color: ${colors.white}; */
 `;
 
 const Resizer = styled.div`
@@ -26,14 +28,21 @@ const FlexContainer = styled.div`
   padding-left: 1rem;
 `;
 
-export function THead({ children }: Props) {
+export function THead({ fixWidth, width, children }: Props) {
+
+    if(fixWidth) {
+        return (
+            <Container style={{width: width}}>
+                {children}
+            </Container>
+        )
+    }
+    
     const initialWidth = 0; // Set your desired initial width
     const [columnWidth, setColumnWidth] = useState(initialWidth);
-    const [resizing, setResizing] = useState(false);
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setResizing(true);
 
         const initialMouseX = e.clientX;
         const initialWidthValue = columnWidth || initialWidth;
@@ -44,7 +53,6 @@ export function THead({ children }: Props) {
         };
 
         const handleMouseUp = () => {
-            setResizing(false);
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("mouseup", handleMouseUp);
         };

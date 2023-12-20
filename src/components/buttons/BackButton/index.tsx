@@ -1,4 +1,4 @@
-import { ArrowLeft } from "../../../assets/svgs";
+import { ArrowLeft } from "../../../assets/svgs/Icons";
 
 interface Props {
 	navigate: any
