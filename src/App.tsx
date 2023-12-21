@@ -1,6 +1,6 @@
 import { ModalContainer } from "./components/modals";
 import { ToastContainer } from "./components/toasts";
-import { MainRoutes } from "./routes";
+import { MainRoute } from "./routes";
 
 
 
@@ -11,7 +11,7 @@ function App() {
     <>
       <ModalContainer />
       <ToastContainer />
-      <MainRoutes />
+      <MainRoute />
     </>
   );
 }

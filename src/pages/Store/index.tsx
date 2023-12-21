@@ -15,7 +15,7 @@ function Main ({state}:any) {
   return (
     <Routes>
       <Route path={`/${Paths.BASE}`} element={<StoreList stores={state.stores} />} />
-      <Route path={`/${Paths.ADD}`} element={<StoreForm />} />
+      <Route path={`/${Paths.CREATE}`} element={<StoreForm />} />
       <Route path={`/${Paths.EDIT}`} element={<StoreForm />} />
     </Routes>
   )

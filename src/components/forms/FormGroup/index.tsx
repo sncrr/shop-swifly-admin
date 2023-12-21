@@ -15,7 +15,16 @@ import { styled } from "styled-components";
 //   )
 // }
 
-export const FormGroup = styled.tr`
+export const FormGroup = styled.tr<{ required?: boolean; }>`
+  .form-control-label {
+    margin-top: 0.8rem;
+    content: '*';
+  }
+
+  .form-control-require {
+    opacity: ${props => props.required ? '1' : '0' };
+  }
+
 
 
 `

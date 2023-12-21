@@ -1,6 +1,6 @@
 
 export const BASE = '/'
-export const ADD = 'add'
+export const CREATE = 'create'
 export const VIEW = 'view/:id'
 export const EDIT = 'edit/:id'
 

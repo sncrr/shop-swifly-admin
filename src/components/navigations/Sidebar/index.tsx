@@ -20,7 +20,7 @@ const Container = styled.aside`
   height: calc(100vh - 5rem);
   width: 7rem;
   position: fixed;
-  z-index: 50;
+  z-index: 20;
   top: 5rem;
   left: 0;
   border-right: 0.3rem solid ${colors.navBorder};

@@ -4,12 +4,14 @@ import { TableControls } from "../../../components/tables/TableControls";
 import { TBody, TData, THead, THeader, TRow, Table } from "../../../components/tables";
 import { CaretDownFill, CaretRightFill, ChevronCompactDown, ChevronCompactRight } from "../../../assets/svgs/Icons";
 import { FormCheckBox, FormToggle } from "../../../components/forms";
-import { organizeByParent } from "../helpers";
+import { getRowStatus, organizeByParent, setRowStatus } from "../helpers";
 import RowActions from "../../../components/tables/RowActions";
 import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { saveCategory } from "../actions";
+import { deleteCategory, saveCategory } from "../actions";
+import { Paths } from "../../../constants";
+import { showConfirmDialog } from "../../../components/alerts/actions";
 
 interface Props {
   categories: Category[],
@@ -18,15 +20,10 @@ interface Props {
 }
 const CategoryList = (props: Props) => {
 
-  const organizedList = organizeByParent(props.categories);
+  const organizedDefault = organizeByParent(props.categories);
+  const organizedPromotion = [];
 
-  const handleEdit = (id: any) => {
-    props.navigate(`/admin/category/edit/${id}`);
-  }
-
-  const handleDelete = (id: any) => {
-
-  }
+  // const [showDefault, setShowDefault] = useState(false);
 
   return (
     <div>
@@ -50,22 +47,46 @@ const CategoryList = (props: Props) => {
           </TRow>
         </THeader>
         <TBody>
-          <TRow>
+          {/* <TRow>
             <TData>
               <CaretDownFill />
             </TData>
             <TData>Default Categories</TData>
-          </TRow>
-          {
+          </TRow> */}
+
+          <CategoryRow
+            item={{
+              _id: "Default",
+              name: "Default Categories",
+              children: organizedDefault,
+            }}
+            hasCheckbox={false}
+            tabCount={-1.5}
+            dispatch={props.dispatch}
+            navigate={props.navigate}
+          />
+          <CategoryRow
+            item={{
+              _id: "Promotions",
+              name: "Promotions",
+              children: organizedPromotion,
+            }}
+            hasCheckbox={false}
+            tabCount={-1.5}
+            dispatch={props.dispatch}
+            navigate={props.navigate}
+          />
+          {/* {
             organizedList.map((item) => (
               <CategoryRow 
                 key={item._id} 
                 item={item} 
                 tabCount={0}
                 dispatch={props.dispatch}
+                navigate={props.navigate}
               />
             ))
-          }
+          } */}
         </TBody>
       </Table>
     </div>
@@ -74,23 +95,29 @@ const CategoryList = (props: Props) => {
 
 interface CategoryRowProps {
   item: Category;
+  hasCheckbox: boolean,
   tabCount: number;
-  dispatch: Dispatch<AnyAction>
+  dispatch: Dispatch<AnyAction>,
+  navigate: NavigateFunction
 }
 const CategoryRow = (props : CategoryRowProps) => {
 
   const {
     item,
     tabCount,
-    dispatch
+    dispatch,
+    navigate,
+    hasCheckbox
   } = props;
 
   const children = item.children;
 
-  const [showChildren, setShowChildren] = useState(false);
+  const [showChildren, setShowChildren] = useState(!!getRowStatus(item._id));
 
   const handleShowChildren  = () => {
     setShowChildren(!showChildren)
+    //Retain the status of row even if refresh
+    setRowStatus(item._id, !showChildren)
   }
 
   const handleOnChangeStatus = (e : ChangeEvent<HTMLInputElement>) => {
@@ -103,14 +130,41 @@ const CategoryRow = (props : CategoryRowProps) => {
     }))
   }
 
+  const handleEdit = () => {
+    navigate(`${Paths.CATEGORY}/edit/${item._id}`)
+  }
+
+  const handleDelete = () => {
+    showConfirmDialog({
+      title: "Confirmation",
+      content: "Are you sure you want to delete this category?",
+      onConfirm: () => dispatch(deleteCategory(item._id))
+    })
+  }
+
+  const rowButtons = [
+    {
+      label: "Edit",
+      onClick: handleEdit
+    },
+    {
+      label: "Delete",
+      onClick: handleDelete
+    }
+  ];
+
+  // const indentSize = "-3rem";
+
   return (
     <>
       <TRow>
         <TData>
-          <FormCheckBox />
+          {
+            hasCheckbox && <FormCheckBox />
+          }
         </TData>
         <TData>
-          <div className="flex" style={{paddingLeft: `${tabCount * 1.5}rem`}}>
+          <div className="flex" style={{marginLeft: `${tabCount * 1.5}rem`}}>
             {
               (children && children.length > 0) ? (
                 <span onClick={handleShowChildren}>
@@ -126,7 +180,7 @@ const CategoryRow = (props : CategoryRowProps) => {
           </div>
         </TData>
         <TData></TData>
-        <TData></TData>
+        <TData>{item.children?.length}</TData>
         <TData>
           <FormToggle
             inputProps={{
@@ -137,7 +191,9 @@ const CategoryRow = (props : CategoryRowProps) => {
           />
         </TData>
         <TData>
-          <RowActions />
+          <RowActions
+            buttons={rowButtons}
+          />
         </TData>
       </TRow>
 
@@ -146,8 +202,10 @@ const CategoryRow = (props : CategoryRowProps) => {
           <CategoryRow 
             key={child._id} 
             item={child} 
+            hasCheckbox
             tabCount={tabCount + 1} 
             dispatch={dispatch}
+            navigate={navigate}
           />
         ))
       }

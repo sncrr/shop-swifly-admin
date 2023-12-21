@@ -9,7 +9,7 @@ export const ButtonGroup = styled.div`
   
   & > :not([hidden]) ~ :not([hidden]) {
     --tw-space-x-reverse: 0;
-    margin-right: calc(0.5rem/* 8px */ * var(--tw-space-x-reverse));
-    margin-left: calc(0.5rem/* 8px */ * calc(1 - var(--tw-space-x-reverse)));
+    margin-right: calc(2rem/* 32px */ * var(--tw-space-x-reverse));
+    margin-left: calc(2rem/* 32px */ * calc(1 - var(--tw-space-x-reverse)));
   }
 `

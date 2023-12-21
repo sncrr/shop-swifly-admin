@@ -12,30 +12,38 @@ import {
   deleteCategorySuccess,
   deleteCategoryFailed, 
 } from './actions';
-import { hideLoader } from '../../components/modals/actions';
-import { replace } from 'connected-react-router';
+import { hideLoader, showLoader } from '../../components/modals/actions';
 import * as ToastConstant from '../../components/toasts/constants';
+import { navigateTo } from '../../routes/actions';
+import { Paths } from '../../constants';
+import { useNavigate } from 'react-router-dom';
 
 function* onFetchCategories () {
   try {
     const data: Category[] = yield call(CategoryController.getAllCategories);
 
     yield put(fetchCategoriesSuccess(data));
-    yield put(hideLoader());
   } 
   catch (error) {
     yield put(fetchCategoriesFailed(error));
-    yield put(hideLoader());
   }
 }
 
 function* onSaveCategory(action: any) {
+  
+  const { id, navigateToItem, navigateBack, hasLoader } = action.payload;
+
+  if(hasLoader) {
+    yield put(showLoader());
+  }
+
+
   const { toastId } = yield put(ToastAction.createPromiseToast({
     message: "Saving Category",
   }));
 
   try {
-    const { id, navigateToItem } = action.payload;
+    
     const data: Category = id ? 
       yield call(CategoryController.updateCategory, action.payload) :
       yield call(CategoryController.createCategory, action.payload);
@@ -45,8 +53,11 @@ function* onSaveCategory(action: any) {
       yield put(CategoryAction.fetchCategories());
 
       if(navigateToItem) {
-        yield put(replace(`?${data._id}`));
         yield put(CategoryAction.selectCategory(data));
+        yield put(navigateTo(`${Paths.CATEGORY}/edit/${data._id}`))
+      }
+      else if (navigateBack) {
+        yield put(navigateTo(-1))
       }
     }
     yield put(ToastAction.updateToast(toastId, {
@@ -62,6 +73,10 @@ function* onSaveCategory(action: any) {
       result: ToastConstant.STATUS_FAILED
     }));
   }
+
+  if(hasLoader) {
+    yield put(hideLoader());
+  }
 }
 
 function* onDeleteCategory(action: any) {
@@ -76,7 +91,7 @@ function* onDeleteCategory(action: any) {
     if(data) {
       yield put(deleteCategorySuccess(data));
       yield put(CategoryAction.fetchCategories());
-      yield put(replace(``));
+      // yield put(replace(``));
 
       yield put(ToastAction.updateToast(toastId, {
         message: "Category deleted successfully",

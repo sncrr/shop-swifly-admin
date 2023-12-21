@@ -38,9 +38,9 @@ export function PromiseToast({
     }
   }, [result])
 
-  // const handleClose = () => {
-  //   dispatch(hideToast(toastId));
-  // }
+  const handleClose = () => {
+    dispatch(hideToast(toastId));
+  }
 
   const getClassName = () => {
     let className = "p-4 w-64 text-sm m-2 rounded-md drop-shadow-md text-white select-none transition-colors";
@@ -69,6 +69,9 @@ export function PromiseToast({
     <div
       className={getClassName()}
     >
+      <div onClick={handleClose} className="absolute right-2 top-1 cursor-pointer">
+        x
+      </div>
       {message}
     </div>
   )

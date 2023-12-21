@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAccessToken } from '../utils/authUtils';
 import { setUser } from '../root/slices/userSlice';
 
-export function MainRoutes () {
+export const MainRoute = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state:any) => state.user)

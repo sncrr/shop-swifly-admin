@@ -12,7 +12,6 @@ import {
   deleteStoreSuccess,
   deleteStoreFailed, 
 } from './actions';
-import { hideLoader } from '../../components/modals/actions';
 import { replace } from 'connected-react-router';
 import * as ToastConstant from '../../components/toasts/constants';
 
@@ -21,11 +20,9 @@ function* onFetchStores () {
     const data: Store[] = yield call(StoreController.getAllStores);
 
     yield put(fetchStoresSuccess(data));
-    yield put(hideLoader());
   } 
   catch (error) {
     yield put(fetchStoresFailed(error));
-    yield put(hideLoader());
   }
 }
 

@@ -1,66 +1,196 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { ButtonGroup, Form, FormControl, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormTextArea, Submit } from "../../../components/forms";
+import { ButtonGroup, Form, FormControl, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormTextArea, Reset, Submit } from "../../../components/forms";
 import { Category } from "../../../types/Inventory/Category";
-import { formUtils } from "../../../utils";
-import { saveCategory } from "../actions";
+import { saveCategory, selectCategory } from "../actions";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
+import { NavigateFunction, useParams } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { CategorySchema, mapCreateCategory } from "./schema";
+import { useEffect, useState } from "react";
+import { get } from "lodash";
+import { getCategory } from "../controllers";
+import { hideLoader, showLoader } from "../../../components/modals/actions";
+import { BackBtn } from "../../../components/buttons";
+import { Save } from "../../../components/forms/Save";
 
 interface Props {
   categories: Category[],
-  dispatch: any,
-  navigate: any,
-  selected: Category
+  dispatch: Dispatch<AnyAction>,
+  navigate: NavigateFunction,
+  selected: Category | null
 }
 
-export function CategoryForm({
-  categories,
-  dispatch,
-  selected,
-}: Props) {
+const NONE_ITEM = {
+  _id: "",
+  name: "None"
+}
+
+export const CategoryForm = (props: Props) => {
+
+  const {
+    dispatch,
+    categories,
+    selected,
+    navigate
+  } = props;
+
+  const routePrams = useParams();
+
+  const formMethods = useForm({
+    resolver: yupResolver(CategorySchema),
+    defaultValues: {
+      name: get(selected, 'name', ''),
+      parent: get(selected, 'parent', {}),
+      description: get(selected, 'description', ''),
+      continueEdit: false,
+    }
+  })
+
+  const {
+    handleSubmit,
+    reset,
+    setValue
+  } = formMethods;
+
+  const [loading, setLoading] = useState(true);
+  const [filteredCategories, setFilteredCategories] = useState(categories);
+
+  useEffect(() => {
+
+		const selectedId = get(routePrams, 'id', '');
+
+		const loadSelectedCategory = async () => {
+      dispatch(showLoader());
+			try {
+				let result = await getCategory(selectedId, {
+          populate: 'parent'
+        });
+
+				if (result) {
+					dispatch(selectCategory(result));
+				}
+			} catch (error) {
+        dispatch(selectCategory(null));
+				navigate("/admin/categories");
+			}
+      dispatch(hideLoader());
+      setLoading(false);
+		}
+
+		if (selectedId) {
+			if(selected && selectedId == selected._id) {
+        setLoading(false);
+        return;
+      }
+
+      loadSelectedCategory();
+		}
+    else {
+      dispatch(selectCategory(null));
+      setLoading(false);
+    }
+	}, []);
 
   const getParent = (id: string) => {
-    if (id)
-      return categories.find(({ _id }) => _id === id);
+    if(id)
+      return categories.find(({_id}) => _id === id);
     else
-      return {
-        name: "None",
-        value: ""
-      }
+      return NONE_ITEM
   }
 
-  const { register, handleSubmit } = useForm({
-
-  });
-
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
-
-    let data = formUtils.getFormData(e.target);
-
-    if (!data.parent) {
-      data.parent = null;
+  useEffect(() => {
+    if(selected) {
+      let newList = categories.filter(({_id}) => selected._id != _id);
+      setFilteredCategories(newList);
     }
+    else {
+      setFilteredCategories(categories)
+    }
+  }, [categories])
 
+  useEffect(() => {
+
+    if(selected && !loading) {
+      let newList = categories.filter(({_id}) => selected._id != _id);
+      setFilteredCategories(newList);
+      resetForm();
+    }
+    else {
+      resetForm();
+    }
+  }, [loading, selected]);
+
+  const onSubmit = async (values: any) => {
+    const data = mapCreateCategory(values);
+    
     dispatch(saveCategory({
       id: selected?._id,
       data,
-      navigateToItem: true
+      hasLoader: true,
+      navigateBack: !values.continueEdit  
     }));
+
+    setValue("continueEdit", false);
+  }
+
+  const resetForm = () => {
+    if(selected) {
+      reset({
+        name: selected?.name,
+        parent: getParent(selected?.parent?._id),
+        description: selected?.description
+      });
+    }
+    else {
+      reset({
+        name: '',
+        parent: NONE_ITEM,
+        description: ''
+      });
+    }
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormSection>
-        <FormGroup>
-          <FormLabel>Name</FormLabel>
-          <FormControl flexible>
-            <FormInput 
-              name="name"
-              required
-              defaultValue={selected?.name}
+    <FormProvider {...formMethods}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <ButtonGroup>
+          <BackBtn navigate={navigate} />
+          <Reset onClick={resetForm} />
+
+          <Save 
+            text="Save but continue editing" 
+            onClick={() => setValue("continueEdit", true)} 
+          />
+          <Submit text="Save" />
+        </ButtonGroup>
+        <FormSection
+          title="Category Information"
+          isOpen
+        >
+          <FormGroup required>
+            <FormLabel>Name</FormLabel>
+            <FormInput name="name" />
+          </FormGroup>
+
+          <FormGroup>
+            <FormLabel>Description</FormLabel>
+            <FormSelect 
+              name="parent" 
+              labelKey="name"
+              valueKey="_id"
+              options={[
+                NONE_ITEM,
+                ...filteredCategories
+              ]}
             />
-          </FormControl>
-        </FormGroup>
-        {/* <FormGroup>
+          </FormGroup>
+
+          <FormGroup>
+            <FormLabel>Description</FormLabel>
+            <FormInput name="description" />
+          </FormGroup>
+
+          {/* <FormGroup $required>
             <FormLabel>Parent</FormLabel>
             <FormControl flexible>
               <FormSelect
@@ -78,8 +208,9 @@ export function CategoryForm({
                 ]}
               />
             </FormControl>
-          </FormGroup>
-          <FormGroup>
+          </FormGroup> */}
+
+          {/* <FormGroup>
             <FormLabel>Description</FormLabel>
             <FormControl flexible>
               <FormTextArea
@@ -88,11 +219,9 @@ export function CategoryForm({
               />
             </FormControl>
           </FormGroup> */}
-      </FormSection>
 
-      <ButtonGroup>
-        <Submit text="Save" />
-      </ButtonGroup>
-    </Form>
+        </FormSection>
+      </Form>
+    </FormProvider>
   )
 }

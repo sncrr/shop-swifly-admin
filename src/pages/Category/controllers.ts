@@ -2,6 +2,11 @@ import { Category } from "../../types/Inventory/Category";
 import { request } from "../../controllers/request";
 import { createQuery } from "../../utils/requestUtils";
 
+interface Query {
+  populate?: 'parent',
+  sort?: '_id' | 'name'
+}
+
 export async function getAllCategories() {
   try {
     const query = createQuery({
@@ -17,9 +22,15 @@ export async function getAllCategories() {
   }
 }
 
-export async function getCategory(id: string) : Promise<Category> {
+export async function getCategory(id: string, query?: Query) : Promise<Category> {
   try {
-    const response = await request.get(`/category/${id}`)
+
+    const query = createQuery({
+      populate: 'parent',
+      sort: 'name'
+    });
+
+    const response = await request.get(`/category/${id}?${query}`)
     return response.data;
   }
   catch (error) {
@@ -29,11 +40,14 @@ export async function getCategory(id: string) : Promise<Category> {
 
 export async function createCategory (payload: any) : Promise<Category> {
   try {
+    const query = createQuery({
+      populate: 'parent'
+    });
     const response = await request.post(
-      `/category`, 
+      `/category?${query}`, 
       payload.data
     );
-    return response.data;
+    return response.data; 
   } 
   catch (error) {
     throw error;
@@ -42,8 +56,11 @@ export async function createCategory (payload: any) : Promise<Category> {
 
 export async function updateCategory(payload:any) : Promise<Category> {
   try {
+    const query = createQuery({
+      populate: 'parent'
+    });
     const response = await request.put(
-      `/category/${payload.id}`, 
+      `/category/${payload.id}?${query}`, 
       payload.data
     );
     return response.data;

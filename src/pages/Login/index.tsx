@@ -1,31 +1,41 @@
 import { useState } from 'react';
-import { FormControl, FormGroup, FormInput, FormLabel } from "../../components/forms";
+import { FormGroup, FormInput, FormLabel, FormSection } from "../../components/forms";
 import { useDispatch } from 'react-redux';
 import { AdminController } from "../../controllers";
 import { Submit } from '../../components/forms/Submit';
 import { setAccessToken } from '../../utils/authUtils';
 import { setUser } from '../../root/slices/userSlice';
+import { FormProvider, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoginSchema } from './schema';
 
-function Login () {
+function Login() {
 
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: any) => {
+  const formMethods = useForm({
+    resolver: yupResolver(LoginSchema)
+  });
 
-    e.preventDefault();
+  const {
+    handleSubmit,
+    getValues
+  } = formMethods;
+
+  const onSubmit = async () => {
 
     setIsLoading(true);
 
-    let username = e.target.username?.value;
-    let password = e.target.password?.value;
+    let username = getValues('username');
+    let password = getValues('password');
 
     let result = await AdminController.authenticate(username, password);
 
-    if(result && result.access_token) {
+    if (result && result.access_token) {
       dispatch(setUser(result.access_token));
-  
+
       setAccessToken(result.access_token)
     }
 
@@ -36,61 +46,52 @@ function Login () {
     <div className="flex justify-center w-full h-full bg-gray-800 p-2">
       <div className="mx-auto bg-white rounded-sm p-8 self-center">
         <h6>ACCOUNT LOGIN</h6>
-        <form className="mt-4" onSubmit={handleSubmit}>
-          <FormGroup className='w-[25rem]'>
-            <FormLabel htmlFor="username">
-              Username
-            </FormLabel>
-            <FormControl className='w-full'>
-              <FormInput
-                type="text"
-                name="username"
-                required
-              />
-            </FormControl>
-          </FormGroup>
+        <FormProvider {...formMethods}>
+          <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
+            <FormSection>
+              <FormGroup className='w-[25rem]'>
+                <FormLabel>Username</FormLabel>
+                <FormInput name="username" />
+              </FormGroup>
 
-          <FormGroup className='w-[25rem]'>
-            <FormLabel htmlFor="passord">
-              Password
-            </FormLabel>
-            <FormControl className='w-full'>
-              <FormInput
-                type="password"
-                name="password"
-                required
-              />
-            </FormControl>
-          </FormGroup>
-          
-          <div className="flex justify-between items-end text-xs">
-            <div className="space-x-1 mt-4">
-              <input
-                className="h-3"
-                id="remember_me"
-                type="checkbox"
-              />
-              <label
-                htmlFor="remember_me"
-              >
-                Remember me
-              </label>
+              <FormGroup className='w-[25rem]'>
+                <FormLabel>Password</FormLabel>
+                <FormInput name="password" inputProps={{type: "password"}} />
+              </FormGroup>
+            </FormSection>
+
+            <div className="flex justify-between items-end text-xs">
+              <div className="space-x-1 mt-4">
+                <input
+                  className="h-3"
+                  id="remember_me"
+                  type="checkbox"
+                />
+                <label
+                  htmlFor="remember_me"
+                >
+                  Remember me
+                </label>
+              </div>
+              <div className="space-x-1 mt-2">
+                <button
+                  className="underline"
+                  type='button'
+                >
+                  Forgot Password
+                </button>
+              </div>
             </div>
-            <div className="space-x-1 mt-2">
-              <button
-                className="underline"
-                type='button'
-              >
-                Forgot Password
-              </button>
+            <div className="mt-6 flex">
+              <Submit 
+                // className="w-full" 
+                // disabled={isLoading}
+                text='Submit'
+              />
             </div>
-          </div>
-          <div className="mt-6 flex">
-            <Submit className="w-full" disabled={isLoading}>
-              LOG IN
-            </Submit>
-          </div>
-        </form>
+          </form>
+        </FormProvider>
+
 
       </div>
     </div>

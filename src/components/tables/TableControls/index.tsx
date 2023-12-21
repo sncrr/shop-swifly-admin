@@ -3,8 +3,7 @@ import { FormSelect } from '../../forms/FormSelect'
 import { ArrowLeft, ArrowRight, FunnelFill, Search } from '../../../assets/svgs/Icons'
 import { styled } from 'styled-components'
 import React, { useState } from 'react'
-import { colors } from '../../../theme'
-import { FillBtn, FillLink } from '../../buttons'
+import { FillLink } from '../../buttons'
 import { Paths } from '../../../constants'
 
 interface Props {
@@ -96,7 +95,7 @@ export const TableControls: React.FC<Props> = (props) => {
         return (
             <div className='flex-1'>
                 <div className='w-80'>
-                    <FormControl2 flexible className='w-full'>
+                    {/* <FormControl2 flexible className='w-full'>
 
                         <div className='ml-2'>
                             <Search color={colors.inputFocus} size={20} />
@@ -104,7 +103,7 @@ export const TableControls: React.FC<Props> = (props) => {
                         <FormInput
                             placeholder="Search by keyword"
                         />
-                    </FormControl2>
+                    </FormControl2> */}
                 </div>
             </div>
         )
@@ -134,7 +133,7 @@ export const TableControls: React.FC<Props> = (props) => {
                 }
                 {
                     hasCreateButton && (
-                        <FillLink to={Paths.ADD}>
+                        <FillLink to={Paths.CREATE}>
                             Create New
                         </FillLink>
                     )
@@ -144,12 +143,12 @@ export const TableControls: React.FC<Props> = (props) => {
             <div>
                 {
                     hasFilter && actionView == VIEW_FILTER ? (
-                        <div className='bg-white border-t w-full z-10 h-40'>
+                        <div className='bg-white border-t w-full h-40'>
                             Filter
                         </div>
                     ) :
                         hasEditColumn && actionView == VIEW_COLUMN ? (
-                            <div className='bg-white border-t w-full z-10 h-40'>
+                            <div className='bg-white border-t w-full h-40'>
                                 Columns
                             </div>
                         ) : null
@@ -172,12 +171,12 @@ export const TableControls: React.FC<Props> = (props) => {
                                         <ArrowLeft />
                                     </button>
                                     <div className='border-r border-l'>
-                                        <FormControl2 unbordered className='m-0 p-0 w-12'>
+                                        {/* <FormControl2 unbordered className='m-0 p-0 w-12'>
                                             <FormInput
                                                 className='text-center'
                                                 defaultValue='20'
                                             />
-                                        </FormControl2>
+                                        </FormControl2> */}
                                     </div>
                                     <button className='flex justify-center items-center w-12'>
                                         <ArrowRight />
@@ -194,12 +193,12 @@ export const TableControls: React.FC<Props> = (props) => {
                                     Show
                                 </div>
                                 <div className='flex rounded-md'>
-                                    <FormControl2 className='w-18'>
+                                    {/* <FormControl2 className='w-18'>
                                         <FormSelect
                                             placeholder=""
                                             options={PAGE_COUNTS}
                                         />
-                                    </FormControl2>
+                                    </FormControl2> */}
                                 </div>
                             </div>
                         )
@@ -209,11 +208,11 @@ export const TableControls: React.FC<Props> = (props) => {
                         hasTableActions && (
                             <div>
                                 <div>
-                                    <FormControl2 flexible className='w-56'>
+                                    {/* <FormControl2 flexible className='w-56'>
                                         <FormSelect
                                             options={TABLE_ACTIONS}
                                         />
-                                    </FormControl2>
+                                    </FormControl2> */}
                                 </div>
                             </div>
                         )

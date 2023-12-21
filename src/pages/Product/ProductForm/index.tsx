@@ -23,6 +23,9 @@ import { BackBtn } from "../../../components/buttons";
 import { saveProduct, selectProduct } from "../actions";
 import { Product } from "../../../types/Inventory/Product";
 import { useParams } from "react-router-dom";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ProductSchema } from "./schema";
 
 interface Props {
     navigate: any,
@@ -54,6 +57,14 @@ export function ProductForm(props: Props) {
         }
     }, [selectedId])
 
+    const formMethods = useForm({
+        resolver: yupResolver(ProductSchema)
+    })
+
+    const {
+        handleSubmit
+    } = formMethods;
+
     const loadSelectedCategory = async () => {
         let result = await getProduct(selectedId);
         if (result) {
@@ -61,39 +72,39 @@ export function ProductForm(props: Props) {
         }
     }
 
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
-        
-        let data = new FormData(e.target);
-        
-        let categoryIds = [];
-        for(let category of selectedCategories) {
-            categoryIds.push(category._id);
-            if(category._id) {
-                data.append("categories[]", category._id);
-            }
-        }
+    const onSubmit = async () => {
+        // e.preventDefault();
 
-        data.append("thumbnail", thumbnail[0]);
-        if (images.length > 0) {
-            for (let i = 0, file; file = images[i]; i++) {
-                data.append(`view_${i+1}`, file);
-            }
-        }
+        // let data = new FormData(e.target);
 
-        props.dispatch(saveProduct({
-            id: props.selected?._id,
-            data,
-            navigateToItem: true
-        }));
+        // let categoryIds = [];
+        // for (let category of selectedCategories) {
+        //     categoryIds.push(category._id);
+        //     if (category._id) {
+        //         data.append("categories[]", category._id);
+        //     }
+        // }
+
+        // data.append("thumbnail", thumbnail[0]);
+        // if (images.length > 0) {
+        //     for (let i = 0, file; file = images[i]; i++) {
+        //         data.append(`view_${i + 1}`, file);
+        //     }
+        // }
+
+        // props.dispatch(saveProduct({
+        //     id: props.selected?._id,
+        //     data,
+        //     navigateToItem: true
+        // }));
     }
 
     const getDefaultCategories = () => {
 
         let defaultCategories = [];
-        if(selected) {
-            for(let category of props.categories) {
-                if(category._id && selected.categories?.includes(category._id)) {
+        if (selected) {
+            for (let category of props.categories) {
+                if (category._id && selected.categories?.includes(category._id)) {
                     defaultCategories.push(category);
                 }
             }
@@ -106,47 +117,34 @@ export function ProductForm(props: Props) {
 
     return (
         <section>
-            <Form onSubmit={handleSubmit}>
-                <ButtonGroup>
-                    {/* <Reset value="Reset"/> */}
-                    <BackBtn navigate={props.navigate} />
-                    <Submit text="Save" />
-                </ButtonGroup>
-                <FormSection hasRequired>
-                    <FormGroup>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                            <FormInput
-                                type="text"
-                                name="name"
-                                required
-                                defaultValue={selected?.name}
-                            />
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup>
-                        <FormLabel>SKU</FormLabel>
-                        <FormControl>
-                            <FormInput
-                                type="text"
-                                name="sku"
-                                required
-                                defaultValue={selected?.sku}
-                            />
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup>
-                        <FormLabel>Is Active</FormLabel>
-                        <FormControl unbordered>
+            <FormProvider {...formMethods}>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <ButtonGroup>
+                        {/* <Reset value="Reset"/> */}
+                        <BackBtn navigate={props.navigate} />
+                        <Submit text="Save" />
+                    </ButtonGroup>
+                    <FormSection hasRequired>
+                        <FormGroup required>
+                            <FormLabel>Name</FormLabel>
+                            <FormInput name="name" />
+                        </FormGroup>
+                        <FormGroup required>
+                            <FormLabel>SKU</FormLabel>
+                            <FormInput name="sku" />
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel>Is Active</FormLabel>
+                            {/* <FormControl unbordered>
                             <FormToggle
                                 inputProps={{
                                     name: "isActive",
                                     defaultChecked: !!(selected && selected.isActive)
                                 }}
                             />
-                        </FormControl>
-                    </FormGroup>
-                    {/* <FormGroup>
+                        </FormControl> */}
+                        </FormGroup>
+                        {/* <FormGroup>
                         <FormLabel>Has Weight</FormLabel>
                         <FormControl unbordered>
                             <FormToggle
@@ -154,9 +152,9 @@ export function ProductForm(props: Props) {
                             />
                         </FormControl>
                     </FormGroup> */}
-                    <FormGroup>
-                        <FormLabel>Categories</FormLabel>
-                        <FormControl>
+                        <FormGroup>
+                            <FormLabel>Categories</FormLabel>
+                            {/* <FormControl>
                             <FormSelect
                                 title="Categories"
                                 labelKey="name"
@@ -169,29 +167,29 @@ export function ProductForm(props: Props) {
                                 onChanged={setSelectedCategories}
                                 defaultValue={selected ? getDefaultCategories() : null}
                             />
-                        </FormControl>
-                    </FormGroup>
-                    <FormGroup>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
+                        </FormControl> */}
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel>Description</FormLabel>
+                            {/* <FormControl>
                             <FormTextArea
                                 name="description"
                                 required
                                 defaultValue={selected?.description}
                             />
-                        </FormControl>
-                    </FormGroup>
-                </FormSection>
+                        </FormControl> */}
+                        </FormGroup>
+                    </FormSection>
 
 
-                <FormSection id="price_stocks" title="Price & Stocks" isOpen nontabular>
-                    <SourceInput
+                    <FormSection id="price_stocks" title="Price & Stocks" isOpen nontabular>
+                        {/* <SourceInput
                         stores={props.storeState.stores}
-                    />
-                </FormSection>
+                    /> */}
+                    </FormSection>
 
-                <FormSection id="media_gallery" title="Media Gallery" hasRequired>
-                    <FormGroup>
+                    <FormSection id="media_gallery" title="Media Gallery" hasRequired>
+                        {/* <FormGroup>
                         <FormLabel>Thumbnail</FormLabel>
                         <FormControl unbordered>
                             <ImageUpload 
@@ -211,11 +209,12 @@ export function ProductForm(props: Props) {
                                 required 
                             />
                         </FormControl>
-                    </FormGroup>
-                </FormSection>
+                    </FormGroup> */}
+                    </FormSection>
 
 
-            </Form>
+                </Form>
+            </FormProvider>
         </section>
     )
 }

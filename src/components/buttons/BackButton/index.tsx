@@ -12,7 +12,7 @@ export function BackBtn(props: Props) {
 
 	return (
 		<button
-			className="m-2 flex items-center justify-center space-x-1 text-lg font-semibold"
+			className="flex items-center justify-center space-x-1 font-semibold"
 			type="button"
 			onClick={handleOnClick}
 

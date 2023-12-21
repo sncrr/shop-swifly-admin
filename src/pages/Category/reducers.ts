@@ -6,7 +6,7 @@ export interface CategoryState {
     categories: Category[],
     selected: Category | null
     data: any,
-    error: any
+    error: any,
 }
 
 const initialState = {

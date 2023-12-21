@@ -1,0 +1,3 @@
+
+export const NAVIGATE_TO = 'GLOBAL/NAVIGATE_TO';
+export const NAVIGATE_STOP = 'GLOBAL/NAVIGATE_STOP'

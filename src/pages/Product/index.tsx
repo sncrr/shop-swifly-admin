@@ -15,6 +15,7 @@ interface Props {
 	storeState: StoreState,
 	categoryState: CategoryState,
 }
+
 function Main(props: Props) {
 
 	const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function Main(props: Props) {
 				}
 			/>
 			<Route
-				path={`/${Paths.ADD}`}
+				path={`/${Paths.CREATE}`}
 				element={
 					<ProductForm
 						dispatch={dispatch}

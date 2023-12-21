@@ -2,18 +2,19 @@ import React, { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode,
-  htmlFor?: string
+  htmlFor?: string,
+  required?: boolean
 }
 
-export const FormLabel: React.FC<Props> = ({children, htmlFor}) => {
+export const FormLabel: React.FC<Props> = ({children, htmlFor, required}) => {
 
   return (
     <td className="text-right p-1 flex">
-      <label className="font-semibold text-sm w-full" htmlFor={htmlFor}>
+      <label className="form-control-label font-semibold text-sm w-full" htmlFor={htmlFor}>
         {children}
       </label>
-      <label className='font-semibold text-sm ml-2 mr-6'>
-        :
+      <label className='form-control-require font-semibold text-sm text-red-500 text-center pt-4 w-6'>
+        *
       </label>
     </td>
   )

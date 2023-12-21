@@ -2,21 +2,20 @@ import styled from 'styled-components';
 import { colors } from "../../../theme";
 
 interface Props {
-    text?: string
+    text?: string,
+    onClick?: any,
 }
 
 const Button = styled.button.attrs(() => ({
     id: 'submit',
     type: 'submit'
 }))`
-  /* width: 100%; */
-  /* min-width: 4rem; */
-  padding: 0.75rem 2.5rem;
-  background-color: ${colors.mainColor};
-  color: ${colors.white};
+
+  /* padding: 0.75rem 1rem; */
+  /* background-color: ${colors.mainColor}; */
+  /* color: ${colors.white}; */
   font-size: 1rem;
   font-weight: 600;
-  /* padding: 0.6rem; */
   min-height: 2.5rem;
   border-radius: 0.2rem;
 
@@ -25,9 +24,9 @@ const Button = styled.button.attrs(() => ({
   }
 `;
 
-export function Submit(props : Props) {
+export function Save(props : Props) {
     return (
-        <Button>
+        <Button onClick={props.onClick}>
             { props.text }
         </Button>
     )

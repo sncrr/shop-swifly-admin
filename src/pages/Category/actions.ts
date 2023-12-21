@@ -1,3 +1,4 @@
+import { NavigateFunction } from 'react-router-dom';
 import * as constant from './constants';
 
 //SETTER
@@ -23,7 +24,9 @@ export const fetchCategoriesFailed = (error: any) => ({
 export const saveCategory = (payload: {
     id?: string,
     data?: any,
+    hasLoader?: boolean,
     navigateToItem?: boolean, // Navigate to category after saving
+    navigateBack?: boolean
 }) => ({
     type: constant.SAVE_CATEGORY,
     payload,
