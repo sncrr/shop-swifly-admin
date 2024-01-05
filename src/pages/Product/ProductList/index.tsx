@@ -1,33 +1,65 @@
-import { GhostBtn, LinkBtn } from "../../../components/buttons";
-import { TBody, TData, THead, THeader, TRow, Table } from "../../../components/tables";
-import { TableControls } from "../../../components/tables/TableControls";
+import { Section } from "../../../components/containers";
+import { RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
 import { Product } from "../../../types/Inventory/Product";
+import { fetchProducts } from "../actions";
 import ProductHelper from "../helper";
+import { ProductState } from "../reducers";
 
 interface Props {
-	products: Product[],
+	productState: ProductState,
 	navigate: any,
+	dispatch: any,
 	selected: Product
 }
 
 export function ProductList(props: Props) {
 
+	const { 
+		dispatch, 
+		navigate,
+		productState 
+	} = props;
+
+	const {
+		loading,
+		products
+	} = productState;
+
 	const handleEdit = (id: any) => {
-		props.navigate(`/admin/products/edit/${id}`)
+		navigate(`/admin/products/edit/${id}`)
 	}
 
 	const handleDelete = (id: any) => {
 
 	}
 
+	const handlePageChange = (value: any) => {
+		dispatch(fetchProducts({
+			page: value,
+			itemsCount: productState.itemsCount
+		}))
+	}
+
+	const handleItemsCountChange = (value: any) => {
+		dispatch(fetchProducts({
+			page: productState.selectedPage,
+			itemsCount: value
+		}))
+	}
+
 	return (
-		<div className="p-4">
-			<TableControls />
-			<Table>
+		<Section>
+			<TableControls
+				hasSearch
+				onPageChange={handlePageChange}
+				onItemsCountChange={handleItemsCountChange}
+				totalPages={productState.totalPages}
+			/>
+			<Table isLoading={loading}>
 				<THeader>
 					<TRow>
 						<THead></THead>
-						<THead>ID</THead>
+						<THead>SKU</THead>
 						<THead>Image</THead>
 						<THead>Name</THead>
 						<THead>Prices</THead>
@@ -37,12 +69,12 @@ export function ProductList(props: Props) {
 				</THeader>
 				<TBody className="text-sm">
 					{
-						props.products.map((item, index) => (
+						products.map((item, index) => (
 							<TRow key={index}>
 								<TData>
 									<input type="checkbox" />
 								</TData>
-								<TData>{item._id}</TData>
+								<TData>{item.sku}</TData>
 								<TData className="items-center justify-center">
 									<img
 										src={ProductHelper.getThumbnailPath(item)}
@@ -74,22 +106,20 @@ export function ProductList(props: Props) {
 									}
 								</TData>
 								<TData>
-									<div className="flex">
-										<LinkBtn onClick={() => handleEdit(item._id)}>
-											Edit
-										</LinkBtn>
-										<LinkBtn onClick={() => handleDelete(item._id)}>
-											Delete
-										</LinkBtn>
-								</div>
-							</TData>
-                        </TRow>
-				))
-                   }
-			</TBody>
-		</Table>
-        </div >
-    )
+									<RowActions
+										buttons={[
+											{label: "Edit", onClick: () => handleEdit(item._id)},
+											{label: "Delete", onClick: () => handleDelete(item._id)}
+										]}
+									/>
+								</TData>
+							</TRow>
+						))
+					}
+				</TBody>
+			</Table>
+		</Section>
+	)
 }
 
 function DataList({ label, value }: any) {

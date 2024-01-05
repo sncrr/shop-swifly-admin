@@ -1,32 +1,33 @@
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { NavigateFunction } from "react-router-dom";
 import { Category } from "../../../types/Inventory/Category";
-import { TableControls } from "../../../components/tables/TableControls";
-import { TBody, TData, THead, THeader, TRow, Table } from "../../../components/tables";
-import { CaretDownFill, CaretRightFill, ChevronCompactDown, ChevronCompactRight } from "../../../assets/svgs/Icons";
+import { RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
+import { CaretRightFill } from "../../../assets/svgs/Icons";
 import { FormCheckBox, FormToggle } from "../../../components/forms";
 import { getRowStatus, organizeByParent, setRowStatus } from "../helpers";
-import RowActions from "../../../components/tables/RowActions";
 import { ChangeEvent, useState } from "react";
-import { useDispatch } from "react-redux";
-import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { deleteCategory, saveCategory } from "../actions";
 import { Paths } from "../../../constants";
 import { showConfirmDialog } from "../../../components/alerts/actions";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
+import { Section } from "../../../components/containers";
+import { CategoryState } from "../reducers";
 
 interface Props {
-  categories: Category[],
+  categoryState: CategoryState,
   navigate: NavigateFunction,
   dispatch: Dispatch<AnyAction>
 }
 const CategoryList = (props: Props) => {
 
-  const organizedDefault = organizeByParent(props.categories);
+  const {
+    loading,
+    categories
+  } = props.categoryState;
+  const organizedDefault = loading ? [] : organizeByParent(categories);
   const organizedPromotion = [];
 
-  // const [showDefault, setShowDefault] = useState(false);
-
   return (
-    <div>
+    <Section>
       <TableControls
         singleColumn
         hasEditColumn={false}
@@ -35,7 +36,7 @@ const CategoryList = (props: Props) => {
         hasPageItemCount={false}
         hasTableActions={false}
       />
-      <Table>
+      <Table isLoading={loading}>
         <THeader>
           <TRow>
             <THead fixWidth width="1rem"></THead>
@@ -47,14 +48,8 @@ const CategoryList = (props: Props) => {
           </TRow>
         </THeader>
         <TBody>
-          {/* <TRow>
-            <TData>
-              <CaretDownFill />
-            </TData>
-            <TData>Default Categories</TData>
-          </TRow> */}
 
-          <CategoryRow
+          {/* <CategoryRow
             item={{
               _id: "Default",
               name: "Default Categories",
@@ -75,21 +70,22 @@ const CategoryList = (props: Props) => {
             tabCount={-1.5}
             dispatch={props.dispatch}
             navigate={props.navigate}
-          />
-          {/* {
-            organizedList.map((item) => (
+          /> */}
+          {
+            organizedDefault.map((item) => (
               <CategoryRow 
                 key={item._id} 
                 item={item} 
                 tabCount={0}
+                hasCheckbox
                 dispatch={props.dispatch}
                 navigate={props.navigate}
               />
             ))
-          } */}
+          }
         </TBody>
       </Table>
-    </div>
+    </Section>
   )
 }
 
@@ -160,7 +156,7 @@ const CategoryRow = (props : CategoryRowProps) => {
       <TRow>
         <TData>
           {
-            hasCheckbox && <FormCheckBox />
+            hasCheckbox && <input type="checkbox" />
           }
         </TData>
         <TData>
@@ -182,16 +178,17 @@ const CategoryRow = (props : CategoryRowProps) => {
         <TData></TData>
         <TData>{item.children?.length}</TData>
         <TData>
-          <FormToggle
+          {/* <FormToggle
             inputProps={{
               defaultChecked: item.isEnabled,
               onChange: handleOnChangeStatus
             }}
             rounded
-          />
+          /> */}
         </TData>
         <TData>
           <RowActions
+
             buttons={rowButtons}
           />
         </TData>

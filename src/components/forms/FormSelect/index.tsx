@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styled from "styled-components";
 import { colors } from '../../../theme';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -19,6 +18,7 @@ interface Props {
 	required?: boolean,
 	onChanged?: any,
 	placeholder?: string,
+	className?: string,
 }
 
 const Container = styled.div`
@@ -50,12 +50,11 @@ export const FormSelect = (props: Props) => {
     labelKey = "label",
     valueKey = "value",
     multiple,
+		placeholder
   } = props;
 
   let list = options;
 	
-	// let selected = defaultValue;
-
 	if (labelKey || valueKey) {
 		list = options.map((item) => {
 			let newItem = { ...item }
@@ -66,12 +65,6 @@ export const FormSelect = (props: Props) => {
 			if (valueKey) {
 				newItem.value = item[valueKey];
 			}
-
-			// if (defaultValue) {
-			// 	if (newItem._id == defaultValue._id) {
-			// 		selected = newItem;
-			// 	}
-			// }
 			return newItem;
 		})
 	}
@@ -83,8 +76,20 @@ export const FormSelect = (props: Props) => {
       return null
 	}
 
+	const getSelectedItems = (selectedItems: any[]) => {
+		if(selectedItems && selectedItems.length > 0) {
+			let items = [];
+			for(let selected of selectedItems) {
+				let item = list.find(({value}) => value === selected);
+				items.push(item)
+			}
+		}
+		else
+			return []
+	}
+
   return (
-    <td className='py-2'>
+    <td className={`form-control py-2 ${props.className ? props.className : ''}`}>
       <Controller
         control={control}
         name={props.name}
@@ -98,7 +103,9 @@ export const FormSelect = (props: Props) => {
 					if(field.value) {
 						field = {
 							...field,
-							value: getSelectedItem(field.value[valueKey])
+							value: props.multiple 
+								? getSelectedItems(field.value)
+								: getSelectedItem(field.value[valueKey])
 						}
 					}
 
@@ -108,6 +115,7 @@ export const FormSelect = (props: Props) => {
 								<Container>
 									<Select
 										{...field}
+										placeholder={placeholder}
 										isMulti={multiple}
 										options={list}
 										styles={{
@@ -128,6 +136,11 @@ export const FormSelect = (props: Props) => {
 											}),
 											indicatorSeparator: () => ({
 												width: 0
+											}),
+											placeholder: (baseStyles, state) => ({
+												...baseStyles,
+												// fontStyle: "italic",
+												color: colors.placeholder
 											})
 										}}
 									/>

@@ -6,7 +6,7 @@ interface Props {
   required?: boolean
 }
 
-export const FormLabel: React.FC<Props> = ({children, htmlFor, required}) => {
+export const FormLabel: React.FC<Props> = ({children, htmlFor}) => {
 
   return (
     <td className="text-right p-1 flex">

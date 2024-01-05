@@ -9,24 +9,28 @@ import { useEffect } from "react";
 import { fetchProducts } from "./actions";
 import { CategoryState } from "../Category/reducers";
 import { StoreState } from "../Store/reducers";
+import { ProductState } from "./reducers";
 
 interface Props {
-	state: any,
+	state: ProductState,
 	storeState: StoreState,
 	categoryState: CategoryState,
 }
 
 function Main(props: Props) {
 
+	const { selectedPage, itemsCount, totalPages } = props.state;
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const selected = props.state.selected;
-	const products = props.state.products;
 
 	useEffect(() => {
-		dispatch(fetchProducts())
-	}, [])
+		dispatch(fetchProducts({
+			page: selectedPage,
+			itemsCount: itemsCount
+		}))
+	}, []);
 
 	return (
 		<Routes>
@@ -34,9 +38,10 @@ function Main(props: Props) {
 				path={Paths.BASE}
 				element={
 					<ProductList
-						products={products}
+						productState={props.state}
 						navigate={navigate}
 						selected={selected}
+						dispatch={dispatch}
 					/>
 				}
 			/>

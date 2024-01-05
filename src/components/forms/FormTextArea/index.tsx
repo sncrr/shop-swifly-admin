@@ -1,38 +1,62 @@
-import { useEffect, useState} from 'react';
+import { TextareaHTMLAttributes } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 import styled from "styled-components";
+import { FormControl } from '..';
 
 
-interface Props {
+interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: string,
-  defaultValue?: string,
-  required?: boolean,
+  flexible?: boolean,
+  unbordered?: boolean,
+  className?: string,
+}
+
+export function FormTextArea(props: Props) {
+  const { control } = useFormContext();
+
+  const inputProps = {
+    ...props,
+    flexible: undefined,
+    unbordered: undefined,
+    className: undefined
+  }
+
+
+  return (
+    <td className={`form-control py-2 ${props.className ? props.className : ''}`}>
+      <Controller
+        defaultValue={''}
+        control={control}
+        name={props.name}
+        render={({
+          field,
+          fieldState: {
+            error
+          }
+        }) => (
+          <>
+            <FormControl flexible={props.flexible} unbordered={props.unbordered}>
+              <TextArea
+                {...inputProps}
+                {...field}
+              />
+            </FormControl>
+            <div className='text-red-500 text-xs h-2 pl-3'>
+              {error?.message}
+            </div>
+          </>
+        )}
+      />
+    </td>
+  )
 }
 
 export const TextArea = styled.textarea`
-  
   height: 100%;
   display: inline;
-  min-height: 4rem;
+  min-height: 7rem;
   padding: 0.5rem;
   background-color: transparent;
   width: 100%;
   outline: none;
 `;
-
-export function FormTextArea (props: Props) {
-
-  const [value, setValue] = useState<string | undefined>("");
-
-  useEffect(() => {
-    setValue(props.defaultValue)
-  }, [props.defaultValue])
-  
-  return (
-    <TextArea
-      name={props.name}
-      required={props.required}
-      value={value}
-      onChange={e => setValue(e.target.value)}
-    />
-  )
-}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
     ButtonGroup,
     Form,
+    FormCheckBox,
     FormControl,
     FormGroup,
     FormInput,
@@ -25,7 +26,8 @@ import { Product } from "../../../types/Inventory/Product";
 import { useParams } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ProductSchema } from "./schema";
+import { ProductSchema, productDefaultValues } from "./schema";
+import { WEIGHT_UNITS } from "../constants";
 
 interface Props {
     navigate: any,
@@ -62,8 +64,13 @@ export function ProductForm(props: Props) {
     })
 
     const {
-        handleSubmit
+        handleSubmit,
+        reset
     } = formMethods;
+
+    useEffect(() => {
+        reset(productDefaultValues);
+    }, [])
 
     const loadSelectedCategory = async () => {
         let result = await getProduct(selectedId);
@@ -72,7 +79,10 @@ export function ProductForm(props: Props) {
         }
     }
 
-    const onSubmit = async () => {
+    const onSubmit = async (values: any) => {
+
+        console.log("VALUES", values);
+
         // e.preventDefault();
 
         // let data = new FormData(e.target);
@@ -110,8 +120,6 @@ export function ProductForm(props: Props) {
             }
         }
 
-        console.log("DEFAULT", defaultCategories);
-
         return defaultCategories;
     }
 
@@ -124,7 +132,7 @@ export function ProductForm(props: Props) {
                         <BackBtn navigate={props.navigate} />
                         <Submit text="Save" />
                     </ButtonGroup>
-                    <FormSection hasRequired>
+                    <FormSection id="product_info" title="Product Information" isOpen hasRequired>
                         <FormGroup required>
                             <FormLabel>Name</FormLabel>
                             <FormInput name="name" />
@@ -135,81 +143,60 @@ export function ProductForm(props: Props) {
                         </FormGroup>
                         <FormGroup>
                             <FormLabel>Is Active</FormLabel>
-                            {/* <FormControl unbordered>
-                            <FormToggle
-                                inputProps={{
-                                    name: "isActive",
-                                    defaultChecked: !!(selected && selected.isActive)
-                                }}
-                            />
-                        </FormControl> */}
+                            <FormToggle name="isActive" />
                         </FormGroup>
-                        {/* <FormGroup>
-                        <FormLabel>Has Weight</FormLabel>
-                        <FormControl unbordered>
-                            <FormToggle
-                                name="hasWeight"
-                            />
-                        </FormControl>
-                    </FormGroup> */}
+
                         <FormGroup>
                             <FormLabel>Categories</FormLabel>
-                            {/* <FormControl>
                             <FormSelect
-                                title="Categories"
+                                name="categories"
                                 labelKey="name"
                                 valueKey="_id"
                                 multiple
                                 options={[
                                     ...props.categories
                                 ]}
-                                required
-                                onChanged={setSelectedCategories}
-                                defaultValue={selected ? getDefaultCategories() : null}
                             />
-                        </FormControl> */}
                         </FormGroup>
+
                         <FormGroup>
                             <FormLabel>Description</FormLabel>
-                            {/* <FormControl>
-                            <FormTextArea
-                                name="description"
-                                required
-                                defaultValue={selected?.description}
+                            <FormTextArea name="description"/>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <FormLabel>Weight</FormLabel>
+                            <FormInput name="weightValue" placeholder="Value" />
+                            <FormSelect 
+                                name="weightUnit" 
+                                options={WEIGHT_UNITS}
                             />
-                        </FormControl> */}
                         </FormGroup>
                     </FormSection>
 
 
-                    <FormSection id="price_stocks" title="Price & Stocks" isOpen nontabular>
-                        {/* <SourceInput
-                        stores={props.storeState.stores}
-                    /> */}
+                    <FormSection  id="price_stocks" title="Price & Stocks" hasRequired isOpen nontabular>
+                        <SourceInput
+                            stores={props.storeState.stores}
+                        />
                     </FormSection>
 
-                    <FormSection id="media_gallery" title="Media Gallery" hasRequired>
-                        {/* <FormGroup>
+                    <FormSection id="media_gallery" title="Media Gallery" hasRequired isOpen>
+                        <FormGroup>
                         <FormLabel>Thumbnail</FormLabel>
-                        <FormControl unbordered>
-                            <ImageUpload 
-                                id="thumbnail"
-                                onChange={setThumbnail}
-                                required
-                            />
-                        </FormControl>
+                        <ImageUpload 
+                            name="images.thumbnail"
+                            onChange={setThumbnail}
+                        />
                     </FormGroup>
 
                     <FormGroup>
                         <FormLabel>Images</FormLabel>
-                        <FormControl flexible unbordered>
-                            <MultiImageUpload 
-                                id="images"
-                                onChange={setImages}
-                                required 
-                            />
-                        </FormControl>
-                    </FormGroup> */}
+                        <MultiImageUpload 
+                            name="images.images"
+                            onChange={setImages}
+                        />
+                    </FormGroup>
                     </FormSection>
 
 

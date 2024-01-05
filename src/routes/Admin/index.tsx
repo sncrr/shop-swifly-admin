@@ -17,7 +17,9 @@ const MainContainer =styled.div`
   margin-left: 7rem;
   width: calc(100% - 7rem);
   padding: 0.5rem;
-  /* min-height: calc(100% - 4rem); */
+  min-height: calc(100% - 5rem);
+  display: flex;  
+  flex-direction: column;
 `
 
 function Main (props : any) {
@@ -41,7 +43,7 @@ function Main (props : any) {
       <Sidebar />
 
       <MainContainer>
-        <div className="bg-white rounded">
+        <div className="bg-white flex flex-col flex-1 rounded">
           <Routes>
             <Route path={Paths.DASHBOARD} element={<Dashboard />} />
 

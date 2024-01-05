@@ -1,4 +1,8 @@
 
+
+/**
+ * REDUCERS
+ */
 //FETCH PRODUCT
 export const FETCH_PRODUCTS = 'PRODUCT/FETCH_PRODUCTS'
 export const FETCH_PRODUCTS_SUCCESS = 'PRODUCT/FETCH_PRODUCTS_SUCCESS'
@@ -17,3 +21,24 @@ export const DELETE_PRODUCT_FAILED = 'PRODUCT/DELETE_PRODUCT_FAILED'
 
 //SELECT PRODUCT
 export const SELECT_PRODUCT = 'PRODUCT/SELECT_PRODUCT'
+
+export const WEIGHT_UNITS = [
+    { value: "", label: "None"},
+    // Metric Units
+    { value: "kg", label: "Kilogram" },
+    { value: "g", label: "Gram" },
+    { value: "mg", label: "Milligram" },
+    { value: "t", label: "Tonne" },
+  
+    // Imperial Units
+    { value: "lb", label: "Pound" },
+    { value: "oz", label: "Ounce" },
+    { value: "st", label: "Stone" },
+    { value: "cwt", label: "Hundredweight" },
+  
+    // Other Common Units
+    { value: "ct", label: "Carat" },
+    { value: "gr", label: "Grain" },
+    { value: "dag", label: "Decagram" },
+    { value: "dg", label: "Decigram" },
+]

@@ -1,17 +1,65 @@
 import { styled } from 'styled-components';
 import { colors } from '../../../theme';
 import { InputHTMLAttributes } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
-interface Props {
-    inputProps?: InputHTMLAttributes<HTMLInputElement>,
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+    name: string,
     rounded?: boolean,
+    className?: string,
+}
+
+export const FormToggle = (props: Props) => {
+
+    const { rounded = true } = props
+
+    const { control } = useFormContext();
+
+    const inputProps = {
+        ...props,
+        rounded: undefined,
+        className: undefined,
+    }
+
+    return (
+        <td className={`form-control py-2 ${props.className ? props.className : ''}`}>
+            <Controller
+                control={control}
+                name={props.name}
+                render={({
+                    field,
+                    fieldState: {
+                        error
+                    }
+                }) => (
+                    <>
+                        <Container>
+                            <label className="switch">
+                                <input
+                                    {...inputProps}
+                                    {...field}
+                                    type="checkbox"
+                                />
+                                <span className={`slider ${rounded ? 'round' : ''}`}></span>
+                            </label>
+                        </Container>
+                        <div className='text-red-500 text-xs h-2 pl-3'>
+                            {error?.message}
+                        </div>
+                    </>
+                )}
+            />
+        </td>
+
+    )
 }
 
 const Container = styled.div`
-    height: 2rem;
+    min-height: 2.5rem;
     display: flex;
     align-items: center;
     position: relative;
+    padding: 0 0.75rem;
     
     /* The switch - the box around the slider */
     .switch {
@@ -77,31 +125,3 @@ const Container = styled.div`
     }
 
 `;
-
-export const FormToggle = (props: Props) => {
-
-    return (
-        <Container>
-            {/* <input className='w-0 h-0 opacity-0' type="number" name={name} value={value} onChange={() => {}} /> */}
-            {
-                props.rounded === true ? (
-                    <label className="switch">
-                        <input 
-                            {...props.inputProps}
-                            type="checkbox"
-                        />
-                        <span className="slider round"></span>
-                    </label>
-                ) : (
-                    <label className="switch">
-                        <input 
-                            {...props}
-                            type="checkbox"
-                        />
-                        <span className="slider"></span>
-                    </label>
-                )
-            }
-        </Container>
-    )
-}

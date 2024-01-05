@@ -1,6 +1,9 @@
+import { isArray } from "lodash";
 import { Category } from "../../types/Inventory/Category";
 
 export const organizeByParent = (list: Category[]): any[] => {
+
+  if(!isArray(list)) return [];
 
   let data = list.map(item => ({ ...item }));
   let organizedData: any[] = [];

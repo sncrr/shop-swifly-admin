@@ -3,6 +3,7 @@ import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';
 
 export interface CategoryState {
+    loading: boolean,
     categories: Category[],
     selected: Category | null
     data: any,
@@ -10,6 +11,7 @@ export interface CategoryState {
 }
 
 const initialState = {
+    loading: true,
     categories: [],
     selected: null,
     data: null,
@@ -27,6 +29,7 @@ const categoryReducer = (history:any) => (state = initialState, action: ReducerP
         case constant.FETCH_CATEGORIES_SUCCESS:
             return { 
                 ...state,
+                loading: false,
                 categories: action.data 
             };
         case constant.FETCH_CATEGORIES_FAILED:

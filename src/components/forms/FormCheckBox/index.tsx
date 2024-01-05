@@ -1,34 +1,96 @@
-import { useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import styled from "styled-components";
+import { colors } from "../../../theme";
 
-interface Props {
-    id?: string,
-    name?: string,
-    defaultValue?: number,
-    onChange?: any
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+    name: string,
+    flexible?: boolean,
+    label?: string,
+    className?: string,
 }
 
 export function FormCheckBox(props: Props) {
 
-    const [value, setValue] = useState(props.defaultValue ? props.defaultValue : 0);
+    const { control } = useFormContext();
 
+    const inputProps = {
+      ...props,
+      flexible: undefined,
+      className: undefined
+    }
     return (
-        <div>
-            <input
-                className='w-0 h-0 opacity-0'
-                type="number"
+        <td className={`form-control py-2 ${props.className ? props.className : ''}`}>
+            <Controller
+                defaultValue={''}
+                control={control}
                 name={props.name}
-                value={value}
-                onChange={() => { }}
+                render={({
+                    field,
+                    fieldState: {
+                        error
+                    }
+                }) => (
+                <>
+                    <FormControl>
+                        <label className="relative text-left h-12">
+                            <Input
+                                {...inputProps}
+                                {...field}
+                                type="checkbox"
+                            />
+                            <span className="box">
+                                <span className="check border rounded-sm" />
+                            </span>
+                            <span className="pl-2">
+                                {props.label}
+                            </span>
+                        </label>
+                    </FormControl>
+                    <div className='text-red-500 text-xs h-2 pl-3'>
+                    {error?.message}
+                    </div>
+                </>
+                )}
             />
-            <input
-                id={props.id}
-                type="checkbox"
-                defaultChecked={props.defaultValue ? true : false}
-                onChange={e => {
-                    setValue(e.target.checked ? 1 : 0);
-                    props.onChange ? props.onChange(e) : {};
-                }}
-            />
-        </div>
+        </td>
     )
 }
+
+const Input = styled.input`
+    outline: none;
+    position: absolute;
+    top: -1px;
+    left: 2px;
+    height: calc(1.5rem + 2px);
+    width: calc(1.5rem - 2px);
+    border-radius: 0.5rem;
+    opacity: 0;
+`;
+
+export const FormControl = styled.div`
+    text-align: left;
+
+    .box{
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border: 1px solid ${colors.transparent};
+        border-radius: 0.2rem;
+    }
+
+    .check {
+        padding-left: calc(1.5rem - 2px);
+        height: 0;
+    }
+
+    
+    input:checked {
+        opacity: 1;
+    }
+
+    input:focus + .box{
+
+        border: 1px solid ${colors.inputFocus};
+    }
+
+`;

@@ -1,22 +1,11 @@
-import { FormControl, FormControl2, FormInput } from '../../forms'
-import { FormSelect } from '../../forms/FormSelect'
 import { ArrowLeft, ArrowRight, FunnelFill, Search } from '../../../assets/svgs/Icons'
 import { styled } from 'styled-components'
 import React, { useState } from 'react'
 import { FillLink } from '../../buttons'
 import { Paths } from '../../../constants'
-
-interface Props {
-    singleColumn?: boolean;
-    hasCreateButton?: boolean;
-    hasEditColumn?: boolean;
-    hasFilter?: boolean;
-
-    hasSearch?: boolean;
-    hasPageItemCount?: boolean;
-    hasPageNavigation?: boolean;
-    hasTableActions?: boolean;
-}
+import { TextField } from '../../inputs'
+import { colors } from '../../../theme'
+import { DEFAULT_ITEMS_COUNT } from '../../../root/global-constant'
 
 const VIEW_FILTER = 'view_filter';
 const VIEW_COLUMN = 'view_column';
@@ -51,9 +40,22 @@ const TABLE_ACTIONS = [
     }
 ];
 
-const Container = styled.div`
-    padding: 1rem;
-`
+interface Props {
+    singleColumn?: boolean;
+    hasCreateButton?: boolean;
+    hasEditColumn?: boolean;
+    hasFilter?: boolean;
+
+    hasSearch?: boolean;
+    hasPageItemCount?: boolean;
+    hasPageNavigation?: boolean;
+    hasTableActions?: boolean;
+
+    onPageChange?: any,
+    onItemsCountChange?: any,
+    onSearch?: any,
+    totalPages?: number
+}
 
 const defaultProps: Props = {
     singleColumn: false,
@@ -64,6 +66,7 @@ const defaultProps: Props = {
     hasPageItemCount: true,
     hasPageNavigation: true,
     hasTableActions: true,
+    totalPages: 1,
 };
 
 export const TableControls: React.FC<Props> = (props) => {
@@ -77,9 +80,11 @@ export const TableControls: React.FC<Props> = (props) => {
         hasPageItemCount,
         hasPageNavigation,
         hasTableActions,
+        totalPages
     } = { ...defaultProps, ...props };
 
     const [actionView, setActionView] = useState("");
+    const [page, setPage] = useState(1);
 
     const toggleAction = (selected: string) => {
 
@@ -95,18 +100,49 @@ export const TableControls: React.FC<Props> = (props) => {
         return (
             <div className='flex-1'>
                 <div className='w-80'>
-                    {/* <FormControl2 flexible className='w-full'>
-
+                    <TextField
+                        placeholder="Search by keyword"
+                        rounded
+                    >
                         <div className='ml-2'>
                             <Search color={colors.inputFocus} size={20} />
                         </div>
-                        <FormInput
-                            placeholder="Search by keyword"
-                        />
-                    </FormControl2> */}
+                    </TextField>
                 </div>
             </div>
         )
+    }
+
+    const nextPage = () => {
+        const current = page + 1;
+        if(current <= totalPages) {
+            props.onPageChange(current);
+            setPage(current);
+        }
+    }
+
+    const prevPage = () => {
+        const current = page - 1;
+        if(current > 0) {
+            props.onPageChange(current);
+            setPage(current);
+        }
+    }
+
+    const changePage = (value: any) => {
+        const current = parseInt(value);
+        if(current < 1 ) {
+            props.onPageChange(1);
+            setPage(1);
+        }
+        else if(current > totalPages) {
+            props.onPageChange(totalPages);
+            setPage(totalPages);
+        }
+        else {
+            props.onPageChange(current);
+            setPage(current);
+        }
     }
 
     return (
@@ -164,21 +200,37 @@ export const TableControls: React.FC<Props> = (props) => {
                         hasPageNavigation && (
                             <div className='flex items-center'>
                                 <div className='font-bold mr-2'>
-                                    200 Pages
+                                    {totalPages} Pages
                                 </div>
                                 <div className='flex border rounded-md'>
-                                    <button className='flex justify-center items-center w-12'>
+                                    <button 
+                                        className={
+                                            `flex justify-center items-center w-12
+                                            ${page <= 1 ? 'opacity-40' : ''}
+                                        `}
+                                        onClick={prevPage}
+                                        disabled={page == 1}
+                                    >
                                         <ArrowLeft />
                                     </button>
-                                    <div className='border-r border-l'>
-                                        {/* <FormControl2 unbordered className='m-0 p-0 w-12'>
-                                            <FormInput
-                                                className='text-center'
-                                                defaultValue='20'
-                                            />
-                                        </FormControl2> */}
+                                    <div className='border-r border-l w-12'>
+                                        <TextField
+                                            className='text-center'
+                                            type='number'
+                                            unbordered
+                                            value={page.toString()}
+                                            onChange={(e) => setPage(parseInt(e.target.value))}
+                                            onSubmit={changePage}
+                                        />
                                     </div>
-                                    <button className='flex justify-center items-center w-12'>
+                                    <button 
+                                       className={
+                                        `flex justify-center items-center w-12
+                                            ${page >= totalPages ? 'opacity-40' : ''}
+                                        `}
+                                        onClick={nextPage}
+                                        disabled={page == totalPages}
+                                    >
                                         <ArrowRight />
                                     </button>
                                 </div>
@@ -192,13 +244,15 @@ export const TableControls: React.FC<Props> = (props) => {
                                 <div className='font-bold mr-2'>
                                     Show
                                 </div>
-                                <div className='flex rounded-md'>
-                                    {/* <FormControl2 className='w-18'>
-                                        <FormSelect
-                                            placeholder=""
-                                            options={PAGE_COUNTS}
-                                        />
-                                    </FormControl2> */}
+                                <div className='w-12'>
+                                    <TextField
+                                        className='text-center'
+                                        type='number'
+                                        min={1}
+                                        max={100}
+                                        defaultValue={DEFAULT_ITEMS_COUNT}
+                                        onSubmit={props.onItemsCountChange}
+                                    />
                                 </div>
                             </div>
                         )
@@ -222,3 +276,8 @@ export const TableControls: React.FC<Props> = (props) => {
         </Container>
     )
 }
+
+
+const Container = styled.div`
+    padding: 1rem;
+`

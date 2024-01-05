@@ -19,37 +19,36 @@ function Cell(props: CellProps) {
     const [checked, setChecked] = useState<boolean>(true);
 
     return (
-        <TData>
-            <div>
-                <FormControl2>
-                    <FormInput
-                        type="number"
-                        disabled={checked}
-                        min={0}
-                        defaultValue="0"
-                        name={props.inputName}
-                    />
-                </FormControl2>
-            </div>
-            <div className="flex">
-                <FormCheckBox 
-                    id={props.id}
-                    name={props.checkBoxName}
-                    onChange={(e:any) => {
-                        setChecked(e.target.checked);
-                    }}
-                    defaultValue={1}
-                />
-                <label className="pl-1" htmlFor={props.id}>Use Default Value</label>
-            </div>
-        </TData>
+        <td className="pl-0 border-t-2">
+            <Table>
+                <tbody>
+                    <TRow>
+                        <FormInput
+                            type="number"
+                            disabled={checked}
+                            min={0}
+                            name={props.inputName}
+                            className="px-2 pb-0 pt-4"
+                        />
+                    </TRow>
+                    <TRow>
+                        <FormCheckBox 
+                            name={props.checkBoxName}
+                            type="checkbox"
+                            label="Use Default Value"
+                            className="px-2 pt-0"
+                        />
+                    </TRow>
+                </tbody>
+            </Table>
+        </td>
     )
 }
 
 export function SourceInput(props: Props) {
 
     return (
-        <div className="mx-2 px-4">
+        <div className="">
             <Table>
                 <THeader>
                     <TRow>
@@ -58,42 +57,38 @@ export function SourceInput(props: Props) {
                         <THead>Stock</THead>
                     </TRow>
                 </THeader>
-                <TBody>
+                <tbody>
                     <TRow>
                         <TData>Default</TData>
-                        <TData>
-                            <div>
-                                <FormControl2>
-                                    <FormInput type="number" name="prices[default][value]" defaultValue="0" min={0} />
-                                </FormControl2>
-                            </div>
-                        </TData>
-                        <TData>
-                            <div>
-                                <FormControl2>
-                                    <FormInput type="number" name="stocks[default][value]" defaultValue="0" min={0} />
-                                </FormControl2>
-                            </div>
-                        </TData>
+                        <FormInput 
+                            name="prices.default.value" 
+                            type="number" 
+                            className="px-2"
+                        />
+                        <FormInput 
+                            type="number"
+                            name="stocks.default.value"
+                            className="px-2"
+                        />
                     </TRow>
                     {
                         props.stores.map((store, index) => (
                             <TRow key={index.toString()}>
-                                <TData>{store.name}</TData>
+                                <TData className="border-t-2">{store.name}</TData>
                                 <Cell
                                     id={`price_${store.code}`}
-                                    inputName={`prices[${store.code}][value]`}
-                                    checkBoxName={`prices[${store.code}][useDefault]`}
+                                    inputName={`prices.${store.code}.value`}
+                                    checkBoxName={`prices.${store.code}.useDefault.`}
                                 />
                                 <Cell
                                     id={`stock_${store.code}`}
-                                    inputName={`stocks[${store.code}][value]`}
-                                    checkBoxName={`stocks[${store.code}][useDefault]`}
+                                    inputName={`stocks.${store.code}.value`}
+                                    checkBoxName={`stocks.${store.code}.useDefault`}
                                 />
                             </TRow>
                         ))
                     }
-                </TBody>
+                </tbody>
             </Table>
         </div>
     )

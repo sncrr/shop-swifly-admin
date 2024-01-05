@@ -1,0 +1,1 @@
+export const DEFAULT_ITEMS_COUNT = 20;

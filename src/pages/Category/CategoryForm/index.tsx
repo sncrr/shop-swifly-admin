@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { ButtonGroup, Form, FormControl, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormTextArea, Reset, Submit } from "../../../components/forms";
+import { ButtonGroup, Form, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormTextArea, Reset, Save, Submit } from "../../../components/forms";
 import { Category } from "../../../types/Inventory/Category";
 import { saveCategory, selectCategory } from "../actions";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
@@ -11,7 +11,6 @@ import { get } from "lodash";
 import { getCategory } from "../controllers";
 import { hideLoader, showLoader } from "../../../components/modals/actions";
 import { BackBtn } from "../../../components/buttons";
-import { Save } from "../../../components/forms/Save";
 
 interface Props {
   categories: Category[],

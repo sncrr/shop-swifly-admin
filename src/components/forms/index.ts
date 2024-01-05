@@ -14,5 +14,6 @@ export { FormTextArea } from './FormTextArea'
 export { FormToggle } from './FormToggle';
 export { ImageUpload } from './ImageUpload';
 export { MultiImageUpload } from './MultiImageUpload';
+export { Save } from './Save';
 export { Reset } from './Reset'
 export { Submit } from './Submit'

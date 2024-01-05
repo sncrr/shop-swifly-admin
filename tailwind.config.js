@@ -8,7 +8,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        "mainColor" : "#34455d"
+        "mainColor" : "#34455d",
+        "modal" : "#FFFFFFAA"
       }
     },
   },

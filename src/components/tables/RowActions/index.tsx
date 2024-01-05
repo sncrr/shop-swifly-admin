@@ -34,7 +34,7 @@ const Menu = styled.button`
   }
 `
 
-const RowActions = ({buttons}: Props) => {
+export const RowActions = ({buttons}: Props) => {
   
 
 
@@ -53,5 +53,3 @@ const RowActions = ({buttons}: Props) => {
     </Menu>
   )
 }
-
-export default RowActions;

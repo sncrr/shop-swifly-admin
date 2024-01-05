@@ -9,8 +9,6 @@ import { StoreState } from "../Store/reducers";
 import { fetchCategories, selectCategory } from "./actions";
 import CategoryList from "./CategoryList";
 import { CategoryForm } from "./CategoryForm";
-import { getCategory } from "./controllers";
-import { get } from "lodash";
 
 interface Props {
 	categoryState: CategoryState,
@@ -60,7 +58,7 @@ function Main(props: Props) {
 				path={Paths.BASE}
 				element={
 					<CategoryList
-						categories={categories}
+						categoryState={props.categoryState}
 						navigate={navigate}
 						dispatch={dispatch}
 					/>

@@ -1,17 +1,25 @@
 import styled from "styled-components";
 import { colors } from "../../../theme";
 import React, { useState } from "react";
-
+import { Controller, useFormContext } from "react-hook-form";
+import { get } from "lodash";
 
 interface Props {
-    id: string,
-    name?: string,
+    name: string,
     required?: boolean,
     onChange?: any,
 }
 
-const Container = styled.div`
+const Container = styled.td`
     position: relative;
+    padding: 1rem 0;
+    
+    .border-box {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 0.5rem;
+        border: 2px dashed ${colors.inputFocus};
+    }
 
     .image-upload {
         position: absolute;
@@ -22,11 +30,8 @@ const Container = styled.div`
     }
 
     .image-upload-label {
-        border-radius: 0.5rem;
-        border: 2px dashed ${colors.inputFocus};
-        height: 8rem;
-        width: 8rem;
-        padding: 1rem;
+        height: calc(8rem - 4px);
+        width: calc(8rem - 4px);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -35,9 +40,11 @@ const Container = styled.div`
         font-size: 0.75rem;
         text-align: center;
     }
+    
     .image-upload-preview {
-        height: 8rem;
-        width: 8rem;
+        height: calc(8rem - 8px);
+        width: calc(8rem - 8px);
+        border-radius: 0.3rem;
         object-fit: contain;
     }
 `
@@ -46,30 +53,36 @@ export function ImageUpload(props: Props) {
 
     const [source, setSource] = useState<string>('');
 
-    const handleOnDragHover = (e : React.DragEvent<HTMLLabelElement>) => {
+    const { control, setValue, formState: {errors}} = useFormContext();
+
+    console.log(errors);
+    console.log(props.name)
+
+    const handleOnDragHover = (e: React.DragEvent<HTMLLabelElement>) => {
 
     }
 
-    const handleOnDrop = (e : React.DragEvent<HTMLLabelElement>) => {
+    const handleOnDrop = (e: React.DragEvent<HTMLLabelElement>) => {
 
     }
 
-    const handleOnChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         let files = e.target.files;
-        if(files) {
-            for (let i = 0, file; file = files[i]; i++) {
+        if (files) {
+            for (let file of files) {
                 parseFile(file);
+                setValue(`${props.name}_file`, file)
             }
-            
+
             props.onChange ? props.onChange(files) : {};
         }
         // handleOnDragHover(e);
     }
 
-    const parseFile = (file : File) => {
+    const parseFile = (file: File) => {
 
-        if(file) {
+        if (file) {
             setSource(URL.createObjectURL(file))
         }
         else {
@@ -79,37 +92,56 @@ export function ImageUpload(props: Props) {
 
     return (
         <Container>
-            <label 
-                htmlFor={`image-upload-${props.id}`}
-                onDragOver={handleOnDragHover}
-                onDragLeave={handleOnDragHover}
-                onDrop={handleOnDrop}
-            >
-                <div className="image-upload-label">
-                    {
-                        source ? (
-                            <img 
-                                className="image-upload-preview" 
-                                src={source} 
-                                alt="Preview"
+            <Controller
+                defaultValue={''}
+                control={control}
+                name={props.name}
+                render={({
+                    field
+                }) => (
+                    <>
+                        <div className="border-box">
+                            <label
+                                htmlFor={`image-upload-${props.name}`}
+                                onDragOver={handleOnDragHover}
+                                onDragLeave={handleOnDragHover}
+                                onDrop={handleOnDrop}
+                            >
+                                <div className="image-upload-label">
+                                    {
+                                        source ? (
+                                            <img
+                                                className="image-upload-preview"
+                                                src={source}
+                                                alt="Preview"
+                                            />
+                                        ) : (
+                                            <div className='image-upload-text'>
+                                                Select an image or drag here
+                                            </div>
+                                        )
+                                    }
+
+                                </div>
+                            </label>
+                            <input
+                                {...field}
+                                id={`image-upload-${props.name}`}
+                                className='image-upload'
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                    handleOnChange(e);
+                                    field.onChange(e)
+                                }}
+                                required={props.required}
                             />
-                        ) : (
-                            <div className='image-upload-text'>
-                                Select an image or drag here
-                            </div>
-                        )
-                    }
-                    
-                </div>
-            </label>
-            <input 
-                id={`image-upload-${props.id}`}
-                className='image-upload'
-                type="file" 
-                name={props.name} 
-                accept="image/*" 
-                onChange={handleOnChange}
-                required={props.required}
+                        </div>
+                        <div className='text-red-500 text-xs h-2 pl-3'>
+                            {`${get(errors, `${props.name}.message`, '')}`}
+                        </div>
+                    </>
+                )}
             />
         </Container>
     )

@@ -1,5 +1,5 @@
 import { Product } from "../../types/Inventory/Product";
-import { formRequest, request } from "../../controllers/request";
+import { request } from "../../controllers/request";
 import { createQuery } from "../../utils/requestUtils";
 
 export async function getAllProducts() {
@@ -10,6 +10,23 @@ export async function getAllProducts() {
     // });
 
     const response = await request.get(`/product/all`);
+    return response.data;
+  }
+  catch (error) {
+    throw error;
+  }
+}
+
+export async function getPaginateProducts(page: number, itemsCount: number) {
+  try {
+    const query = createQuery({
+      populate: 'categories',
+      sort: 'sku',
+      page,
+      itemsCount
+    });
+
+    const response = await request.get(`/product/all?${query}`);
     return response.data;
   }
   catch (error) {

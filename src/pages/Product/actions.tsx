@@ -7,8 +7,12 @@ export const selectProduct = (data: any) => ({
 })
 
 //FETCH PRODUCT
-export const fetchProducts = () => ({
-    type: constant.FETCH_PRODUCTS
+export const fetchProducts = (data: {
+    page: number,
+    itemsCount: number
+}) => ({
+    type: constant.FETCH_PRODUCTS,
+    data
 });
 export const fetchProductsSuccess = (data: any) => ({
     type: constant.FETCH_PRODUCTS_SUCCESS,

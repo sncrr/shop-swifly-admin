@@ -2,7 +2,7 @@ import * as constant from './constants';
 import * as ProductController from './controllers';
 import * as ProductAction from './actions';
 import * as ToastAction from '../../components/toasts/actions';
-import { put, call, takeLatest, takeLeading } from 'redux-saga/effects';
+import { put, call, takeLatest, takeLeading, select } from 'redux-saga/effects';
 import { Product } from '../../types/Inventory/Product';
 import { 
   fetchProductsSuccess, 
@@ -16,9 +16,12 @@ import { hideLoader } from '../../components/modals/actions';
 import { replace } from 'connected-react-router';
 import * as ToastConstant from '../../components/toasts/constants';
 
-function* onFetchProducts () {
+function* onFetchProducts (action: any) {
+
+  const { page, itemsCount } = action.data;
+
   try {
-    const data: Product[] = yield call(ProductController.getAllProducts);
+    const data: Product[] = yield call(ProductController.getPaginateProducts, page, itemsCount);
 
     yield put(fetchProductsSuccess(data));
     yield put(hideLoader());
@@ -29,7 +32,7 @@ function* onFetchProducts () {
   }
 }
 
-function* onSaveProduct(action: any) {
+function* onSaveProduct(action: any):any {
   const { toastId } = yield put(ToastAction.createPromiseToast({
     message: "Saving Product",
   }));
@@ -41,8 +44,11 @@ function* onSaveProduct(action: any) {
       yield call(ProductController.createProduct, action.payload);
 
     if(data._id) {
+      const productState = yield select((state) => state.product);
+
       yield put(saveProductSuccess(data));
-      yield put(ProductAction.fetchProducts());
+      yield call(ProductController.getPaginateProducts, productState.page, productState.itemsCount);
+      // yield put(ProductAction.fetchProducts());
 
       if(navigateToItem) {
         yield put(replace(`?${data._id}`));
@@ -64,7 +70,7 @@ function* onSaveProduct(action: any) {
   }
 }
 
-function* onDeleteProduct(action: any) {
+function* onDeleteProduct(action: any):any {
   
   const { toastId } = yield put(ToastAction.createPromiseToast({
     message: "Deleting product...",
@@ -74,8 +80,12 @@ function* onDeleteProduct(action: any) {
     const data: boolean = yield call(ProductController.deleteProduct, action.payload);
     
     if(data) {
+
+      const productState = yield select((state) => state.product);
+
       yield put(deleteProductSuccess(data));
-      yield put(ProductAction.fetchProducts());
+      yield call(ProductController.getPaginateProducts, productState.page, productState.itemsCount);
+      // yield put(ProductAction.fetchProducts());
       yield put(replace(``));
 
       yield put(ToastAction.updateToast(toastId, {
