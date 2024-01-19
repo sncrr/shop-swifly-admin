@@ -1,6 +1,31 @@
+import { LocalData } from '../../types/Utils/Paginate';
 import * as constant from './constants';
 
-//SETTER
+
+export const getProductLocalData = () : LocalData => {
+    let data = localStorage.getItem(constant.PRODUCT_LOCAL_KEY);
+    
+    if(data) {
+        return JSON.parse(data);
+    }
+    else {
+        return constant.DEFAULT_LOCAL_DATA
+    }
+}
+
+export const setProductLocalData = (data: any) => {
+
+    let current = getProductLocalData();
+    let value = { ...current, ...data };
+
+    localStorage.setItem(
+        constant.PRODUCT_LOCAL_KEY, 
+        JSON.stringify(value)
+    );
+}
+
+
+//SELECTOR
 export const selectProduct = (data: any) => ({
     type: constant.SELECT_PRODUCT,
     data,

@@ -47,16 +47,16 @@ function Login() {
       <div className="mx-auto bg-white rounded-sm p-8 self-center">
         <h6>ACCOUNT LOGIN</h6>
         <FormProvider {...formMethods}>
-          <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
+          <form className="mt-4 w-[30rem]" onSubmit={handleSubmit(onSubmit)}>
             <FormSection>
-              <FormGroup className='w-[25rem]'>
+              <FormGroup required>
                 <FormLabel>Username</FormLabel>
                 <FormInput name="username" />
               </FormGroup>
 
-              <FormGroup className='w-[25rem]'>
+              <FormGroup required>
                 <FormLabel>Password</FormLabel>
-                <FormInput name="password" inputProps={{type: "password"}} />
+                <FormInput type='password' name="password" />
               </FormGroup>
             </FormSection>
 
@@ -85,7 +85,7 @@ function Login() {
             <div className="mt-6 flex">
               <Submit 
                 // className="w-full" 
-                // disabled={isLoading}
+                disabled={isLoading}
                 text='Submit'
               />
             </div>

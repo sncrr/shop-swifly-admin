@@ -13,6 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 export const TextField = (props: Props) => {
 
   const {
+    name,
     rounded,
     unbordered,
     children,
@@ -32,7 +33,7 @@ export const TextField = (props: Props) => {
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
-    const value = data.get('input');
+    const value = data.get(name ? name : 'input');
 
     if (onSubmit) {
       onSubmit(value);
@@ -49,7 +50,7 @@ export const TextField = (props: Props) => {
       {children}
       <Input
         {...inputProps}
-        name="input"
+        name={name ? name : 'input'}
       />
     </Control>
   )

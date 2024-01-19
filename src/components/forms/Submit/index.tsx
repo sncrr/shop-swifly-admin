@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { colors } from "../../../theme";
 
 interface Props {
-    text?: string
+    text?: string,
+    disabled?: boolean,
 }
 
 const Button = styled.button.attrs(() => ({
@@ -27,7 +28,9 @@ const Button = styled.button.attrs(() => ({
 
 export function Submit(props : Props) {
     return (
-        <Button>
+        <Button
+            disabled={props.disabled}
+        >
             { props.text }
         </Button>
     )

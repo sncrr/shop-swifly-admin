@@ -1,6 +1,7 @@
 import { Product } from "../../types/Inventory/Product";
 import { request } from "../../controllers/request";
 import { createQuery } from "../../utils/requestUtils";
+import { Paginate } from "../../types/Utils/Paginate";
 
 export async function getAllProducts() {
   try {
@@ -17,7 +18,7 @@ export async function getAllProducts() {
   }
 }
 
-export async function getPaginateProducts(page: number, itemsCount: number) {
+export async function getPaginateProducts(page: number, itemsCount: number) : Promise<Paginate<Product>> {
   try {
     const query = createQuery({
       populate: 'categories',

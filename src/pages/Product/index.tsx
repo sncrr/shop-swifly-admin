@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux";
 import { ProductList } from "./ProductList";
 import { ProductForm } from "./ProductForm";
 import { Paths } from "../../constants";
-import { useEffect } from "react";
-import { fetchProducts } from "./actions";
 import { CategoryState } from "../Category/reducers";
 import { StoreState } from "../Store/reducers";
 import { ProductState } from "./reducers";
@@ -19,18 +17,15 @@ interface Props {
 
 function Main(props: Props) {
 
-	const { selectedPage, itemsCount, totalPages } = props.state;
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const selected = props.state.selected;
-
-	useEffect(() => {
-		dispatch(fetchProducts({
-			page: selectedPage,
-			itemsCount: itemsCount
-		}))
-	}, []);
+	// useEffect(() => {
+	// 	dispatch(fetchProducts({
+	// 		page: selectedPage,
+	// 		itemsCount: itemsCount
+	// 	}))
+	// }, []);
 
 	return (
 		<Routes>
@@ -40,7 +35,6 @@ function Main(props: Props) {
 					<ProductList
 						productState={props.state}
 						navigate={navigate}
-						selected={selected}
 						dispatch={dispatch}
 					/>
 				}
@@ -53,7 +47,6 @@ function Main(props: Props) {
 						navigate={navigate}
 						storeState={props.storeState}
 						categories={props.categoryState.categories}
-						selected={selected}
 					/>
 				}
 			/>
@@ -65,7 +58,6 @@ function Main(props: Props) {
 						navigate={navigate}
 						storeState={props.storeState}
 						categories={props.categoryState.categories}
-						selected={selected}
 					/>
 				}
 			/>

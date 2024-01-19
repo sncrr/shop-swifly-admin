@@ -1,6 +1,6 @@
 
 export { ButtonGroup } from './ButtonGroup'
-export { Form } from './Form';
+export { Form, FlexForm } from './Form';
 export { FormCheckBox } from './FormCheckBox';
 export { FormControl } from './FormControl';
 export { FormControl2 } from './FormControl2';

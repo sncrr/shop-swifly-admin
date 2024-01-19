@@ -3,6 +3,7 @@ import categorySaga from "../pages/Category/sagas";
 import toastSaga from "../components/toasts/saga";
 import productSaga from "../pages/Product/sagas";
 import storeSaga from "../pages/Store/sagas";
+import settingSaga from "../pages/Configuration/sagas";
 
 export function* rootSaga() {
   yield all([
@@ -11,5 +12,7 @@ export function* rootSaga() {
     categorySaga(),
     productSaga(),
     storeSaga(),
+
+    settingSaga(),
   ]);
 }

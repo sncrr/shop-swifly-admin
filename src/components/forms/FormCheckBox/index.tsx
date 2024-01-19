@@ -8,6 +8,8 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
     flexible?: boolean,
     label?: string,
     className?: string,
+    description?: string,
+    defaultValue?: any
 }
 
 export function FormCheckBox(props: Props) {
@@ -15,14 +17,17 @@ export function FormCheckBox(props: Props) {
     const { control } = useFormContext();
 
     const inputProps = {
-      ...props,
-      flexible: undefined,
-      className: undefined
+        ...props,
+        description: undefined,
+        flexible: undefined,
+        className: undefined,
+        defaultValue: undefined
     }
+
     return (
-        <td className={`form-control py-2 ${props.className ? props.className : ''}`}>
+        <td className={`form-control py-2 ${props.description ? 'pt-4' : ''} ${props.className ? props.className : ''}`}>
             <Controller
-                defaultValue={''}
+                defaultValue={props.defaultValue ? props.defaultValue : false}
                 control={control}
                 name={props.name}
                 render={({
@@ -31,26 +36,34 @@ export function FormCheckBox(props: Props) {
                         error
                     }
                 }) => (
-                <>
-                    <FormControl>
-                        <label className="relative text-left h-12">
-                            <Input
-                                {...inputProps}
-                                {...field}
-                                type="checkbox"
-                            />
-                            <span className="box">
-                                <span className="check border rounded-sm" />
-                            </span>
-                            <span className="pl-2">
-                                {props.label}
-                            </span>
-                        </label>
-                    </FormControl>
-                    <div className='text-red-500 text-xs h-2 pl-3'>
-                    {error?.message}
-                    </div>
-                </>
+                    <>
+                        <FormControl>
+                            <label className="relative text-left h-12">
+                                <Input
+                                    {...inputProps}
+                                    {...field}
+                                    checked={field.value}
+                                    type="checkbox"
+                                />
+                                <span className="box">
+                                    <span className="check border rounded-sm" />
+                                </span>
+                                <span className="pl-2 text-sm">
+                                    {props.label}
+                                </span>
+                            </label>
+                        </FormControl>
+                        {
+                            props.description ? (
+                                <div className='text-xs h-2 mb-3 mt-1 pl-3 text-gray-600'>
+                                    {props.description}
+                                </div>
+                            ) : null
+                        }
+                        <div className='text-red-500 text-xs h-2 pl-3'>
+                            {error?.message}
+                        </div>
+                    </>
                 )}
             />
         </td>

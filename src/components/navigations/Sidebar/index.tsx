@@ -5,7 +5,7 @@ import { NavListItem } from "./NavListItem";
 import { NavSubList } from "./NavSubList";
 import { NavSubItem } from "./NavSubItem";
 import { styled } from "styled-components";
-import { navigations } from "./navigations";
+import { sidebarNavigations } from "../../../routes/paths";
 
 const ICON_SIZE = 32;
 const ICON_COLOR = colors.black;
@@ -47,7 +47,7 @@ export const Sidebar = ({ }: Props) => {
     <Container>
       <NavList>
         {
-          navigations.map((item, index) => {
+          sidebarNavigations.map((item, index) => {
 
             let isActive = getIsActive(item)
 

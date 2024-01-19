@@ -19,7 +19,7 @@ function Cell(props: CellProps) {
     const [checked, setChecked] = useState<boolean>(true);
 
     return (
-        <td className="pl-0 border-t-2">
+        <td className="pl-0 border-b-2">
             <Table>
                 <tbody>
                     <TRow>
@@ -59,22 +59,22 @@ export function SourceInput(props: Props) {
                 </THeader>
                 <tbody>
                     <TRow>
-                        <TData>Default</TData>
+                        <TData className="border-b-2">Default</TData>
                         <FormInput 
                             name="prices.default.value" 
                             type="number" 
-                            className="px-2"
+                            className="px-2 border-b-2"
                         />
                         <FormInput 
                             type="number"
                             name="stocks.default.value"
-                            className="px-2"
+                            className="px-2 border-b-2"
                         />
                     </TRow>
                     {
                         props.stores.map((store, index) => (
                             <TRow key={index.toString()}>
-                                <TData className="border-t-2">{store.name}</TData>
+                                <TData className="border-b-2">{store.name}</TData>
                                 <Cell
                                     id={`price_${store.code}`}
                                     inputName={`prices.${store.code}.value`}

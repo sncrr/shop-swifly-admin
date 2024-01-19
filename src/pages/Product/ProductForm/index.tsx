@@ -21,27 +21,26 @@ import { getProduct } from "../controllers";
 import { fetchCategories } from "../../Category/actions";
 import { Category } from "../../../types/Inventory/Category";
 import { BackBtn } from "../../../components/buttons";
-import { saveProduct, selectProduct } from "../actions";
-import { Product } from "../../../types/Inventory/Product";
+import { selectProduct } from "../actions";
 import { useParams } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProductSchema, productDefaultValues } from "./schema";
 import { WEIGHT_UNITS } from "../constants";
+import { Checkbox } from "../../../components/inputs/Checkbox";
 
 interface Props {
     navigate: any,
     dispatch: any,
     storeState: any,
-    categories: Category[],
-    selected: Product | null,
+    categories: Category[]
 }
 
 export function ProductForm(props: Props) {
 
     const params = useParams();
 
-    const { selected } = props;
+    // const { selected } = props;
     const selectedId = params.id ? params.id : "";
 
     const [thumbnail, setThumbnail] = useState<any>();
@@ -109,20 +108,6 @@ export function ProductForm(props: Props) {
         // }));
     }
 
-    const getDefaultCategories = () => {
-
-        let defaultCategories = [];
-        if (selected) {
-            for (let category of props.categories) {
-                if (category._id && selected.categories?.includes(category._id)) {
-                    defaultCategories.push(category);
-                }
-            }
-        }
-
-        return defaultCategories;
-    }
-
     return (
         <section>
             <FormProvider {...formMethods}>
@@ -175,10 +160,43 @@ export function ProductForm(props: Props) {
                     </FormSection>
 
 
-                    <FormSection  id="price_stocks" title="Price & Stocks" hasRequired isOpen nontabular>
-                        <SourceInput
-                            stores={props.storeState.stores}
-                        />
+                    <FormSection  id="price_stocks" title="Price & Stocks" hasRequired isOpen>
+                        <tr>
+                            <td className="w-full pb-8" colSpan={2}>
+                                <SourceInput
+                                    stores={props.storeState.stores}
+                                />
+                            </td>
+                        </tr>
+                        <FormGroup>
+                            <FormLabel>Minimum Cart Qty</FormLabel>
+                            <FormInput 
+                                name="minCartQty" 
+                                type="number"
+                                description="Set the minimum quantity allowed in shopping cart"
+                                addionalNode={(
+                                    <Checkbox
+                                        label="Use System Config"
+                                        name="minCartQty_useDefault"
+                                    />
+                                )}
+                            />
+                        </FormGroup>
+  
+                        <FormGroup>
+                            <FormLabel>Maximum Cart Qty</FormLabel>
+                            <FormInput 
+                                name="maxCartQty" 
+                                type="number"
+                                description="Set the maximum quantity allowed in shopping cart"
+                                addionalNode={(
+                                    <Checkbox
+                                        label="Use System Config"
+                                        name="maxCartQty_useDefault"
+                                    />
+                                )}
+                            />
+                        </FormGroup>
                     </FormSection>
 
                     <FormSection id="media_gallery" title="Media Gallery" hasRequired isOpen>

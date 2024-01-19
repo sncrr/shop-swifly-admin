@@ -1,29 +1,48 @@
-import { Section } from "../../../components/containers";
-import { RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
-import { Product } from "../../../types/Inventory/Product";
-import { fetchProducts } from "../actions";
+//UTILS
+import { Dispatch, useEffect } from "react";
+import { fetchProducts, getProductLocalData, setProductLocalData } from "../actions";
 import ProductHelper from "../helper";
+
+//COMPONENTS
+import { 
+	RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
+import { Section } from "../../../components/containers";
+import { NavigateFunction } from "react-router-dom";
+import { AnyAction } from "@reduxjs/toolkit";
 import { ProductState } from "../reducers";
+
+
 
 interface Props {
 	productState: ProductState,
-	navigate: any,
-	dispatch: any,
-	selected: Product
+	navigate: NavigateFunction,
+	dispatch: Dispatch<AnyAction>
 }
 
 export function ProductList(props: Props) {
 
-	const { 
-		dispatch, 
-		navigate,
-		productState 
-	} = props;
+	//HOOKS & VARIABLES
+	const localData = getProductLocalData();
+	const { navigate, dispatch, productState } = props;
+	const { loading, products, totalPages } = productState;
 
-	const {
-		loading,
-		products
-	} = productState;
+	useEffect(() => {
+		getProductList(localData.currentPage, localData.itemsCount);
+	}, []);
+
+	//FUNCTIONS
+	const getProductList = async (page: number, itemsCount: number) => {
+
+		dispatch(fetchProducts({
+			page,
+			itemsCount
+		}));
+
+		setProductLocalData({
+			currentPage: page,
+			itemsCount
+		});
+	}
 
 	const handleEdit = (id: any) => {
 		navigate(`/admin/products/edit/${id}`)
@@ -33,27 +52,25 @@ export function ProductList(props: Props) {
 
 	}
 
-	const handlePageChange = (value: any) => {
-		dispatch(fetchProducts({
-			page: value,
-			itemsCount: productState.itemsCount
-		}))
+	const handleSearch = (value: string) => {
+		setProductLocalData({
+			search: value
+		});
 	}
 
-	const handleItemsCountChange = (value: any) => {
-		dispatch(fetchProducts({
-			page: productState.selectedPage,
-			itemsCount: value
-		}))
-	}
 
+	//RETURN
 	return (
 		<Section>
 			<TableControls
 				hasSearch
-				onPageChange={handlePageChange}
-				onItemsCountChange={handleItemsCountChange}
-				totalPages={productState.totalPages}
+				defaultSearchValue={localData.search}
+				totalPages={totalPages}
+				defaultCurrentPage={localData.currentPage}
+				defaultPageItemsCount={localData.itemsCount}
+				onPageChange={getProductList}
+				onItemsCountChange={getProductList}
+				onSearch={handleSearch}
 			/>
 			<Table isLoading={loading}>
 				<THeader>
@@ -123,7 +140,6 @@ export function ProductList(props: Props) {
 }
 
 function DataList({ label, value }: any) {
-
 	return (
 		<>
 			<span className="space-x-1">

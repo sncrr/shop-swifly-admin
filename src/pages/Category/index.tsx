@@ -96,6 +96,6 @@ const mapStateToProps = (state: any) => ({
 	categoryState: state.category,
 });
 
-const Product = connect(mapStateToProps)(Main);
+const Category = connect(mapStateToProps)(Main);
 
-export default Product;
+export default Category;

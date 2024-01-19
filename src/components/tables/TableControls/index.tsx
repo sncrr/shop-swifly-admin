@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowRight, FunnelFill, Search } from '../../../assets/svgs/Icons'
 import { styled } from 'styled-components'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FillLink } from '../../buttons'
 import { Paths } from '../../../constants'
 import { TextField } from '../../inputs'
@@ -50,11 +50,15 @@ interface Props {
     hasPageItemCount?: boolean;
     hasPageNavigation?: boolean;
     hasTableActions?: boolean;
+    
+    defaultSearchValue?: string,
+    defaultCurrentPage?: number,
+    defaultPageItemsCount?: number,
+    totalPages?: number
 
     onPageChange?: any,
     onItemsCountChange?: any,
     onSearch?: any,
-    totalPages?: number
 }
 
 const defaultProps: Props = {
@@ -80,11 +84,17 @@ export const TableControls: React.FC<Props> = (props) => {
         hasPageItemCount,
         hasPageNavigation,
         hasTableActions,
-        totalPages
+
+        defaultSearchValue,
+        defaultCurrentPage,
+        defaultPageItemsCount,
+        totalPages,
+
     } = { ...defaultProps, ...props };
 
     const [actionView, setActionView] = useState("");
-    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(defaultCurrentPage ? defaultCurrentPage : 1);
+    const [pageItemsCount, setPageItemsCount] = useState(defaultPageItemsCount ? defaultPageItemsCount : DEFAULT_ITEMS_COUNT);
 
     const toggleAction = (selected: string) => {
 
@@ -103,6 +113,8 @@ export const TableControls: React.FC<Props> = (props) => {
                     <TextField
                         placeholder="Search by keyword"
                         rounded
+                        defaultValue={defaultSearchValue}
+                        onSubmit={props.onSearch}
                     >
                         <div className='ml-2'>
                             <Search color={colors.inputFocus} size={20} />
@@ -114,35 +126,55 @@ export const TableControls: React.FC<Props> = (props) => {
     }
 
     const nextPage = () => {
-        const current = page + 1;
-        if(current <= totalPages) {
-            props.onPageChange(current);
-            setPage(current);
+        const current = currentPage + 1;
+        if(totalPages && current <= totalPages) {
+            props.onPageChange(current, pageItemsCount);
+            setCurrentPage(current);
         }
     }
 
     const prevPage = () => {
-        const current = page - 1;
+        const current = currentPage - 1;
         if(current > 0) {
-            props.onPageChange(current);
-            setPage(current);
+            props.onPageChange(current, pageItemsCount);
+            setCurrentPage(current);
         }
     }
 
-    const changePage = (value: any) => {
+    const handlePageChanged = (value: string) => {
         const current = parseInt(value);
         if(current < 1 ) {
-            props.onPageChange(1);
-            setPage(1);
+            props.onPageChange(1, pageItemsCount);
+            setCurrentPage(1);
         }
-        else if(current > totalPages) {
-            props.onPageChange(totalPages);
-            setPage(totalPages);
+        else if(totalPages && current > totalPages) {
+            props.onPageChange(totalPages, pageItemsCount);
+            setCurrentPage(totalPages);
         }
         else {
-            props.onPageChange(current);
-            setPage(current);
+            props.onPageChange(current, pageItemsCount);
+            setCurrentPage(current);
         }
+    }
+
+    const handleItemsCountChanged = (value: string) => {
+        const count = parseInt(value);
+
+        if(count < 1) {
+            
+            if(defaultPageItemsCount) {
+                props.onItemsCountChange(currentPage, defaultPageItemsCount);
+                setPageItemsCount(defaultPageItemsCount);
+            }
+            else {
+                props.onItemsCountChange(currentPage, DEFAULT_ITEMS_COUNT);
+                setPageItemsCount(DEFAULT_ITEMS_COUNT);
+            }
+        }
+        else {
+            props.onItemsCountChange(currentPage, count);
+        }
+
     }
 
     return (
@@ -206,10 +238,10 @@ export const TableControls: React.FC<Props> = (props) => {
                                     <button 
                                         className={
                                             `flex justify-center items-center w-12
-                                            ${page <= 1 ? 'opacity-40' : ''}
+                                            ${currentPage <= 1 ? 'opacity-40' : ''}
                                         `}
                                         onClick={prevPage}
-                                        disabled={page == 1}
+                                        disabled={currentPage == 1}
                                     >
                                         <ArrowLeft />
                                     </button>
@@ -218,18 +250,18 @@ export const TableControls: React.FC<Props> = (props) => {
                                             className='text-center'
                                             type='number'
                                             unbordered
-                                            value={page.toString()}
-                                            onChange={(e) => setPage(parseInt(e.target.value))}
-                                            onSubmit={changePage}
+                                            value={currentPage.toString()}
+                                            onChange={(e) => setCurrentPage(parseInt(e.target.value))}
+                                            onSubmit={handlePageChanged}
                                         />
                                     </div>
                                     <button 
                                        className={
                                         `flex justify-center items-center w-12
-                                            ${page >= totalPages ? 'opacity-40' : ''}
+                                            ${totalPages && currentPage >= totalPages ? 'opacity-40' : ''}
                                         `}
                                         onClick={nextPage}
-                                        disabled={page == totalPages}
+                                        disabled={currentPage == totalPages}
                                     >
                                         <ArrowRight />
                                     </button>
@@ -250,8 +282,9 @@ export const TableControls: React.FC<Props> = (props) => {
                                         type='number'
                                         min={1}
                                         max={100}
-                                        defaultValue={DEFAULT_ITEMS_COUNT}
-                                        onSubmit={props.onItemsCountChange}
+                                        value={pageItemsCount}
+                                        onChange={(e) => setPageItemsCount(parseInt(e.target.value))}
+                                        onSubmit={handleItemsCountChanged}
                                     />
                                 </div>
                             </div>

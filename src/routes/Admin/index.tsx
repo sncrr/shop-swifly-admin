@@ -11,6 +11,8 @@ import { styled } from "styled-components";
 import { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { navigateStop } from "../actions";
+import Settings from "../../pages/Configuration";
+import { paths } from "../paths";
 
 const MainContainer =styled.div`
   margin-top: 5rem;
@@ -45,11 +47,21 @@ function Main (props : any) {
       <MainContainer>
         <div className="bg-white flex flex-col flex-1 rounded">
           <Routes>
-            <Route path={Paths.DASHBOARD} element={<Dashboard />} />
-
+            {/* <Route path={Paths.DASHBOARD} element={<Dashboard />} />
             <Route path={`${Paths.CATEGORY}/*`} element={<Category />} />
             <Route path={`${Paths.PRODUCT}/*`} element={<Product />} />
             <Route path={`${Paths.STORE}/*`} element={<Store />} />
+            <Route path={`${Paths.CONFIGS}/*`} element={<Configuration />} /> */}
+
+            {
+              paths.map((item, index) => (
+                <Route
+                  key={index}
+                  path={item.path}
+                  element={<item.element />}
+                />
+              ))
+            }
 
             <Route
               path={Paths.ADMIN}
