@@ -1,7 +1,10 @@
 import { connect, useDispatch } from "react-redux";
 import { PromiseToast } from "./PromiseToast";
 import styled from "styled-components";
-import { ANIMATION_SPEED } from "./constants";
+import { ANIMATION_SPEED, STATUS_FAILED, STATUS_SUCCESS } from "./constants";
+import { RootState } from "../../root/reducers";
+import { SuccessToast } from "./SuccessToast";
+import { FailedToast } from "./FailedToast";
 
 const Container = styled.div`
   @keyframes slideOut {
@@ -42,20 +45,44 @@ function Main ({state}:any) {
 
     const { toasts } = state;
 
+
     if(toasts && toasts.length > 0) {
         return (
             <Container className="absolute z-40 top-16 right-0 overflow-hidden">
                 {
-                    toasts.map((item:any, index:number) => (
-                        <PromiseToast
-                            key={index}
-                            dispatch={dispatch}
-                            toastId={item.toastId}
-                            message={item.message}
-                            result={item.result}
-                            toHide={item.toHide}
-                            toShow={item.toShow}
-                        />
+                    toasts.map((item: any, index: number) => (
+                        item.type === STATUS_SUCCESS ? (
+                            <SuccessToast
+                                key={index}
+                                dispatch={dispatch}
+                                toastId={item.toastId}
+                                message={item.message}
+                                result={item.result}
+                                toHide={item.toHide}
+                                toShow={item.toShow}
+                            />
+                        ) : 
+                        item.type === STATUS_FAILED ? (
+                            <FailedToast
+                                key={index}
+                                dispatch={dispatch}
+                                toastId={item.toastId}
+                                message={item.message}
+                                result={item.result}
+                                toHide={item.toHide}
+                                toShow={item.toShow}
+                            />
+                        ) : (
+                            <PromiseToast
+                                key={index}
+                                dispatch={dispatch}
+                                toastId={item.toastId}
+                                message={item.message}
+                                result={item.result}
+                                toHide={item.toHide}
+                                toShow={item.toShow}
+                            />
+                        )
                     ))
                 }
             </Container>
@@ -66,7 +93,7 @@ function Main ({state}:any) {
     }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
   state: state.toast
 });
 

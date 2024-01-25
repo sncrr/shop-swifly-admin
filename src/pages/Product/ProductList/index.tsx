@@ -1,17 +1,18 @@
 //UTILS
 import { Dispatch, useEffect } from "react";
-import { fetchProducts, getProductLocalData, setProductLocalData } from "../actions";
-import ProductHelper from "../helper";
+import ProductHelper from "../helpers";
 
 //COMPONENTS
-import { 
-	RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
+import { RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
 import { Section } from "../../../components/containers";
 import { NavigateFunction } from "react-router-dom";
 import { AnyAction } from "@reduxjs/toolkit";
-import { ProductState } from "../reducers";
-
-
+import { ProductState, deleteProduct, fetchProducts } from "../slice";
+import { Product } from "../../../models/Product";
+import { showConfirmDialog } from "../../../components/alerts/actions";
+import { getProductLocalData, setProductLocalData } from "../../../root/helper";
+import { PRODUCT_LOCAL_KEY } from "../../../root/constants";
+import { LocalData } from "../../../types/Utils/Paginate";
 
 interface Props {
 	productState: ProductState,
@@ -22,23 +23,34 @@ interface Props {
 export function ProductList(props: Props) {
 
 	//HOOKS & VARIABLES
-	const localData = getProductLocalData();
+	const localData: LocalData = getProductLocalData(PRODUCT_LOCAL_KEY);
+	const { search } = localData;
 	const { navigate, dispatch, productState } = props;
-	const { loading, products, totalPages } = productState;
+	const { fetching, totalPages, hasChanges } = productState;
+	const products: Product[] = productState.products;
 
 	useEffect(() => {
 		getProductList(localData.currentPage, localData.itemsCount);
 	}, []);
+
+    useEffect(() => {
+        if (hasChanges && !fetching) {
+            getProductList(localData.currentPage, localData.itemsCount);
+        }
+    }, [hasChanges, fetching])
 
 	//FUNCTIONS
 	const getProductList = async (page: number, itemsCount: number) => {
 
 		dispatch(fetchProducts({
 			page,
-			itemsCount
+			itemsCount,
+			sort: 'sku',
+			order: 'asc',
+			search
 		}));
 
-		setProductLocalData({
+		setProductLocalData(PRODUCT_LOCAL_KEY, {
 			currentPage: page,
 			itemsCount
 		});
@@ -49,11 +61,22 @@ export function ProductList(props: Props) {
 	}
 
 	const handleDelete = (id: any) => {
-
+		showConfirmDialog({
+            title: "Confirmation",
+            content: "Are you sure you want to delete this product?",
+            onConfirm: () => dispatch(deleteProduct(id))
+        })
 	}
 
 	const handleSearch = (value: string) => {
-		setProductLocalData({
+		dispatch(fetchProducts({
+			page: localData.currentPage,
+			itemsCount: localData.itemsCount,
+			sort: 'sku',
+			order: 'asc',
+			search: value
+		}));
+		setProductLocalData(PRODUCT_LOCAL_KEY, {
 			search: value
 		});
 	}
@@ -72,7 +95,7 @@ export function ProductList(props: Props) {
 				onItemsCountChange={getProductList}
 				onSearch={handleSearch}
 			/>
-			<Table isLoading={loading}>
+			<Table isLoading={fetching}>
 				<THeader>
 					<TRow>
 						<THead></THead>

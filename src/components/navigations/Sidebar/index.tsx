@@ -5,7 +5,7 @@ import { NavListItem } from "./NavListItem";
 import { NavSubList } from "./NavSubList";
 import { NavSubItem } from "./NavSubItem";
 import { styled } from "styled-components";
-import { sidebarNavigations } from "../../../routes/paths";
+import { sidebarNavigations } from "../../../root/Admin/paths";
 
 const ICON_SIZE = 32;
 const ICON_COLOR = colors.black;

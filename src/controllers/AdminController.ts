@@ -1,14 +1,14 @@
 
 import axios from "axios"
-import { GlobalConstants } from "../constants";
 import { response } from "../utils";
+import { SERVER_URL } from "../root/constants";
 
 export const authenticate = async (username:string, password:string): Promise<any> => {
   
   let result;
 
   await axios
-    .post(`${GlobalConstants.SERVER_URL}/admin/login`, {
+    .post(`${SERVER_URL}/admin/login`, {
       username,
       password
     })
@@ -30,7 +30,7 @@ export const verifyJWT = async (token:string): Promise<any> => {
   let result;
 
   await axios
-    .get(`${GlobalConstants.SERVER_URL}/admin/verify_token/${token}`)
+    .get(`${SERVER_URL}/admin/verify_token/${token}`)
     .then((res) => {
       result = res.data
     })

@@ -1,4 +1,4 @@
-import { DEFAULT_ITEMS_COUNT } from "../../root/global-constant"
+import { DEFAULT_ITEMS_COUNT } from "../../root/constants"
 
 export class Paginate<T> {
 

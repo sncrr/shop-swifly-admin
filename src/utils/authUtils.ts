@@ -1,7 +1,5 @@
 // Save the access token to a secure HttpOnly cookie
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
-import { AdminController } from '../controllers';
-import { setUser } from '../root/slices/userSlice';
 // import * as jwt from 'jose'
 
 const ACCESS_TOKEN_COOKIE_NAME = 'access_token';
@@ -24,14 +22,3 @@ export function getAccessToken (): string {
 export function removeAccessToken () {
   destroyCookie(null, ACCESS_TOKEN_COOKIE_NAME);
 };
-
-export function onSuccessLogin (dispatch:any, accessToken:string) {
-
-  dispatch(setUser(accessToken));
-  setAccessToken(accessToken);
-}
-
-export function onLogout (dispatch:any) {
-  dispatch(setUser(null));
-  removeAccessToken()
-}

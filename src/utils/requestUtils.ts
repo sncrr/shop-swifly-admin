@@ -6,8 +6,11 @@ export const createQuery = (options: any) => {
     if (options.hasOwnProperty(key)) {
       const value = options[key];
       // Replace spaces with '+' in the value
-      const formattedValue = String(value).replace(/ /g, '+');
-      queryStringArray.push(`${key}=${formattedValue}`);
+      
+      if(value != undefined && value != '' && value != null) {
+        const formattedValue = String(value).replace(/ /g, '+');
+        queryStringArray.push(`${key}=${formattedValue}`);
+      }
     }
   }
 

@@ -8,14 +8,13 @@ import {
     Submit,
 } from "../../../components/forms";
 import { FormToggle } from "../../../components/forms/FormToggle";
-import { formUtils } from "../../../utils";
 
 export function StoreForm () {
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
 
-        let data = formUtils.getFormData(e.target);
+        // let data = formUtils.getFormData(e.target);
     }
 
     return (
@@ -54,7 +53,9 @@ export function StoreForm () {
                 <FormGroup>
                     <FormLabel>Is Active</FormLabel>
                     <FormControl unbordered>
-                        <FormToggle />
+                        <FormToggle
+                            name="isActive"
+                        />
                     </FormControl>
                 </FormGroup>
                 <FormGroup>

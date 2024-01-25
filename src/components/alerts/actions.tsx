@@ -1,6 +1,5 @@
 import { Confirmation } from "./Confirmation";
 import ReactDOM from 'react-dom/client';
-import { showAlert } from "./reducer";
 import React from "react";
 
 export interface DialogProps {

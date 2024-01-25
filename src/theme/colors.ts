@@ -23,3 +23,5 @@ export const tableHead = "#F6F7FC";
 export const navBorder = "#E5E9F0";
 export const active = "#2863EC";
 export const navTitle = "#AFAFB0";
+
+export const error = "#FF0000";

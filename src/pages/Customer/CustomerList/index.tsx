@@ -1,7 +1,17 @@
+import { NavigateFunction } from "react-router-dom";
 import { Section } from "../../../components/containers";
 import { TBody, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
-const CustomerList = () => {
+interface Props {
+  customerState: any,
+  navigate: NavigateFunction,
+  dispatch: Dispatch<AnyAction>
+}
+
+const CustomerList = (props: Props) => {
+
+  console.log("CUSTOMER ROUTE", props);
 
   return (
     <Section>

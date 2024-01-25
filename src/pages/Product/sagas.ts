@@ -1,27 +1,30 @@
-import * as constant from './constants';
 import * as ProductController from './controllers';
-import * as ProductAction from './actions';
-import * as ToastAction from '../../components/toasts/actions';
 import { put, call, takeLatest, takeLeading, select } from 'redux-saga/effects';
-import { Product } from '../../types/Inventory/Product';
-import { 
-  fetchProductsSuccess, 
-  fetchProductsFailed,
-  saveProductSuccess,
-  saveProductFailed,
-  deleteProductSuccess,
-  deleteProductFailed, 
-} from './actions';
-import { hideLoader } from '../../components/modals/actions';
 import { replace } from 'connected-react-router';
-import * as ToastConstant from '../../components/toasts/constants';
+import { hideLoader } from '../../components/modals/slice';
+import { Product } from '../../models/Product';
+import { 
+  actionTypes, 
+  deleteProductFailed, 
+  deleteProductSuccess, 
+  fetchProductsFailed, 
+  fetchProductsSuccess 
+} from './slice';
+import SagaProps from '../../types/Utils/SagaProps';
 
-function* onFetchProducts (action: any) {
+function* onFetchProducts (action: SagaProps) {
 
-  const { page, itemsCount } = action.data;
+  const { page, itemsCount, sort, order, search } = action.payload;
 
   try {
-    const data: Product[] = yield call(ProductController.getPaginateProducts, page, itemsCount);
+    const data: Product[] = yield call(
+      ProductController.getPaginateProducts, 
+      page, 
+      itemsCount,
+      sort,
+      order,
+      search
+    );
 
     yield put(fetchProductsSuccess(data));
     yield put(hideLoader());
@@ -33,82 +36,77 @@ function* onFetchProducts (action: any) {
 }
 
 function* onSaveProduct(action: any):any {
-  const { toastId } = yield put(ToastAction.createPromiseToast({
-    message: "Saving Product",
-  }));
+  console.log(action);
+  // const { toastId } = yield put(ToastAction.createPromiseToast({
+  //   message: "Saving Product",
+  // }));
 
-  try {
-    const { id, navigateToItem } = action.payload;
-    const data: Product = id ? 
-      yield call(ProductController.updateProduct, action.payload) :
-      yield call(ProductController.createProduct, action.payload);
+  // try {
+  //   const { id, navigateToItem, data } = action.payload;
 
-    if(data._id) {
-      const productState = yield select((state) => state.product);
+  //   // const formData = new FormData();
+  //   // formData.append('name', data.name);
 
-      yield put(saveProductSuccess(data));
-      yield call(ProductController.getPaginateProducts, productState.page, productState.itemsCount);
-      // yield put(ProductAction.fetchProducts());
+  //   // const formData = mapToFormData(data);
+  //   // console.log("DATA", JSON.parse(data));
 
-      if(navigateToItem) {
-        yield put(replace(`?${data._id}`));
-        yield put(ProductAction.selectProduct(data));
-      }
-    }
-    yield put(ToastAction.updateToast(toastId, {
-      message: "Product saved successfully",
-      result: ToastConstant.STATUS_SUCCESS
-    }));
-  } 
-  catch (error) {
-    yield put(saveProductFailed(error));
+  //   const files = new FileList();
 
-    yield put(ToastAction.updateToast(toastId, {
-      message: "Product saving failed",
-      result: ToastConstant.STATUS_FAILED
-    }));
-  }
+  //   const result: Product = id ? 
+  //     yield call(ProductController.updateProduct, formData) :
+  //     yield call(ProductController.createProduct, formData);
+
+  //   if(result._id) {
+  //     // const productState = yield select((state) => state.product);
+
+  //     yield put(saveProductSuccess(result));
+  //     // yield call(ProductController.getPaginateProducts, productState.page, productState.itemsCount);
+  //     // yield put(ProductAction.fetchProducts());
+
+  //     if(navigateToItem) {
+  //       yield put(replace(`?${result._id}`));
+  //       // yield put(ProductAction.selectProduct(data));
+  //     }
+  //   }
+  //   // yield put(ToastAction.updateToast(toastId, {
+  //   //   message: "Product saved successfully",
+  //   //   result: ToastConstant.STATUS_SUCCESS
+  //   // }));
+  // } 
+  // catch (error) {
+  //   yield put(saveProductFailed(JSON.stringify(error)));
+
+  //   // yield put(ToastAction.updateToast(toastId, {
+  //   //   message: "Product saving failed",
+  //   //   result: ToastConstant.STATUS_FAILED
+  //   // }));
+  // }
 }
 
 function* onDeleteProduct(action: any):any {
   
-  const { toastId } = yield put(ToastAction.createPromiseToast({
-    message: "Deleting product...",
-  }));
-
   try {
     const data: boolean = yield call(ProductController.deleteProduct, action.payload);
     
     if(data) {
 
-      const productState = yield select((state) => state.product);
+      yield select((state) => state.product);
 
       yield put(deleteProductSuccess(data));
-      yield call(ProductController.getPaginateProducts, productState.page, productState.itemsCount);
-      // yield put(ProductAction.fetchProducts());
       yield put(replace(``));
 
-      yield put(ToastAction.updateToast(toastId, {
-        message: "Product deleted successfully",
-        result: ToastConstant.STATUS_SUCCESS
-      }));
     }
   } 
   catch (error) {
     yield put(deleteProductFailed(error));
-
-    yield put(ToastAction.updateToast(toastId, {
-      message: "Product deleting failed",
-      result: ToastConstant.STATUS_FAILED
-    }));
   }
 }
 
 //Root Saga
 function* productSaga() {
-  yield takeLatest(constant.FETCH_PRODUCTS, onFetchProducts);
-  yield takeLatest(constant.SAVE_PRODUCT, onSaveProduct);
-  yield takeLeading(constant.DELETE_PRODUCT, onDeleteProduct);
+  yield takeLatest(actionTypes.fetchProducts, onFetchProducts);
+  yield takeLatest(actionTypes.saveProduct, onSaveProduct);
+  yield takeLeading(actionTypes.deleteProduct, onDeleteProduct);
 }
 
 export default productSaga;

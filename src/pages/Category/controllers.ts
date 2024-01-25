@@ -1,17 +1,13 @@
-import { Category } from "../../types/Inventory/Category";
+import { Category } from "../../models/Category";
 import { request } from "../../controllers/request";
 import { createQuery } from "../../utils/requestUtils";
 
-interface Query {
-  populate?: 'parent',
-  sort?: '_id' | 'name'
-}
-
-export async function getAllCategories() {
+export async function getAllCategories(payload: any) {
   try {
     const query = createQuery({
       populate: 'parent',
-      sort: 'name'
+      sort: 'name',
+      search: payload.search
     });
 
     const response = await request.get(`/category/all?${query}`);
@@ -22,7 +18,7 @@ export async function getAllCategories() {
   }
 }
 
-export async function getCategory(id: string, query?: Query) : Promise<Category> {
+export async function getCategory(id: string) : Promise<Category> {
   try {
 
     const query = createQuery({

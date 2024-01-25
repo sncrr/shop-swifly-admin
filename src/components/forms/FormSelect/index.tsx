@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { colors } from '../../../theme';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'react-select'
+import { Category } from "../../../models/Category";
 
 interface Props {
-  name: string,
+	name: string,
 
-  flexible?: boolean,
-  unbordered?: boolean,
+	flexible?: boolean,
+	unbordered?: boolean,
 
 	options: any[],
 	title?: string,
@@ -44,17 +45,17 @@ export const Content = styled.div<{ $unbordered?: boolean; $flexible?: boolean; 
 
 export const FormSelect = (props: Props) => {
 
-  const { control } = useFormContext();
-  const {
-    options = [],
-    labelKey = "label",
-    valueKey = "value",
-    multiple,
+	const { control } = useFormContext();
+	const {
+		options = [],
+		labelKey = "label",
+		valueKey = "value",
+		multiple,
 		placeholder
-  } = props;
+	} = props;
 
-  let list = options;
-	
+	let list = options;
+
 	if (labelKey || valueKey) {
 		list = options.map((item) => {
 			let newItem = { ...item }
@@ -70,40 +71,45 @@ export const FormSelect = (props: Props) => {
 	}
 
 	const getSelectedItem = (selected: string) => {
-		if(selected)
-      return list.find(({value}) => value === selected);
-    else
-      return null
+		if (selected)
+			return list.find(({ value }) => value === selected);
+		else
+			return null
 	}
 
-	const getSelectedItems = (selectedItems: any[]) => {
-		if(selectedItems && selectedItems.length > 0) {
+	const getSelectedItems = (selectedItems: Category[]) => {
+
+		if (selectedItems && selectedItems.length > 0) {
 			let items = [];
-			for(let selected of selectedItems) {
-				let item = list.find(({value}) => value === selected);
-				items.push(item)
+			for (let selected of selectedItems) {
+				let item = list.find(({ value }) => value === selected._id);
+				if(item) {
+					items.push(item)
+				}
 			}
+
+			return items;
 		}
 		else
 			return []
 	}
 
-  return (
-    <td className={`form-control py-2 ${props.className ? props.className : ''}`}>
-      <Controller
-        control={control}
-        name={props.name}
-        render={({
-          field,
-          fieldState: {
-            error
-          }
-        }) => {
+	return (
+		<td className={`form-control py-2 ${props.className ? props.className : ''}`}>
+			<Controller
+				control={control}
+				name={props.name}
+				render={({
+					field,
+					fieldState: {
+						error
+					}
+				}) => {
 
-					if(field.value) {
+					if (field.value) {
 						field = {
 							...field,
-							value: props.multiple 
+							value: props.multiple
 								? getSelectedItems(field.value)
 								: getSelectedItem(field.value[valueKey])
 						}
@@ -137,7 +143,7 @@ export const FormSelect = (props: Props) => {
 											indicatorSeparator: () => ({
 												width: 0
 											}),
-											placeholder: (baseStyles, state) => ({
+											placeholder: (baseStyles) => ({
 												...baseStyles,
 												// fontStyle: "italic",
 												color: colors.placeholder
@@ -152,7 +158,7 @@ export const FormSelect = (props: Props) => {
 						</>
 					)
 				}}
-      />
-    </td>
-  )
+			/>
+		</td>
+	)
 }

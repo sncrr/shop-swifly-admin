@@ -1,6 +1,6 @@
 import { LinkBtn } from "../../../components/buttons";
 import { TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
-import { Store } from "../../../types/Store/Store";
+import { Store } from "../../../models/Store";
 
 export function StoreList ({stores} :any) {
 

@@ -4,10 +4,10 @@ import { useDispatch } from 'react-redux';
 import { AdminController } from "../../controllers";
 import { Submit } from '../../components/forms/Submit';
 import { setAccessToken } from '../../utils/authUtils';
-import { setUser } from '../../root/slices/userSlice';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from './schema';
+import { setUser } from '../../root/Admin/slice';
 
 function Login() {
 
@@ -34,9 +34,8 @@ function Login() {
     let result = await AdminController.authenticate(username, password);
 
     if (result && result.access_token) {
+      setAccessToken(result.access_token);
       dispatch(setUser(result.access_token));
-
-      setAccessToken(result.access_token)
     }
 
     setIsLoading(false);

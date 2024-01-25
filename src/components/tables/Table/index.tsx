@@ -27,7 +27,7 @@ export const Table = (props: Props) => {
             {
                 isLoading && (
                     <div className="absolute flex justify-center items-center bg-modal z-10 top-0 h-full w-full modal-backdrop">
-                        Loading
+                        Fetching...
                     </div>
                 )
             }

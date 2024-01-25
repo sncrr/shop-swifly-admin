@@ -1,16 +1,12 @@
 import * as constant from './constants';
 import * as SettingController from './controllers';
-// import * as SettingAction from './actions';
-import * as ToastAction from '../../components/toasts/actions';
 import { put, call, takeLatest } from 'redux-saga/effects';
-// import { Setting } from '../../types/Inventory/Setting';
 import {
     fetchSettingsSuccess,
     fetchSettingsFailed,
     saveSettingSuccess,
     saveSettingFailed,
 } from './actions';
-import * as ToastConstant from '../../components/toasts/constants';
 
 function* onFetchSettings(action: any) {
     try {
@@ -30,11 +26,9 @@ function* onFetchSettings(action: any) {
 
 function* onSaveSettings(action: any) {
 
-    console.log(action);
-
-    const { toastId } = yield put(ToastAction.createPromiseToast({
-        message: "Saving Setting",
-    }));
+    // const { toastId } = yield put(ToastAction.createPromiseToast({
+    //     message: "Saving Setting",
+    // }));
 
     try {
         let data: Generator = yield call(SettingController.saveSettings, action.payload);
@@ -43,18 +37,18 @@ function* onSaveSettings(action: any) {
             yield put(saveSettingSuccess(data));
         }
 
-        yield put(ToastAction.updateToast(toastId, {
-            message: "Setting saved successfully",
-            result: ToastConstant.STATUS_SUCCESS
-        }));
+        // yield put(ToastAction.updateToast(toastId, {
+        //     message: "Setting saved successfully",
+        //     result: ToastConstant.STATUS_SUCCESS
+        // }));
     }
     catch (error) {
         yield put(saveSettingFailed(error));
 
-        yield put(ToastAction.updateToast(toastId, {
-            message: "Setting saving failed",
-            result: ToastConstant.STATUS_FAILED
-        }));
+        // yield put(ToastAction.updateToast(toastId, {
+        //     message: "Setting saving failed",
+        //     result: ToastConstant.STATUS_FAILED
+        // }));
     }
 }
 

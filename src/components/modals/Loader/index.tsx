@@ -1,10 +1,10 @@
 
 import { Modal } from '..';
 
-export function Loader ({isOpen = false}) {
+export function Loader ({payload}: any) {
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={!!payload}>
       <span>Loading...</span>
     </Modal>
   )

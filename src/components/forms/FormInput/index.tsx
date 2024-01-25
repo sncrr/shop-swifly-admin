@@ -26,6 +26,7 @@ export const FormInput = (props: Props) => {
     additionalInput: undefined,
     description: undefined,
     defaultValue: undefined,
+    addionalNode: undefined,
   }
 
   return (
@@ -34,6 +35,7 @@ export const FormInput = (props: Props) => {
         defaultValue={props.defaultValue ? props.defaultValue : ''}
         control={control}
         name={props.name}
+        disabled={props.disabled}
         render={({
           field,
           fieldState: {
@@ -84,6 +86,7 @@ const Input = styled.input`
 
   &:disabled {
     color: ${colors.inputFocus};
+    background-color: ${colors.gray05th};
   }
   &::placeholder {
     color: ${colors.placeholder};

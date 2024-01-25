@@ -43,7 +43,7 @@ export function ModalContainer ({
 
   return (
     <>
-      { loaderModal && <Loader isOpen={loaderModal} />}
+      { loaderModal && <Loader payload={loaderModal} />}
     </>
   )
 }

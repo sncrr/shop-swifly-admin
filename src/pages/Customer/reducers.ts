@@ -1,4 +1,4 @@
-import { DEFAULT_ITEMS_COUNT } from '../../root/global-constant';
+import { DEFAULT_ITEMS_COUNT } from '../../root/constants';
 import { Customer } from '../../types/Customer/Customer';
 import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';
@@ -22,10 +22,10 @@ const initialState = {
     totalPages: 0,
     selected: null,
     data: null,
-    error: null,
+    error: null
 };
 
-const customersReducer = (history:any) => (state = initialState, action: ReducerProps) => {
+const customersReducer = () => (state = initialState, action: ReducerProps) => {
     
     switch (action.type) {
         case constant.FETCH_CUSTOMERS:

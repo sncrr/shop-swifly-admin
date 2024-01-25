@@ -1,15 +1,16 @@
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import styled from "styled-components";
 import { colors } from "../../../theme";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
     name: string,
+    onChange?: any,
     flexible?: boolean,
     label?: string,
     className?: string,
     description?: string,
-    defaultValue?: any
+    defaultValue?: any,
 }
 
 export function FormCheckBox(props: Props) {
@@ -21,7 +22,8 @@ export function FormCheckBox(props: Props) {
         description: undefined,
         flexible: undefined,
         className: undefined,
-        defaultValue: undefined
+        defaultValue: undefined,
+        onChange: undefined,
     }
 
     return (
@@ -42,6 +44,12 @@ export function FormCheckBox(props: Props) {
                                 <Input
                                     {...inputProps}
                                     {...field}
+                                    onChange={(e) => {
+                                        field.onChange(e);
+                                        if(props.onChange) {
+                                            props.onChange(e);
+                                        }
+                                    }}
                                     checked={field.value}
                                     type="checkbox"
                                 />

@@ -1,15 +1,14 @@
-import { styled } from "styled-components"
+import { ToastContainer } from "../ToastContainer"
+import { ToastProps } from "../constants"
 
-const Container = styled.div`
-    
 
-`
-
-export function SuccessToast ({message}:any) {
+export function SuccessToast (props: ToastProps) {
 
     return (
-        <div className="bg-green-400 rounded p-2 w-72 h-12 m-2 text-white select-none">
-            <h1 className="font-bold">{message}</h1>
-        </div>
+        <ToastContainer {...props} >
+            <div className="bg-green-400 rounded p-2 w-72 h-12 m-2 text-white select-none">
+                <h1 className="font-bold">{props.message}</h1>
+            </div>
+        </ToastContainer>
     )
 }

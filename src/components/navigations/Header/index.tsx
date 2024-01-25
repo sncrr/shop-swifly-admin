@@ -3,6 +3,10 @@ import { colors } from "../../../theme"
 import { AccountDropdown } from "./AccountDropdown"
 import { CaretDownFill } from "../../../assets/svgs/Icons"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { removeAccessToken } from "../../../utils/authUtils"
+import { useDispatch } from "react-redux"
+import { setUser } from "../../../root/Admin/slice"
 
 interface Props {
     user: any
@@ -24,11 +28,19 @@ const Container = styled.nav`
 export function Header (props : Props) {
 
     const { user } = props;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
-
+        setCurrentUser(user);
     }, [user]);
+
+    const handleSignOut = () => {
+        dispatch(setUser(null));
+        removeAccessToken();
+        navigate("/")
+    }
 
     return (
         <Container className="drop-shadow">
@@ -51,7 +63,7 @@ export function Header (props : Props) {
                     <AccountDropdown>
                         <CaretDownFill />
                         <ul className="drop-shadow-md">
-                            <li>Sign out</li>
+                            <li onClick={handleSignOut}>Sign Out</li>
                         </ul>
                     </AccountDropdown>
                 </div>

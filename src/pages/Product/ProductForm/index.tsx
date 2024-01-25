@@ -1,9 +1,28 @@
+//UTILS
 import { useEffect, useState } from "react";
+import { createProduct, generateNewSku, getProduct, updateProduct } from "../controllers";
+import { BackBtn } from "../../../components/buttons";
+import { useParams } from "react-router-dom";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ProductSchema, mapFormDefaultValues } from "./schema";
+import { WEIGHT_UNITS } from "../../../constants/global";
+import { CategoryState, fetchCategories, saveCategorySuccess } from "../../Category/slice";
+import { Product } from "../../../models/Product";
+import { get } from "lodash";
+import { Paths } from "../../../constants";
+import { ProductState, saveProductFailed } from "../slice";
+import { appendFilesToFormData, mapCategoriesToFormData, mapStringifyToFormData, mapToFormData } from "../helpers";
+import { hideLoader, showLoader } from "../../../components/modals/slice";
+import { failedToast, showToast } from "../../../components/toasts/slice";
+import { StoreState, fetchStores } from "../../Store/slice";
+
+//COMPONENTS
 import {
     ButtonGroup,
     Form,
     FormCheckBox,
-    FormControl,
+    FormError,
     FormGroup,
     FormInput,
     FormLabel,
@@ -13,99 +32,144 @@ import {
     FormToggle,
     ImageUpload,
     MultiImageUpload,
+    Reset,
+    Save,
     Submit,
 } from "../../../components/forms";
 import { SourceInput } from "./SourceInput";
-import { fetchStores } from "../../Store/actions";
-import { getProduct } from "../controllers";
-import { fetchCategories } from "../../Category/actions";
-import { Category } from "../../../types/Inventory/Category";
-import { BackBtn } from "../../../components/buttons";
-import { selectProduct } from "../actions";
-import { useParams } from "react-router-dom";
-import { FormProvider, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ProductSchema, productDefaultValues } from "./schema";
-import { WEIGHT_UNITS } from "../constants";
-import { Checkbox } from "../../../components/inputs/Checkbox";
 
 interface Props {
     navigate: any,
     dispatch: any,
-    storeState: any,
-    categories: Category[]
+    productState: ProductState,
+    categoryState: CategoryState,
+    storeState: StoreState;
 }
 
 export function ProductForm(props: Props) {
 
-    const params = useParams();
+    const {
+        dispatch,
+        navigate,
+        categoryState,
+        storeState,
+    } = props;
 
-    // const { selected } = props;
-    const selectedId = params.id ? params.id : "";
+    const [errors, setErrors] = useState('');
+    const { categories } = categoryState;
+    const { stores } = storeState;
 
-    const [thumbnail, setThumbnail] = useState<any>();
-    const [images, setImages] = useState<any>();
-    const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+    const [defaultSku, setDefaultSku] = useState('');
+    const [selected, setSelected] = useState<Product>();
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        props.dispatch(fetchStores())
-        props.dispatch(fetchCategories())
-    }, [])
+    const routePrams = useParams();
 
-    useEffect(() => {
-        if (selectedId) {
-            loadSelectedCategory();
-        }
-    }, [selectedId])
+    const defaultValues = mapFormDefaultValues(selected, stores, categories, defaultSku);
 
     const formMethods = useForm({
-        resolver: yupResolver(ProductSchema)
+        resolver: yupResolver(ProductSchema),
+        defaultValues
     })
 
     const {
         handleSubmit,
-        reset
+        reset,
+        setValue,
+        watch
     } = formMethods;
 
-    useEffect(() => {
-        reset(productDefaultValues);
-    }, [])
 
-    const loadSelectedCategory = async () => {
-        let result = await getProduct(selectedId);
-        if (result) {
-            props.dispatch(selectProduct(result));
+    useEffect(() => {
+        //Load Stores and Categories
+        props.dispatch(fetchStores({}));
+        props.dispatch(fetchCategories({}));
+
+        //Load Selected Data
+        const selectedId = get(routePrams, 'id', '');
+        const loadSelectedProduct = async () => {
+            try {
+                let result = await getProduct(selectedId);
+
+                if (result) {
+                    setSelected(result);
+                }
+            } catch (error) {
+                navigate(Paths.PRODUCT);
+            }
         }
+
+        if (selectedId) {
+            loadSelectedProduct();
+        }
+        else {
+            generateSku();
+        }
+
+        setLoading(false);
+    }, []);
+
+    useEffect(() => {
+        reset(defaultValues);
+    }, [stores, categories, selected, loading]);
+
+    const generateSku = async () => {
+        let defaultSku = ''
+        try {
+            defaultSku = await generateNewSku();
+        } catch (error) {}
+
+        setValue('sku', defaultSku);
+        setDefaultSku(defaultSku);
     }
 
-    const onSubmit = async (values: any) => {
+    const onSubmit = async (values: any, event: any): Promise<any> => {
 
-        console.log("VALUES", values);
+        setErrors('');
 
-        // e.preventDefault();
+        let formData = mapToFormData(values);
 
-        // let data = new FormData(e.target);
+        formData = appendFilesToFormData(formData, values, event, 'thumbnail');
+        formData = appendFilesToFormData(formData, values, event,  'views', true);
+        formData = mapCategoriesToFormData(formData, values.categories);
 
-        // let categoryIds = [];
-        // for (let category of selectedCategories) {
-        //     categoryIds.push(category._id);
-        //     if (category._id) {
-        //         data.append("categories[]", category._id);
-        //     }
-        // }
+        formData = mapStringifyToFormData(formData, 'prices', values.prices);
+        formData = mapStringifyToFormData(formData, 'stocks', values.stocks);
+        formData = mapStringifyToFormData(formData, 'weightUnit', values.weightUnit.value);
+        formData = mapStringifyToFormData(formData, 'minCartQty', values.minCartQty);
+        formData = mapStringifyToFormData(formData, 'maxCartQty', values.maxCartQty);
 
-        // data.append("thumbnail", thumbnail[0]);
-        // if (images.length > 0) {
-        //     for (let i = 0, file; file = images[i]; i++) {
-        //         data.append(`view_${i + 1}`, file);
-        //     }
-        // }
+        dispatch(showLoader('Saving Product...'));
 
-        // props.dispatch(saveProduct({
-        //     id: props.selected?._id,
-        //     data,
-        //     navigateToItem: true
-        // }));
+        try {
+            let result = null;
+            if(selected && selected._id) {
+                formData.append('id', selected._id);
+                result = await updateProduct(selected._id, formData);
+            }
+            else {
+                result = await createProduct(formData)
+            }
+
+            dispatch(saveCategorySuccess(result));
+            dispatch(hideLoader());
+
+            if(!values.continueEdit) {
+                navigate(Paths.PRODUCT)
+            }
+            else {
+                setSelected(result);
+            }
+
+        } catch (error: any) {
+            
+            dispatch(hideLoader());
+
+            const message = get(error, 'response.data.message', '');
+            setErrors(message);
+            dispatch(saveProductFailed(message));
+            dispatch(showToast(failedToast('Product saving failed')))
+        }
     }
 
     return (
@@ -113,10 +177,18 @@ export function ProductForm(props: Props) {
             <FormProvider {...formMethods}>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <ButtonGroup>
-                        {/* <Reset value="Reset"/> */}
-                        <BackBtn navigate={props.navigate} />
+                        <BackBtn navigate={navigate} />
+                        <Reset onClick={() => reset(defaultValues)} />
+
+                        <Save
+                            text="Save but continue editing"
+                            onClick={() => setValue("continueEdit", true)}
+                        />
                         <Submit text="Save" />
                     </ButtonGroup>
+                    <FormError>
+                        {errors}
+                    </FormError>
                     <FormSection id="product_info" title="Product Information" isOpen hasRequired>
                         <FormGroup required>
                             <FormLabel>Name</FormLabel>
@@ -138,83 +210,89 @@ export function ProductForm(props: Props) {
                                 labelKey="name"
                                 valueKey="_id"
                                 multiple
-                                options={[
-                                    ...props.categories
-                                ]}
+                                options={categories}
                             />
                         </FormGroup>
 
                         <FormGroup>
                             <FormLabel>Description</FormLabel>
-                            <FormTextArea name="description"/>
+                            <FormTextArea name="description" />
                         </FormGroup>
 
                         <FormGroup>
                             <FormLabel>Weight</FormLabel>
-                            <FormInput name="weightValue" placeholder="Value" />
-                            <FormSelect 
-                                name="weightUnit" 
+                            <FormInput 
+                                name="weightValue" 
+                                placeholder="Value" 
+                                disabled={!get(watch('weightUnit'), 'value', '')}
+                            />
+                            <FormSelect
+                                name="weightUnit"
+                                placeholder="None"
                                 options={WEIGHT_UNITS}
                             />
                         </FormGroup>
                     </FormSection>
 
-
-                    <FormSection  id="price_stocks" title="Price & Stocks" hasRequired isOpen>
+                    <FormSection id="price_stocks" title="Price & Stocks" hasRequired isOpen>
                         <tr>
                             <td className="w-full pb-8" colSpan={2}>
                                 <SourceInput
-                                    stores={props.storeState.stores}
+                                    stores={stores}
                                 />
                             </td>
                         </tr>
                         <FormGroup>
                             <FormLabel>Minimum Cart Qty</FormLabel>
-                            <FormInput 
-                                name="minCartQty" 
+                            <FormInput
+                                disabled={watch('minCartQty').useGlobal}
+                                name="minCartQty.value"
                                 type="number"
                                 description="Set the minimum quantity allowed in shopping cart"
-                                addionalNode={(
-                                    <Checkbox
-                                        label="Use System Config"
-                                        name="minCartQty_useDefault"
-                                    />
-                                )}
                             />
                         </FormGroup>
-  
+                        <FormGroup>
+                            <FormLabel />
+                            <FormCheckBox
+                                label="Use Global Config"
+                                name="minCartQty.useGlobal"
+                                className="py-0"
+                            />
+                        </FormGroup>
+
                         <FormGroup>
                             <FormLabel>Maximum Cart Qty</FormLabel>
-                            <FormInput 
-                                name="maxCartQty" 
+                            <FormInput
+                                disabled={watch('maxCartQty').useGlobal}
+                                name="maxCartQty.value"
                                 type="number"
                                 description="Set the maximum quantity allowed in shopping cart"
-                                addionalNode={(
-                                    <Checkbox
-                                        label="Use System Config"
-                                        name="maxCartQty_useDefault"
-                                    />
-                                )}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <FormLabel />
+                            <FormCheckBox
+                                label="Use Global Config"
+                                name="maxCartQty.useGlobal"
+                                className="py-0"
                             />
                         </FormGroup>
                     </FormSection>
 
                     <FormSection id="media_gallery" title="Media Gallery" hasRequired isOpen>
-                        <FormGroup>
-                        <FormLabel>Thumbnail</FormLabel>
-                        <ImageUpload 
-                            name="images.thumbnail"
-                            onChange={setThumbnail}
-                        />
-                    </FormGroup>
+                        <FormGroup required>
+                            <FormLabel>Thumbnail</FormLabel>
+                            <ImageUpload
+                                name="thumbnail"
+                            />
+                        </FormGroup>
 
-                    <FormGroup>
-                        <FormLabel>Images</FormLabel>
-                        <MultiImageUpload 
-                            name="images.images"
-                            onChange={setImages}
-                        />
-                    </FormGroup>
+                        <FormGroup>
+                            <FormLabel>Images</FormLabel>
+                            <MultiImageUpload
+                                name="views"
+                            />
+                        </FormGroup>
                     </FormSection>
 
 

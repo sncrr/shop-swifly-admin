@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { colors } from "../../../theme";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { get } from "lodash";
+import { get, isArray } from "lodash";
 
 interface Props {
     name: string,
@@ -53,17 +53,16 @@ export function ImageUpload(props: Props) {
 
     const [source, setSource] = useState<string>('');
 
-    const { control, setValue, formState: {errors}} = useFormContext();
-
-    console.log(errors);
-    console.log(props.name)
+    const { control, setValue, watch, formState: {errors}} = useFormContext();
+    
+    const value = watch(`files.${props.name}.files`);
 
     const handleOnDragHover = (e: React.DragEvent<HTMLLabelElement>) => {
-
+        console.log(e);
     }
 
     const handleOnDrop = (e: React.DragEvent<HTMLLabelElement>) => {
-
+        console.log(e);
     }
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,8 +70,10 @@ export function ImageUpload(props: Props) {
         let files = e.target.files;
         if (files) {
             for (let file of files) {
-                parseFile(file);
-                setValue(`${props.name}_file`, file)
+                let url = parseFile(file);
+                // setSource(url);
+                setValue(`files.${props.name}.files`, [url])
+                setValue(`files.${props.name}.changed`, true)
             }
 
             props.onChange ? props.onChange(files) : {};
@@ -81,21 +82,36 @@ export function ImageUpload(props: Props) {
     }
 
     const parseFile = (file: File) => {
-
         if (file) {
-            setSource(URL.createObjectURL(file))
+            return URL.createObjectURL(file)
         }
         else {
-            setSource('');
+            return '';
         }
     }
+
+    useEffect(() => {
+        
+        if(value) {
+            if(isArray(value) && value.length > 0) {
+                setSource(value[0]);
+            }
+            else {
+                setSource('')
+            }
+        }
+        else {
+            setSource('')
+        }
+    }, [value])
+
 
     return (
         <Container>
             <Controller
                 defaultValue={''}
                 control={control}
-                name={props.name}
+                name={`files.${props.name}.value`}
                 render={({
                     field
                 }) => (
@@ -138,7 +154,7 @@ export function ImageUpload(props: Props) {
                             />
                         </div>
                         <div className='text-red-500 text-xs h-2 pl-3'>
-                            {`${get(errors, `${props.name}.message`, '')}`}
+                            {`${get(errors, `files.${props.name}.value.message`, '')}`}
                         </div>
                     </>
                 )}

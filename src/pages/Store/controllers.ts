@@ -1,4 +1,4 @@
-import { Store } from "../../types/Store/Store";
+import { Store } from "../../models/Store";
 import { request } from "../../controllers/request";
 import { createQuery } from "../../utils/requestUtils";
 

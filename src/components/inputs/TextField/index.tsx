@@ -1,4 +1,4 @@
-import { FormEvent, InputHTMLAttributes, KeyboardEvent, ReactNode } from "react";
+import { FormEvent, InputHTMLAttributes, ReactNode } from "react";
 import { colors } from "../../../theme";
 import styled from "styled-components";
 import { Control } from "..";

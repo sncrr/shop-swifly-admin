@@ -9,9 +9,13 @@ interface Props {
   }[]
 }
 const Menu = styled.button`
-    
+  
+  position: relative;
+
   ul {
     position: absolute;
+    z-index: 10;
+    right: 0;
     display: none;
     background-color: ${colors.white};
     text-align: left;
@@ -40,7 +44,6 @@ export const RowActions = ({buttons}: Props) => {
 
   return (
     <Menu>
-      <MoreHorizontal size={24} color={colors.mainColor} />
       <ul className="drop-shadow-md">
         {
           buttons.map((item, index) => (
@@ -50,6 +53,7 @@ export const RowActions = ({buttons}: Props) => {
           ))
         }
       </ul>
+      <MoreHorizontal size={24} color={colors.mainColor} />
     </Menu>
   )
 }

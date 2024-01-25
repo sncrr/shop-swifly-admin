@@ -1,4 +1,4 @@
-import { FormEvent, InputHTMLAttributes, useEffect, useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
 import { colors } from "../../../theme";
 import styled from "styled-components";
 
@@ -16,8 +16,8 @@ export const Checkbox = (props: Props) => {
 
   const {
     label,
-    onSubmit,
-    name
+    name,
+    onSubmit
   } = props;
 
   const inputProps = {
@@ -32,17 +32,12 @@ export const Checkbox = (props: Props) => {
   //   handleSubmit();
   // }, [checked]);
 
-  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (value: boolean) => {
 
-  //   e.preventDefault();
-
-  //   const data = new FormData(e.currentTarget);
-  //   const value = data.get(name ? name : "input");
-
-  //   if (onSubmit) {
-  //     onSubmit(value);
-  //   }
-  // };
+    if (onSubmit) {
+      onSubmit(value);
+    }
+  };
 
   return (
     <Control>
@@ -54,6 +49,7 @@ export const Checkbox = (props: Props) => {
           checked={checked}
           onChange={(e) => {
             setChecked(e.target.checked);
+            handleSubmit(e.target.checked);
           }}
         />
         <span className="box">

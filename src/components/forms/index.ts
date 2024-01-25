@@ -4,6 +4,7 @@ export { Form, FlexForm } from './Form';
 export { FormCheckBox } from './FormCheckBox';
 export { FormControl } from './FormControl';
 export { FormControl2 } from './FormControl2';
+export { FormError } from './FormError';
 export { FormGroup } from './FormGroup';
 export { FormInput } from './FormInput';
 export { FormLabel } from './FormLabel';

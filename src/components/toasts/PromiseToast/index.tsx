@@ -1,6 +1,6 @@
-import { hideToast, updateToast } from "../actions"
 import { useEffect } from "react";
 import { ANIMATION_SPEED, HIDE_DELAY, STATUS_FAILED, STATUS_SUCCESS } from "../constants";
+import { hideToast, updateToast } from "../slice";
 
 interface Props {
   dispatch: any,
@@ -23,7 +23,8 @@ export function PromiseToast({
   useEffect(() => {
 
     setTimeout(() => {
-      dispatch(updateToast(toastId, {
+      dispatch(updateToast({
+        toastId,
         toShow: false
       }))
     }, ANIMATION_SPEED)

@@ -38,6 +38,7 @@ export const FormToggle = (props: Props) => {
                                 <input
                                     {...inputProps}
                                     {...field}
+                                    checked={!!field.value}
                                     type="checkbox"
                                 />
                                 <span className={`slider ${rounded ? 'round' : ''}`}></span>

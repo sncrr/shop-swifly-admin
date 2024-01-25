@@ -1,16 +1,10 @@
 import { connect } from "react-redux";
-
-import { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 import { StoreList } from "./StoreList";
 import { StoreForm } from "./StoreForm";
 import { Paths } from "../../constants";
 
 function Main ({state}:any) {
-  
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   return (
     <Routes>

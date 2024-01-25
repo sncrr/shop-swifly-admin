@@ -1,44 +1,44 @@
 import { ArrowLeft, ArrowRight, FunnelFill, Search } from '../../../assets/svgs/Icons'
 import { styled } from 'styled-components'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FillLink } from '../../buttons'
 import { Paths } from '../../../constants'
 import { TextField } from '../../inputs'
 import { colors } from '../../../theme'
-import { DEFAULT_ITEMS_COUNT } from '../../../root/global-constant'
+import { DEFAULT_ITEMS_COUNT } from '../../../root/constants'
 
 const VIEW_FILTER = 'view_filter';
 const VIEW_COLUMN = 'view_column';
 
-const PAGE_COUNTS = [
-    {
-        label: 20,
-        value: 20
-    },
-    {
-        label: 50,
-        value: 50
-    },
-    {
-        label: 100,
-        value: 100
-    },
-    {
-        label: 200,
-        value: 200
-    },
-];
+// const PAGE_COUNTS = [
+//     {
+//         label: 20,
+//         value: 20
+//     },
+//     {
+//         label: 50,
+//         value: 50
+//     },
+//     {
+//         label: 100,
+//         value: 100
+//     },
+//     {
+//         label: 200,
+//         value: 200
+//     },
+// ];
 
-const TABLE_ACTIONS = [
-    {
-        label: "Delete",
-        value: "delete"
-    },
-    {
-        label: "Update attribute",
-        value: "update"
-    }
-];
+// const TABLE_ACTIONS = [
+//     {
+//         label: "Delete",
+//         value: "delete"
+//     },
+//     {
+//         label: "Update attribute",
+//         value: "update"
+//     }
+// ];
 
 interface Props {
     singleColumn?: boolean;

@@ -5,9 +5,10 @@ import { useDispatch } from "react-redux";
 import { ProductList } from "./ProductList";
 import { ProductForm } from "./ProductForm";
 import { Paths } from "../../constants";
-import { CategoryState } from "../Category/reducers";
-import { StoreState } from "../Store/reducers";
-import { ProductState } from "./reducers";
+import { CategoryState } from "../Category/slice";
+import { StoreState } from "../Store/slice";
+import { ProductState } from "./slice";
+import { RootState } from "../../root/reducers";
 
 interface Props {
 	state: ProductState,
@@ -20,22 +21,15 @@ function Main(props: Props) {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	// useEffect(() => {
-	// 	dispatch(fetchProducts({
-	// 		page: selectedPage,
-	// 		itemsCount: itemsCount
-	// 	}))
-	// }, []);
-
 	return (
 		<Routes>
 			<Route
 				path={Paths.BASE}
 				element={
 					<ProductList
-						productState={props.state}
 						navigate={navigate}
 						dispatch={dispatch}
+						productState={props.state}
 					/>
 				}
 			/>
@@ -45,8 +39,9 @@ function Main(props: Props) {
 					<ProductForm
 						dispatch={dispatch}
 						navigate={navigate}
+						productState={props.state}
 						storeState={props.storeState}
-						categories={props.categoryState.categories}
+						categoryState={props.categoryState}
 					/>
 				}
 			/>
@@ -56,8 +51,9 @@ function Main(props: Props) {
 					<ProductForm
 						dispatch={dispatch}
 						navigate={navigate}
+						productState={props.state}
 						storeState={props.storeState}
-						categories={props.categoryState.categories}
+						categoryState={props.categoryState}
 					/>
 				}
 			/>
@@ -65,7 +61,7 @@ function Main(props: Props) {
 	)
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
 	state: state.product,
 	storeState: state.store,
 	categoryState: state.category,

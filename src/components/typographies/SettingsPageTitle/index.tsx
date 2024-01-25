@@ -1,7 +1,7 @@
 import { ArrowRight } from "../../../assets/svgs/Icons"
 import { FormGroup, FormInput, FormSection, Submit } from "../../forms";
 
-const SettingsPageTitle = ({ titles, section, group }: any) => {
+const SettingsPageTitle = ({ titles }: any) => {
 
     return (
         <>

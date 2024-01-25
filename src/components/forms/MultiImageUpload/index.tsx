@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { colors } from "../../../theme";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { get } from "lodash";
 
@@ -52,14 +52,16 @@ export function MultiImageUpload(props: Props) {
 
     const [sources, setSources] = useState<string[]>([]);
 
-    const { control, setValue, formState: { errors } } = useFormContext();
+    const { control, setValue, watch, formState: { errors } } = useFormContext();
+
+    const value = watch(`files.${props.name}.files`);
 
     const handleOnDragHover = (e: React.DragEvent<HTMLLabelElement>) => {
-
+        console.log(e);
     }
 
     const handleOnDrop = (e: React.DragEvent<HTMLLabelElement>) => {
-
+        console.log(e);
     }
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +74,8 @@ export function MultiImageUpload(props: Props) {
             }
 
             setSources(sources);
-            setValue(`${props.name}_file`, files);
+            setValue(`files.${props.name}.files`, sources)
+            setValue(`files.${props.name}.changed`, true)
 
             props.onChange ? props.onChange(files) : {};
         }
@@ -90,12 +93,16 @@ export function MultiImageUpload(props: Props) {
         }
     }
 
+    useEffect(() => {
+        setSources(value);
+    }, [value])
+
     return (
         <Container>
             <Controller
                 defaultValue={''}
                 control={control}
-                name={`${props.name}`}
+                name={`files.${props.name}.value`}
                 render={({
                     field
                 }) => (
@@ -143,7 +150,7 @@ export function MultiImageUpload(props: Props) {
                             />
                         </div>
                         <div className='text-red-500 text-xs h-2 pl-3'>
-                            {`${get(errors, `${props.name}.message`, '')}`}
+                            {`${get(errors, `files.${props.name}.value.message`, '')}`}
                         </div>
                     </>
                 )}

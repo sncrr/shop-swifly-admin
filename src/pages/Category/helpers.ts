@@ -1,5 +1,5 @@
 import { isArray } from "lodash";
-import { Category } from "../../types/Inventory/Category";
+import { Category } from "../../models/Category";
 
 export const organizeByParent = (list: Category[]): any[] => {
 
@@ -21,7 +21,7 @@ export const organizeByParent = (list: Category[]): any[] => {
     } else {
 
       //Get parent
-      let parent = findParent(item.parent._id);
+      let parent = item.parent && item.parent._id ? findParent(item.parent._id) : null;
 
       // Create children
       if (parent) {
@@ -31,6 +31,9 @@ export const organizeByParent = (list: Category[]): any[] => {
         if (!parent.children.some((child: any) => child._id === item._id)) {
           parent.children.push(item);
         }
+      }
+      else {
+        organizedData.push(item);
       }
     }
   });
