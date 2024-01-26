@@ -4,25 +4,26 @@ import { Category } from "../../../models/Category";
 import { getRowStatus, organizeByParent, setRowStatus } from "../helpers";
 import { Paths } from "../../../constants";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { CategoryState, deleteCategory, fetchCategories, saveCategory } from "../slice";
+import { deleteCategory, fetchCategories, saveCategory } from "../slice";
 
 //COMPONENTS
 import { CaretRightFill } from "../../../assets/svgs/Icons";
 import { RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
-import { NavigateFunction } from "react-router-dom";
+import { NavigateFunction, useOutletContext } from "react-router-dom";
 import { Checkbox } from "../../../components/inputs/Checkbox";
 import { Section } from "../../../components/containers";
 import { showConfirmDialog } from "../../../components/alerts/actions";
-import { CATEGORY_LOCAL_KEY } from "../../../root/constants";
 import { getProductLocalData, setProductLocalData } from "../../../root/helper";
+import { CATEGORY_LOCAL_KEY } from "../../../constants/global";
+import { CategoryContext } from "..";
 
+const CategoryList = () => {
 
-interface Props {
-    categoryState: CategoryState,
-    navigate: NavigateFunction,
-    dispatch: Dispatch<AnyAction>
-}
-const CategoryList = (props: Props) => {
+    const {
+        dispatch,
+        navigate,
+        categoryState,
+    } = useOutletContext<CategoryContext>();
 
     //HOOKS & VARIABLES
     const localData = getProductLocalData(CATEGORY_LOCAL_KEY);
@@ -31,22 +32,22 @@ const CategoryList = (props: Props) => {
         fetching,
         categories,
         hasChanges
-    } = props.categoryState;
+    } = categoryState;
 
     const organizedDefault = fetching ? [] : organizeByParent(categories);
 
     useEffect(() => {
-        props.dispatch(fetchCategories({search}));
+        dispatch(fetchCategories({search}));
     }, [])
 
     useEffect(() => {
         if (hasChanges && !fetching) {
-            props.dispatch(fetchCategories({search}));
+            dispatch(fetchCategories({search}));
         }
     }, [hasChanges, fetching])
 
     const handleSearch = (value: string) => {
-        props.dispatch(fetchCategories({search: value}));
+        dispatch(fetchCategories({search: value}));
         setProductLocalData(CATEGORY_LOCAL_KEY, {
 			search: value
 		});
@@ -83,8 +84,8 @@ const CategoryList = (props: Props) => {
                                 item={item}
                                 tabCount={0}
                                 hasCheckbox
-                                dispatch={props.dispatch}
-                                navigate={props.navigate}
+                                dispatch={dispatch}
+                                navigate={navigate}
                             />
                         ))
                     }

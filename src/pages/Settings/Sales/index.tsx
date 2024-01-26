@@ -4,19 +4,19 @@ import { FormProvider, useForm } from "react-hook-form";
 import SettingsPageTitle from "../../../components/typographies/SettingsPageTitle";
 import { FlexForm } from "../../../components/forms";
 import { getCurrentGroup, getDefaultValues } from "../helpers";
-import { GroupProps } from "../../../types/Settings/GroupProps";
-import { fetchSettings } from "../actions";
+import { SettingGroupProps } from "../../../types/Settings/SettingGroupProps";
+import { useOutletContext } from "react-router-dom";
+import { SettingsContext } from "..";
+import { fetchSettings } from "../slice";
 
+const Sales = (props: SettingGroupProps) => {
 
-const General = (props: GroupProps) => {
-
-    const { 
-        children, 
-        dispatch, 
-        onSubmit, 
-        section, 
-        settingState 
-    } = props;
+    const { children, section } = props;
+    const {
+        dispatch,
+        settingState,
+        onSubmit,
+    } = useOutletContext<SettingsContext>();
 
     const { data } = settingState;
 
@@ -53,7 +53,7 @@ const General = (props: GroupProps) => {
             <FlexForm onSubmit={handleSubmit(onSubmit)}>
                 <SettingsPageTitle
                     titles={[
-                        'General',
+                        'Sales',
                         group.label
                     ]}
                     section={section}
@@ -62,6 +62,7 @@ const General = (props: GroupProps) => {
 
                 <div className="flex flex-1 py-4 px-4">
                     <ConfigNavigator items={children} setGroup={setGroup} />
+                    
                     {
                         children.map((item: any, index: number) => (
                             group.code === item.code ? 
@@ -77,4 +78,4 @@ const General = (props: GroupProps) => {
     )
 }
 
-export default General;
+export default Sales;

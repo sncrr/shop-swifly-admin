@@ -2,20 +2,20 @@
 import { useEffect, useState } from "react";
 import { createProduct, generateNewSku, getProduct, updateProduct } from "../controllers";
 import { BackBtn } from "../../../components/buttons";
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProductSchema, mapFormDefaultValues } from "./schema";
 import { WEIGHT_UNITS } from "../../../constants/global";
-import { CategoryState, fetchCategories, saveCategorySuccess } from "../../Category/slice";
+import { fetchCategories, saveCategorySuccess } from "../../Category/slice";
 import { Product } from "../../../models/Product";
 import { get } from "lodash";
 import { Paths } from "../../../constants";
-import { ProductState, saveProductFailed } from "../slice";
+import { saveProductFailed } from "../slice";
 import { appendFilesToFormData, mapCategoriesToFormData, mapStringifyToFormData, mapToFormData } from "../helpers";
 import { hideLoader, showLoader } from "../../../components/modals/slice";
 import { failedToast, showToast } from "../../../components/toasts/slice";
-import { StoreState, fetchStores } from "../../Store/slice";
+import { fetchStores } from "../../Store/slice";
 
 //COMPONENTS
 import {
@@ -37,23 +37,16 @@ import {
     Submit,
 } from "../../../components/forms";
 import { SourceInput } from "./SourceInput";
+import { ProductContext } from "..";
 
-interface Props {
-    navigate: any,
-    dispatch: any,
-    productState: ProductState,
-    categoryState: CategoryState,
-    storeState: StoreState;
-}
-
-export function ProductForm(props: Props) {
+export function ProductForm() {
 
     const {
         dispatch,
         navigate,
-        categoryState,
         storeState,
-    } = props;
+        categoryState,
+    } = useOutletContext<ProductContext>();
 
     const [errors, setErrors] = useState('');
     const { categories } = categoryState;
@@ -82,8 +75,8 @@ export function ProductForm(props: Props) {
 
     useEffect(() => {
         //Load Stores and Categories
-        props.dispatch(fetchStores({}));
-        props.dispatch(fetchCategories({}));
+        dispatch(fetchStores({}));
+        dispatch(fetchCategories({}));
 
         //Load Selected Data
         const selectedId = get(routePrams, 'id', '');
@@ -112,6 +105,17 @@ export function ProductForm(props: Props) {
     useEffect(() => {
         reset(defaultValues);
     }, [stores, categories, selected, loading]);
+
+    useEffect(() => {
+        if (loading || categoryState.fetching || storeState.fetching) {
+            dispatch(showLoader({ message: "Loading" }))
+        }
+        else {
+            dispatch(hideLoader())
+        }
+        
+        reset(defaultValues);
+    }, [loading, categoryState.fetching, storeState.fetching])
 
     const generateSku = async () => {
         let defaultSku = ''

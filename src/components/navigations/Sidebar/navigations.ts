@@ -6,7 +6,7 @@
 // import { MenuStore } from "../../../assets/svgs/Icons/MenuStore";
 // import { MenuTransactions } from "../../../assets/svgs/Icons/MenuTransactions";
 // import { Paths } from "../../../constants";
-// import { configPaths } from "../../../pages/Configuration/configs";
+// import { configPaths } from "../../../pages/Settings/configs";
 
 // export const navigations = [
 //   {

@@ -1,12 +1,6 @@
-import * as constant from './constants';
 import * as SettingController from './controllers';
 import { put, call, takeLatest } from 'redux-saga/effects';
-import {
-    fetchSettingsSuccess,
-    fetchSettingsFailed,
-    saveSettingSuccess,
-    saveSettingFailed,
-} from './actions';
+import { actionTypes, fetchSettingsFailed, fetchSettingsSuccess, saveSettingsFailed, saveSettingsSuccess } from './slice';
 
 function* onFetchSettings(action: any) {
     try {
@@ -34,7 +28,7 @@ function* onSaveSettings(action: any) {
         let data: Generator = yield call(SettingController.saveSettings, action.payload);
 
         if (data) {
-            yield put(saveSettingSuccess(data));
+            yield put(saveSettingsSuccess(data));
         }
 
         // yield put(ToastAction.updateToast(toastId, {
@@ -43,7 +37,7 @@ function* onSaveSettings(action: any) {
         // }));
     }
     catch (error) {
-        yield put(saveSettingFailed(error));
+        yield put(saveSettingsFailed(error));
 
         // yield put(ToastAction.updateToast(toastId, {
         //     message: "Setting saving failed",
@@ -54,8 +48,8 @@ function* onSaveSettings(action: any) {
 
 //Root Saga
 function* settingSaga() {
-    yield takeLatest(constant.FETCH_SETTINGS, onFetchSettings);
-    yield takeLatest(constant.SAVE_SETTING, onSaveSettings);
+    yield takeLatest(actionTypes.fetchSettings, onFetchSettings);
+    yield takeLatest(actionTypes.saveSettings, onSaveSettings);
 }
 
 export default settingSaga;

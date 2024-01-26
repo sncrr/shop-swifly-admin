@@ -1,11 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import globalSlice, { GlobalState } from './Admin/slice';
 import modalSlice from '../components/modals/slice';
-import settingSlice from '../pages/Configuration/slice';
 import toastSlice from '../components/toasts/slice';
 import categorySlice, { CategoryState } from '../pages/Category/slice';
 import productSlice, { ProductState } from '../pages/Product/slice';
 import storeSlice, { StoreState } from '../pages/Store/slice';
+import settingSlice from '../pages/Settings/slice';
 
 export interface RootState {
   global: GlobalState

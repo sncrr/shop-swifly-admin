@@ -1,20 +1,27 @@
 import { connect } from "react-redux";
 
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ProductList } from "./ProductList";
-import { ProductForm } from "./ProductForm";
-import { Paths } from "../../constants";
 import { CategoryState } from "../Category/slice";
 import { StoreState } from "../Store/slice";
 import { ProductState } from "./slice";
 import { RootState } from "../../root/reducers";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
 interface Props {
-	state: ProductState,
+	productState: ProductState,
 	storeState: StoreState,
 	categoryState: CategoryState,
 }
+
+export interface ProductContext {
+	navigate: NavigateFunction,
+	dispatch: Dispatch<AnyAction>,
+	productState: ProductState,
+	categoryState: CategoryState,
+	storeState: StoreState
+}
+
 
 function Main(props: Props) {
 
@@ -22,47 +29,20 @@ function Main(props: Props) {
 	const navigate = useNavigate();
 
 	return (
-		<Routes>
-			<Route
-				path={Paths.BASE}
-				element={
-					<ProductList
-						navigate={navigate}
-						dispatch={dispatch}
-						productState={props.state}
-					/>
-				}
-			/>
-			<Route
-				path={`/${Paths.CREATE}`}
-				element={
-					<ProductForm
-						dispatch={dispatch}
-						navigate={navigate}
-						productState={props.state}
-						storeState={props.storeState}
-						categoryState={props.categoryState}
-					/>
-				}
-			/>
-			<Route
-				path={`/${Paths.EDIT}`}
-				element={
-					<ProductForm
-						dispatch={dispatch}
-						navigate={navigate}
-						productState={props.state}
-						storeState={props.storeState}
-						categoryState={props.categoryState}
-					/>
-				}
-			/>
-		</Routes>
+		<Outlet 
+			context={{
+				dispatch, 
+				navigate, 
+				productState: props.productState,
+				categoryState: props.categoryState,
+				storeState: props.storeState,
+			} satisfies ProductContext} 
+		/>
 	)
 }
 
 const mapStateToProps = (state: RootState) => ({
-	state: state.product,
+	productState: state.product,
 	storeState: state.store,
 	categoryState: state.category,
 });

@@ -5,8 +5,7 @@ import { Product } from "../../../models/Product";
 import { Store } from "../../../models/Store";
 import { Category } from "../../../models/Category";
 import { mapCategoriesById } from "../helpers";
-import { GLOBAL_OVERRIDER_DEFAULT, WEIGHT_UNITS } from "../../../constants/global";
-import { MEDIA_BASE_URL } from "../../../root/constants";
+import { GLOBAL_OVERRIDER_DEFAULT, MEDIA_BASE_URL, WEIGHT_UNITS } from "../../../constants/global";
 import { GlobalOverriderSchema } from "../../../models/Setting";
 
 export const ProductSchema = Yup.object().shape({

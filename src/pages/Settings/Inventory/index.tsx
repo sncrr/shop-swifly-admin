@@ -4,19 +4,20 @@ import { FormProvider, useForm } from "react-hook-form";
 import SettingsPageTitle from "../../../components/typographies/SettingsPageTitle";
 import { FlexForm } from "../../../components/forms";
 import { getCurrentGroup, getDefaultValues } from "../helpers";
-import { GroupProps } from "../../../types/Settings/GroupProps";
-import { fetchSettings } from "../actions";
+import { SettingGroupProps } from "../../../types/Settings/SettingGroupProps";
+import { fetchSettings } from "../slice";
+import { useOutletContext } from "react-router-dom";
+import { SettingsContext } from "..";
 
 
-const Inventory = (props: GroupProps) => {
+const Inventory = (props: SettingGroupProps) => {
 
-    const { 
-        children, 
-        dispatch, 
-        onSubmit, 
-        section, 
-        settingState 
-    } = props;
+    const { children, section } = props;
+    const {
+        dispatch,
+        settingState,
+        onSubmit,
+    } = useOutletContext<SettingsContext>();
 
     const { data } = settingState;
 

@@ -2,12 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface GlobalState {
     user: any,
+    loading: boolean,
     targetPath: string,
     navigateTo: boolean
 }
 
 const initialState = {
     user: null,
+    loading: true,
     targetPath: '/',
     navigateTo: false,
 };
@@ -19,11 +21,13 @@ const globalSlice = createSlice({
 
         setUser: (state, action) => ({
             ...state,
-            user: action.payload
+            user: action.payload,
+            loading: false,
         }),
         clearUser: (state) => ({
             ...state,
-            user: null
+            user: null,
+            loading: false,
         }),
 
         navigateTo: (state, action) => ({

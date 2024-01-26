@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormGroup, FormInput, FormLabel, FormSection } from "../../components/forms";
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { AdminController } from "../../controllers";
 import { Submit } from '../../components/forms/Submit';
 import { setAccessToken } from '../../utils/authUtils';
@@ -8,9 +8,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from './schema';
 import { setUser } from '../../root/Admin/slice';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Main(props: any) {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +25,14 @@ function Login() {
     handleSubmit,
     getValues
   } = formMethods;
+
+  const { user } = props.state;
+
+  useEffect(() => {
+    if(user) {
+      navigate('/admin')
+    }
+  }, [user]);
 
   const onSubmit = async () => {
 
@@ -41,6 +51,8 @@ function Login() {
     setIsLoading(false);
   }
 
+  if(user) return null;
+  
   return (
     <div className="flex justify-center w-full h-full bg-gray-800 p-2">
       <div className="mx-auto bg-white rounded-sm p-8 self-center">
@@ -97,4 +109,8 @@ function Login() {
   )
 }
 
-export default Login;
+const mapStateToProps = (state: any) => ({
+	state: state.global
+});
+
+export const Login = connect(mapStateToProps)(Main);
