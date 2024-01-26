@@ -9,5 +9,6 @@ export default ({ mode }) => {
     plugins: [
       react()
     ],
+    base: '/',
   })
 }
