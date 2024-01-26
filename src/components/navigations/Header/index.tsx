@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { removeAccessToken } from "../../../utils/authUtils"
 import { useDispatch } from "react-redux"
 import { setUser } from "../../../root/Admin/slice"
+import { showConfirmDialog } from "../../alerts/actions"
 
 interface Props {
     user: any
@@ -37,9 +38,17 @@ export function Header (props : Props) {
     }, [user]);
 
     const handleSignOut = () => {
-        dispatch(setUser(null));
-        removeAccessToken();
-        navigate("/")
+
+        showConfirmDialog({
+            title: "Confirmation",
+            content: "Are you sure you want to sign out?",
+            onConfirm: () => {
+                dispatch(setUser(null));
+                removeAccessToken();
+                navigate("/")
+            }
+        })
+        
     }
 
     return (
@@ -54,10 +63,7 @@ export function Header (props : Props) {
                     </div>
                     <div className="flex-1">
                         <div>
-                            {currentUser ? currentUser : ""}
-                        </div>
-                        <div>
-                            {currentUser ? currentUser : ""}
+                            {currentUser ? "Admin" : ""}
                         </div>
                     </div>
                     <AccountDropdown>

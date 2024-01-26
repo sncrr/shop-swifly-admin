@@ -4,19 +4,20 @@ import { FormProvider, useForm } from "react-hook-form";
 import SettingsPageTitle from "../../../components/typographies/SettingsPageTitle";
 import { FlexForm } from "../../../components/forms";
 import { getCurrentGroup, getDefaultValues } from "../helpers";
-import { GroupProps } from "../../../types/Settings/GroupProps";
-import { fetchSettings } from "../actions";
+import { SettingGroupProps } from "../../../types/Settings/SettingGroupProps";
+import { fetchSettings } from "../slice";
+import { SettingsContext } from "..";
+import { useOutletContext } from "react-router-dom";
 
 
-const Sales = (props: GroupProps) => {
+const General = (props: SettingGroupProps) => {
 
-    const { 
-        children, 
-        dispatch, 
-        onSubmit, 
-        section, 
-        settingState 
-    } = props;
+    const { children, section } = props;
+    const {
+        dispatch,
+        settingState,
+        onSubmit,
+    } = useOutletContext<SettingsContext>();
 
     const { data } = settingState;
 
@@ -26,6 +27,8 @@ const Sales = (props: GroupProps) => {
         ...getDefaultValues(data),
         section: `${section}/${group.code}`
     };
+
+    console.log("DEFAULT", settingState);
     
     const formMethods = useForm({
         defaultValues: defaultValues
@@ -53,7 +56,7 @@ const Sales = (props: GroupProps) => {
             <FlexForm onSubmit={handleSubmit(onSubmit)}>
                 <SettingsPageTitle
                     titles={[
-                        'Sales',
+                        'General',
                         group.label
                     ]}
                     section={section}
@@ -62,7 +65,6 @@ const Sales = (props: GroupProps) => {
 
                 <div className="flex flex-1 py-4 px-4">
                     <ConfigNavigator items={children} setGroup={setGroup} />
-                    
                     {
                         children.map((item: any, index: number) => (
                             group.code === item.code ? 
@@ -78,4 +80,4 @@ const Sales = (props: GroupProps) => {
     )
 }
 
-export default Sales;
+export default General;

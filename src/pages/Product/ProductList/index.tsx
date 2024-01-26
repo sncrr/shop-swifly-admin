@@ -1,31 +1,31 @@
 //UTILS
-import { Dispatch, useEffect } from "react";
-import ProductHelper from "../helpers";
+import { useEffect } from "react";
+import { getThumbnailPath } from "../helpers";
 
 //COMPONENTS
 import { RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
 import { Section } from "../../../components/containers";
-import { NavigateFunction } from "react-router-dom";
-import { AnyAction } from "@reduxjs/toolkit";
-import { ProductState, deleteProduct, fetchProducts } from "../slice";
+import { deleteProduct, fetchProducts } from "../slice";
 import { Product } from "../../../models/Product";
 import { showConfirmDialog } from "../../../components/alerts/actions";
 import { getProductLocalData, setProductLocalData } from "../../../root/helper";
-import { PRODUCT_LOCAL_KEY } from "../../../root/constants";
 import { LocalData } from "../../../types/Utils/Paginate";
+import { PRODUCT_LOCAL_KEY } from "../../../constants/global";
+import { ProductContext } from "..";
+import { useOutletContext } from "react-router-dom";
 
-interface Props {
-	productState: ProductState,
-	navigate: NavigateFunction,
-	dispatch: Dispatch<AnyAction>
-}
-
-export function ProductList(props: Props) {
+export function ProductList() {
 
 	//HOOKS & VARIABLES
 	const localData: LocalData = getProductLocalData(PRODUCT_LOCAL_KEY);
 	const { search } = localData;
-	const { navigate, dispatch, productState } = props;
+
+	const {
+        dispatch,
+        navigate,
+		productState
+    } = useOutletContext<ProductContext>();
+
 	const { fetching, totalPages, hasChanges } = productState;
 	const products: Product[] = productState.products;
 
@@ -117,7 +117,7 @@ export function ProductList(props: Props) {
 								<TData>{item.sku}</TData>
 								<TData className="items-center justify-center">
 									<img
-										src={ProductHelper.getThumbnailPath(item)}
+										src={getThumbnailPath(item)}
 										alt={item.name}
 										className="w-20 h-20 self-center object-contain"
 									/>

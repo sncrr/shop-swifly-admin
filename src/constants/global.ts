@@ -1,6 +1,13 @@
-import { DEFAULT_ITEMS_COUNT } from "../root/constants"
+export const SERVER_URL = 'http://localhost:3000';
+export const API_URL = `${SERVER_URL}/api`;
+export const MEDIA_BASE_URL = 'https://shop-swiftly.s3.ap-southeast-1.amazonaws.com'
 
-export const PRODUCT_LOCAL_KEY = 'product_data'
+//DATA
+export const DEFAULT_ITEMS_COUNT = 20;
+
+//LOCAL DATA KEYS
+export const CATEGORY_LOCAL_KEY = 'category_data';
+export const PRODUCT_LOCAL_KEY = 'product_data';
 
 export const WEIGHT_UNITS = [
     { value: "", label: "None"},

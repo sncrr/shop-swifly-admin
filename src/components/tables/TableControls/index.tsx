@@ -5,7 +5,7 @@ import { FillLink } from '../../buttons'
 import { Paths } from '../../../constants'
 import { TextField } from '../../inputs'
 import { colors } from '../../../theme'
-import { DEFAULT_ITEMS_COUNT } from '../../../root/constants'
+import { DEFAULT_ITEMS_COUNT } from '../../../constants/global'
 
 const VIEW_FILTER = 'view_filter';
 const VIEW_COLUMN = 'view_column';

@@ -1,7 +1,7 @@
 
 import axios from "axios"
 import { response } from "../utils";
-import { SERVER_URL } from "../root/constants";
+import { SERVER_URL } from "../constants/global";
 
 export const authenticate = async (username:string, password:string): Promise<any> => {
   

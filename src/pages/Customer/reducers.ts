@@ -1,4 +1,4 @@
-import { DEFAULT_ITEMS_COUNT } from '../../root/constants';
+import { DEFAULT_ITEMS_COUNT } from '../../constants/global';
 import { Customer } from '../../types/Customer/Customer';
 import ReducerProps from '../../types/Utils/ReducerProps';
 import * as constant from './constants';

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { getAccessToken } from '../utils/authUtils';
-import { API_URL } from '../root/constants';
+import { API_URL } from '../constants/global';
 
 export const request: AxiosInstance = axios.create({
   baseURL: API_URL,

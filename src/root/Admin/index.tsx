@@ -1,11 +1,10 @@
 
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Sidebar } from "../../components/navigations/Sidebar";
 import { Header } from "../../components/navigations/Header";
 import { styled } from "styled-components";
 import { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { paths } from "./paths";
+import { connect, useDispatch } from "react-redux";
 import { navigateStop } from "./slice";
 
 const MainContainer =styled.div`
@@ -24,8 +23,14 @@ function Main (props : any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector((state:any) => state.user)
-
+  const { user } = props.state;
+  
+  useEffect(() => {
+    if(!user) {
+      navigate('/login')
+    }
+  }, [user]);
+  
   useEffect(() => {
     if(targetPath && navigateTo) {
       navigate(targetPath);
@@ -33,6 +38,7 @@ function Main (props : any) {
     }
   }, [targetPath, navigateTo]);
 
+  if(!user) return null;
   return (
     <>    
       <Header user={user}/>
@@ -40,33 +46,7 @@ function Main (props : any) {
 
       <MainContainer>
         <div className="bg-white flex flex-col flex-1 rounded">
-          <Routes>
-
-            {
-              paths.map((item, index) => (
-                <Route
-                  key={index}
-                  path={item.path}
-                  element={<item.element />}
-                />
-              ))
-            }
-
-            <Route
-              path="/"
-              element={<Navigate to="dashboard" />}
-            />
-            <Route path="*" element={<Navigate to="/not-found" />} />
-            {/* <Route
-              path={Paths.LOGIN}
-              element={<Navigate to={Paths.DASHBOARD} />}
-            />
-            <Route
-              path={Paths.SIGN_UP}
-              element={<Navigate to={Paths.DASHBOARD} />}
-            /> */}
-            {/* <Route path="*" element={<NotFound />} /> */}
-          </Routes>
+          <Outlet />
         </div>
       </MainContainer>
     </>

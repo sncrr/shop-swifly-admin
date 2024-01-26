@@ -1,14 +1,12 @@
 import { Product } from "../../models/Product";
 import { Category } from "../../models/Category";
-import { SERVER_URL } from "../../root/constants";
 import { get, isString } from "lodash";
+import { MEDIA_BASE_URL } from "../../constants/global";
 
 export const getThumbnailPath = (product: Product) => {
 
   if (product.images && product.images && product.images.thumbnail) {
-
-    return `${SERVER_URL}/${product.images.thumbnail.path}`;
-
+    return `${MEDIA_BASE_URL}/${product.images.thumbnail.path}`;
   }
 
   return "";
@@ -112,9 +110,3 @@ export const mapCategoriesById = (ids: any, categories: Category[]) => {
 
   return map;
 }
-
-const ProductHelper = {
-  getThumbnailPath,
-}
-
-export default ProductHelper;

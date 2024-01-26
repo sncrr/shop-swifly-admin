@@ -1,8 +1,7 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { ButtonGroup, Form, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormToggle, Reset, Save, Submit } from "../../../components/forms";
 import { Category } from "../../../models/Category";
-import { AnyAction, Dispatch } from "@reduxjs/toolkit";
-import { NavigateFunction, useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CategorySchema, mapCreateCategory } from "./schema";
 import { useEffect, useState } from "react";
@@ -10,27 +9,22 @@ import { get } from "lodash";
 import { getCategory } from "../controllers";
 import { BackBtn } from "../../../components/buttons";
 import { hideLoader, showLoader } from "../../../components/modals/slice";
-import { CategoryState, fetchCategories, saveCategory } from "../slice";
+import { fetchCategories, saveCategory } from "../slice";
 import { Paths } from "../../../constants";
-
-interface Props {
-    categoryState: CategoryState,
-    dispatch: Dispatch<AnyAction>,
-    navigate: NavigateFunction,
-}
+import { CategoryContext } from "..";
 
 const NONE_ITEM = {
     _id: "",
     name: "None"
 }
 
-export const CategoryForm = (props: Props) => {
+export const CategoryForm = () => {
 
     const {
         dispatch,
         categoryState,
         navigate,
-    } = props;
+    } = useOutletContext<CategoryContext>();
 
     const { categories } = categoryState;
 
@@ -69,7 +63,7 @@ export const CategoryForm = (props: Props) => {
 
     useEffect(() => {
         //Load Category
-        props.dispatch(fetchCategories({}));
+        dispatch(fetchCategories({}));
 
         //Load Selected Data
         const selectedId = get(routePrams, 'id', '');
@@ -91,6 +85,10 @@ export const CategoryForm = (props: Props) => {
 
         setLoading(false);
     }, [])
+
+    useEffect(() => {
+        reset(defaultValues);
+    }, [categories, selected, loading]);
 
     useEffect(() => {
         if (loading || categoryState.fetching) {
