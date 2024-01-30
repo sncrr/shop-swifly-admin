@@ -1,11 +1,11 @@
-
-import { Outlet, useNavigate } from "react-router-dom";
 import { Sidebar } from "../../components/navigations/Sidebar";
 import { Header } from "../../components/navigations/Header";
 import { styled } from "styled-components";
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { navigateStop } from "./slice";
+import { Outlet, useNavigate } from "@tanstack/react-router";
+import { Paths } from "../../constants";
 
 const MainContainer =styled.div`
   margin-top: 5rem;
@@ -27,7 +27,9 @@ function Main (props : any) {
   
   useEffect(() => {
     if(!user) {
-      navigate('/login')
+      navigate({
+        to: Paths.LOGIN
+      })
     }
   }, [user]);
   

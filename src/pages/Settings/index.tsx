@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "@tanstack/react-router";
 import { connect, useDispatch } from "react-redux";
 import { mapSettingsFromForm } from "./helpers";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { SettingState, saveSettings } from "./slice";
-import { RootState } from "../../root/reducers";
+import { RootState } from "../../reducers";
 
 interface Props {
 	settingState: SettingState,

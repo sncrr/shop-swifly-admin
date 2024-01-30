@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
-import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
+import { NavigateFunction, Outlet, useNavigate } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 import { CategoryState } from "./slice";
-import { RootState } from "../../root/reducers";
+import { RootState } from "../../reducers";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
 interface Props {

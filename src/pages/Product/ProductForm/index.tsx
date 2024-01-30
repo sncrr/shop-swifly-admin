@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { createProduct, generateNewSku, getProduct, updateProduct } from "../controllers";
 import { BackBtn } from "../../../components/buttons";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "@tanstack/react-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProductSchema, mapFormDefaultValues } from "./schema";
@@ -39,14 +39,14 @@ import {
 import { SourceInput } from "./SourceInput";
 import { ProductContext } from "..";
 
-export function ProductForm() {
+export function ProductForm(props: any) {
 
     const {
         dispatch,
         navigate,
         storeState,
         categoryState,
-    } = useOutletContext<ProductContext>();
+    } = props;
 
     const [errors, setErrors] = useState('');
     const { categories } = categoryState;

@@ -6,18 +6,17 @@ import { FlexForm } from "../../../components/forms";
 import { getCurrentGroup, getDefaultValues } from "../helpers";
 import { SettingGroupProps } from "../../../types/Settings/SettingGroupProps";
 import { fetchSettings } from "../slice";
-import { useOutletContext } from "react-router-dom";
 import { SettingsContext } from "..";
 
 
-const Inventory = (props: SettingGroupProps) => {
+const Inventory = (props: any) => {
 
     const { children, section } = props;
     const {
         dispatch,
         settingState,
         onSubmit,
-    } = useOutletContext<SettingsContext>();
+    } = props;
 
     const { data } = settingState;
 

@@ -2,7 +2,7 @@ import * as CategoryController from './controllers';
 import { put, call, takeLatest, takeLeading } from 'redux-saga/effects';
 import { Category } from '../../models/Category';
 import { Paths } from '../../constants';
-import { navigateTo } from '../../root/Admin/slice';
+import { navigateTo } from '../Admin/slice';
 import { 
   actionTypes,
   deleteCategoryFailed, 

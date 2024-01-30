@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import styled from "styled-components";
 import { colors } from "../../../theme";
 import { CaretRightFill } from "../../../assets/svgs/Icons";

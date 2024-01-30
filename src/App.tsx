@@ -1,6 +1,9 @@
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { ModalContainer } from "./components/modals";
 import { ToastContainer } from "./components/toasts";
-import { Root } from "./root";
+import { routeTree } from "./root/router";
+
+const router = createRouter({ routeTree })
 
 function App() {
 
@@ -8,7 +11,8 @@ function App() {
     <>
       <ModalContainer />
       <ToastContainer />
-      <Root />
+      {/* <Root /> */}
+      <RouterProvider router={router} />
     </>
   );
 }

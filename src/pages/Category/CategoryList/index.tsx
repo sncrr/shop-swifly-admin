@@ -9,21 +9,20 @@ import { deleteCategory, fetchCategories, saveCategory } from "../slice";
 //COMPONENTS
 import { CaretRightFill } from "../../../assets/svgs/Icons";
 import { RowActions, TBody, TData, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
-import { NavigateFunction, useOutletContext } from "react-router-dom";
 import { Checkbox } from "../../../components/inputs/Checkbox";
 import { Section } from "../../../components/containers";
 import { showConfirmDialog } from "../../../components/alerts/actions";
-import { getProductLocalData, setProductLocalData } from "../../../root/helper";
+import { getProductLocalData, setProductLocalData } from "../../../utils/localUtils";
 import { CATEGORY_LOCAL_KEY } from "../../../constants/global";
 import { CategoryContext } from "..";
 
-const CategoryList = () => {
+const CategoryList = (props: any) => {
 
     const {
         dispatch,
         navigate,
         categoryState,
-    } = useOutletContext<CategoryContext>();
+    } = props;
 
     //HOOKS & VARIABLES
     const localData = getProductLocalData(CATEGORY_LOCAL_KEY);
@@ -100,7 +99,7 @@ interface CategoryRowProps {
     hasCheckbox: boolean,
     tabCount: number;
     dispatch: Dispatch<AnyAction>,
-    navigate: NavigateFunction
+    navigate: any
 }
 
 const CategoryRow = (props: CategoryRowProps) => {

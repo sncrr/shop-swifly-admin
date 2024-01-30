@@ -2,7 +2,7 @@ import { connect, useDispatch } from "react-redux";
 import { PromiseToast } from "./PromiseToast";
 import styled from "styled-components";
 import { ANIMATION_SPEED, STATUS_FAILED, STATUS_SUCCESS } from "./constants";
-import { RootState } from "../../root/reducers";
+import { RootState } from "../../reducers";
 import { SuccessToast } from "./SuccessToast";
 import { FailedToast } from "./FailedToast";
 

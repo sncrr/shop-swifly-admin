@@ -1,119 +1,57 @@
-import {
-  Navigate,
-  Outlet,
-  RouterProvider,
-  createBrowserRouter,
-} from 'react-router-dom';
-import { Admin } from './Admin';
-import NotFound from '../pages/404';
-import Dashboard from '../pages/Dashboard';
-import { Login } from '../pages/Login';
-import { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { getAccessToken } from '../utils/authUtils';
-import { setUser } from './Admin/slice';
-import { RootState } from './reducers';
-import Category from '../pages/Category';
-import { Paths } from '../constants';
-import { CategoryRoutes } from '../pages/Category/routes';
-import Product from '../pages/Product';
-import { ProductRoutes } from '../pages/Product/routes';
-import Settings from '../pages/Settings';
-import { SettingRoutes } from '../pages/Settings/routes';
+import { createRootRoute, Outlet, useNavigate } from '@tanstack/react-router'
+import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import NotFound from '../pages/404'
+import { setUser } from '../pages/Admin/slice'
+import { getAccessToken } from '../utils/authUtils'
+import { connect, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { RootState } from '../reducers'
+import { Paths } from '../constants'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Outlet />,
-    children: [
-      {
-        path: Paths.ADMIN,
-        element: <Admin />,
-        children: [
-          {
-            path: Paths.DASHBOARD,
-            element: <Dashboard />
-          },
-          {
-            path: Paths.CATEGORY,
-            element: <Category />,
-            children: CategoryRoutes.map( item => ({
-              path: item.path,
-              element: <item.element />
-            }))
-          },
-          {
-            path: Paths.PRODUCT,
-            element: <Product />,
-            children: ProductRoutes.map( item => ({
-              path: item.path,
-              element: <item.element />
-            }))
-          },
-          {
-            path: Paths.SETTINGS,
-            element: <Settings />,
-            children: SettingRoutes.map( item => ({
-              path: item.path,
-              element: (
-                <item.element 
-                  children={item.children} 
-                  section={item.code}
-                />
-              )
-            }))
-          },
+const Main = (props: any) => {
 
-          //Redirects
-          {
-            path: '/admin/',
-            element: <Navigate to='/admin/dashboard' />
-          },
-        ],
-      },
-      {
-        path: Paths.LOGIN,
-        element: <Login />
-      },
-      {
-        path: '/not-found',
-        element: <NotFound />
-      },
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-      //Redirects
-      {
-        path: '/',
-        element: <Navigate to='/admin' />
-      },
-      {
-        path: '*',
-        element: <Navigate to='/not-found' />
-      }
-    ]
-  },
-])
+    const { loading } = props.state;
 
-export const Main = (props: any) => {
+    let user = getAccessToken();
 
-  const dispatch = useDispatch();
+    useEffect(() => {
+        if (user)
+            dispatch(setUser(user));
+        else
+            dispatch(setUser(null));
+    }, []);
 
-  const { loading } = props.state;
+    useEffect(() => {
+        if(!loading) {
+            if(user) {
+                navigate({to: Paths.ADMIN})
+            }
+            else {
+                navigate({to: Paths.LOGIN})
+            }
+        }
+    }, [user, loading])
 
-  let user = getAccessToken();
-
-  useEffect(() => {
-    if (user)
-      dispatch(setUser(user));
-    else
-      dispatch(setUser(null));
-  }, []);
-
-  if(loading) return null;
-  return <RouterProvider router={router} />
+    if (loading) return null;
+    return (
+        <>
+            <Outlet />
+            <TanStackRouterDevtools />
+        </>
+    )
 }
 
 const mapStateToProps = (state: RootState) => ({
-	state: state.global
+    state: state.global
 });
 
-export const Root = connect(mapStateToProps)(Main);
+const Root = connect(mapStateToProps)(Main);
+
+export const rootRoute = createRootRoute({
+    notFoundComponent: NotFound,
+    component: Root,
+})
+

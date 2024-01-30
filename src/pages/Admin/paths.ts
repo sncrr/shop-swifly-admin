@@ -1,12 +1,12 @@
 import { MenuConfigs, MenuContents, MenuCustomers, MenuDashboard, MenuInventory, MenuStore } from "../../assets/svgs/Icons";
 import { MenuTransactions } from "../../assets/svgs/Icons/MenuTransactions";
 import { Paths } from "../../constants";
-import Category from "../../pages/Category";
-import Settings from "../../pages/Settings";
-import Dashboard from "../../pages/Dashboard";
-import Product from "../../pages/Product";
-import Store from "../../pages/Store";
-import { SettingRoutes } from "../../pages/Settings/routes";
+import Category from "../Category";
+import Settings from "../Settings";
+import Dashboard from "../Dashboard";
+import Product from "../Product";
+import Store from "../Store";
+import { SettingRoutes } from "../Settings/routes";
 
 export const paths = [
   {

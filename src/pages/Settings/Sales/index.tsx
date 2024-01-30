@@ -5,18 +5,17 @@ import SettingsPageTitle from "../../../components/typographies/SettingsPageTitl
 import { FlexForm } from "../../../components/forms";
 import { getCurrentGroup, getDefaultValues } from "../helpers";
 import { SettingGroupProps } from "../../../types/Settings/SettingGroupProps";
-import { useOutletContext } from "react-router-dom";
 import { SettingsContext } from "..";
 import { fetchSettings } from "../slice";
 
-const Sales = (props: SettingGroupProps) => {
+const Sales = (props: any) => {
 
     const { children, section } = props;
     const {
         dispatch,
         settingState,
         onSubmit,
-    } = useOutletContext<SettingsContext>();
+    } = props;
 
     const { data } = settingState;
 

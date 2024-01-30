@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { ButtonGroup, Form, FormGroup, FormInput, FormLabel, FormSection, FormSelect, FormToggle, Reset, Save, Submit } from "../../../components/forms";
 import { Category } from "../../../models/Category";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "@tanstack/react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CategorySchema, mapCreateCategory } from "./schema";
 import { useEffect, useState } from "react";
@@ -18,13 +18,13 @@ const NONE_ITEM = {
     name: "None"
 }
 
-export const CategoryForm = () => {
+export const CategoryForm = (props: any) => {
 
     const {
         dispatch,
         categoryState,
         navigate,
-    } = useOutletContext<CategoryContext>();
+    } = props;
 
     const { categories } = categoryState;
 

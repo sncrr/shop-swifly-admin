@@ -3,11 +3,12 @@ import { colors } from "../../../theme"
 import { AccountDropdown } from "./AccountDropdown"
 import { CaretDownFill } from "../../../assets/svgs/Icons"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "@tanstack/react-router"
 import { removeAccessToken } from "../../../utils/authUtils"
 import { useDispatch } from "react-redux"
-import { setUser } from "../../../root/Admin/slice"
+import { setUser } from "../../../pages/Admin/slice"
 import { showConfirmDialog } from "../../alerts/actions"
+import { Paths } from "../../../constants"
 
 interface Props {
     user: any
@@ -45,7 +46,9 @@ export function Header (props : Props) {
             onConfirm: () => {
                 dispatch(setUser(null));
                 removeAccessToken();
-                navigate("/")
+                navigate({
+                    to: Paths.BASE
+                })
             }
         })
         

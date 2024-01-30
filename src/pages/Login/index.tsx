@@ -7,8 +7,10 @@ import { setAccessToken } from '../../utils/authUtils';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from './schema';
-import { setUser } from '../../root/Admin/slice';
-import { useNavigate } from 'react-router-dom';
+import { setUser } from '../Admin/slice';
+import { useNavigate } from '@tanstack/react-router';
+import { Paths } from '../../constants';
+import { RootState } from '../../reducers';
 
 function Main(props: any) {
 
@@ -28,9 +30,13 @@ function Main(props: any) {
 
   const { user } = props.state;
 
+  console.log("USER", user);
+
   useEffect(() => {
     if(user) {
-      navigate('/admin')
+      navigate({
+        to: Paths.ADMIN
+      })
     }
   }, [user]);
 
@@ -109,7 +115,7 @@ function Main(props: any) {
   )
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: RootState) => ({
 	state: state.global
 });
 

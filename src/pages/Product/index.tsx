@@ -1,11 +1,11 @@
 import { connect } from "react-redux";
 
-import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 import { CategoryState } from "../Category/slice";
 import { StoreState } from "../Store/slice";
 import { ProductState } from "./slice";
-import { RootState } from "../../root/reducers";
+import { RootState } from "../../reducers";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export interface ProductContext {
-	navigate: NavigateFunction,
+	navigate: any,
 	dispatch: Dispatch<AnyAction>,
 	productState: ProductState,
 	categoryState: CategoryState,
@@ -29,15 +29,17 @@ function Main(props: Props) {
 	const navigate = useNavigate();
 
 	return (
-		<Outlet 
-			context={{
-				dispatch, 
-				navigate, 
-				productState: props.productState,
-				categoryState: props.categoryState,
-				storeState: props.storeState,
-			} satisfies ProductContext} 
-		/>
+		<>
+			<Outlet 
+			// context={{
+			// 	dispatch, 
+			// 	navigate, 
+			// 	productState: props.productState,
+			// 	categoryState: props.categoryState,
+			// 	storeState: props.storeState,
+			// } satisfies ProductContext} 
+			/>
+		</>
 	)
 }
 

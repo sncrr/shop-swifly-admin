@@ -1,4 +1,4 @@
-import { NavigateFunction } from "react-router-dom";
+import { NavigateFunction } from "@tanstack/react-router";
 import { Section } from "../../../components/containers";
 import { TBody, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";

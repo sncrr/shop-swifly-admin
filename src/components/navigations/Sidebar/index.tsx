@@ -1,11 +1,11 @@
-import { Link, useLocation } from "react-router-dom";
 import { colors } from "../../../theme";
 import { NavList } from "./NavList";
 import { NavListItem } from "./NavListItem";
 import { NavSubList } from "./NavSubList";
 import { NavSubItem } from "./NavSubItem";
 import { styled } from "styled-components";
-import { sidebarNavigations } from "../../../root/Admin/paths";
+import { sidebarNavigations } from "../../../pages/Admin/paths";
+import { Link } from "@tanstack/react-router";
 
 const ICON_SIZE = 32;
 const ICON_COLOR = colors.black;
@@ -28,16 +28,14 @@ const Container = styled.aside`
 
 export const Sidebar = ({ }: Props) => {
 
-  const location = useLocation();
-
   const getIsActive = (item: any) => {
 
     if (item.path)
-      return location.pathname.includes(item.path)
+      return window.location.pathname.includes(item.path)
 
     else if (item.children)
       for (let child of item.children)
-        if (location.pathname.includes(child.path))
+        if (window.location.pathname.includes(child.path))
           return true;
 
     return false;

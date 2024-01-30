@@ -7,7 +7,7 @@ export const EDIT = 'edit/:id'
 export const LOGIN = '/login'
 export const SIGN_UP = '/sign_up'
 
-export const ADMIN = '/admin'
+export const ADMIN = '/admin/'
 export const DASHBOARD = '/admin/dashboard'
 
 export const STORE = '/admin/stores'

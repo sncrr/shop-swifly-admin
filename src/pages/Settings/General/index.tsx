@@ -7,17 +7,16 @@ import { getCurrentGroup, getDefaultValues } from "../helpers";
 import { SettingGroupProps } from "../../../types/Settings/SettingGroupProps";
 import { fetchSettings } from "../slice";
 import { SettingsContext } from "..";
-import { useOutletContext } from "react-router-dom";
 
 
-const General = (props: SettingGroupProps) => {
+const General = (props: any) => {
 
     const { children, section } = props;
     const {
         dispatch,
         settingState,
         onSubmit,
-    } = useOutletContext<SettingsContext>();
+    } = props;
 
     const { data } = settingState;
 

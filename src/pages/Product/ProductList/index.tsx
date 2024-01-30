@@ -8,23 +8,29 @@ import { Section } from "../../../components/containers";
 import { deleteProduct, fetchProducts } from "../slice";
 import { Product } from "../../../models/Product";
 import { showConfirmDialog } from "../../../components/alerts/actions";
-import { getProductLocalData, setProductLocalData } from "../../../root/helper";
+import { getProductLocalData, setProductLocalData } from "../../../utils/localUtils";
 import { LocalData } from "../../../types/Utils/Paginate";
 import { PRODUCT_LOCAL_KEY } from "../../../constants/global";
-import { ProductContext } from "..";
-import { useOutletContext } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "@tanstack/react-router";
+import { RootState } from "../../../reducers";
 
-export function ProductList() {
+export function ProductList(props: any) {
 
 	//HOOKS & VARIABLES
 	const localData: LocalData = getProductLocalData(PRODUCT_LOCAL_KEY);
 	const { search } = localData;
 
-	const {
-        dispatch,
-        navigate,
-		productState
-    } = useOutletContext<ProductContext>();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const productState = useSelector((state: RootState) => state.product);
+
+
+	// const {
+    //     dispatch,
+    //     navigate,
+	// 	productState
+    // } = props;
 
 	const { fetching, totalPages, hasChanges } = productState;
 	const products: Product[] = productState.products;
@@ -57,7 +63,9 @@ export function ProductList() {
 	}
 
 	const handleEdit = (id: any) => {
-		navigate(`/admin/products/edit/${id}`)
+		navigate({
+			to: `/admin/products/edit/${id}`
+		})
 	}
 
 	const handleDelete = (id: any) => {
@@ -174,3 +182,4 @@ function DataList({ label, value }: any) {
 		</>
 	)
 }
+
