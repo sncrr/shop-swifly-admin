@@ -19,30 +19,25 @@ import {
   showToast,
   successToast,
 } from "../../components/toasts/slice";
+import { Response } from "../../utils/response";
 
 function* onFetchCategories(action: SagaProps) {
   try {
-    const data: Category[] = yield call(
+    const res: Response = yield call(
       CategoryController.getAllCategories,
       action.payload
     );
 
-    yield put(fetchCategoriesSuccess(data));
+    yield put(fetchCategoriesSuccess(res.data));
   } catch (error) {
     yield put(fetchCategoriesFailed(JSON.stringify(error)));
   }
 }
 
 function* onSaveCategory(action: SagaProps) {
-  const { id, navigateToItem, navigateBack, hasLoader } = action.payload;
-
-  if (hasLoader) {
-    yield put(
-      showLoader({
-        text: "Saving Category",
-      })
-    );
-  }
+  const { id, navigateToItem, navigateBack } = action.payload;
+  
+  yield put(showLoader({text: "Saving Category"}));
 
   try {
     const data: Category = id
@@ -61,23 +56,21 @@ function* onSaveCategory(action: SagaProps) {
 
     yield put(showToast(successToast("Category saved successfully")));
   } catch (error) {
-    yield put(saveCategoryFailed(error));
+    yield put(saveCategoryFailed(JSON.stringify(error)));
     yield put(showToast(failedToast("Category saving failed")));
   }
 
-  if (hasLoader) {
-    yield put(hideLoader());
-  }
+  yield put(hideLoader());
 }
 
 function* onDeleteCategory(action: any) {
+  yield put(showLoader({ text: "Deleting Category" }));
+
   try {
     const data: boolean = yield call(
       CategoryController.deleteCategory,
       action.payload
     );
-    // const state: RootState = yield select();
-    // const categoryState = state.category;
 
     if (data) {
       yield put(deleteCategorySuccess(data));
@@ -88,6 +81,8 @@ function* onDeleteCategory(action: any) {
 
     yield put(showToast(failedToast("Category deleting failed")));
   }
+
+  yield put(hideLoader());
 }
 
 //Root Saga

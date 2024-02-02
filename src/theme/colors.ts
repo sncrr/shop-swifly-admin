@@ -10,13 +10,13 @@ export const transparent = "#00000000";
 export const white = "#FFFFFF";
 export const black = "#000000";
 
-export const inputFocus = "#c7d0dc";
 
 export const gray05th = "#f8f8f8";
 export const gray10th = "#f2f2f2";
 
 export const placeholder = "#D2D2D2";
-
+export const disabledText = "#525252";
+export const inputFocus = "#c7d0dc";
 
 export const tableHead = "#F6F7FC";
 

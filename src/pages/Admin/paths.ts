@@ -47,6 +47,10 @@ export const sidebarNavigations = [
         label: "Invoices",
         path: Paths.ORDERS,
       },
+      {
+        label: "Payment Methods",
+        path: Paths.PAYMENT_METHOD,
+      },
     ],
   },
   {

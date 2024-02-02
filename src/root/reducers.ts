@@ -6,6 +6,7 @@ import categorySlice, { CategoryState } from "../pages/Category/slice";
 import productSlice, { ProductState } from "../pages/Product/slice";
 import storeSlice, { StoreState } from "../pages/Store/slice";
 import settingSlice from "../pages/Settings/slice";
+import paymentMethodSlice, { PaymentMethodState } from "../pages/PaymentMethods/slice";
 
 export interface RootState {
   global: GlobalState;
@@ -15,6 +16,7 @@ export interface RootState {
   category: CategoryState;
   product: ProductState;
   store: StoreState;
+  paymentMethod: PaymentMethodState;
 }
 
 export const rootReducer = () =>
@@ -30,4 +32,5 @@ export const rootReducer = () =>
     category: categorySlice.reducer,
     product: productSlice.reducer,
     store: storeSlice.reducer,
+    paymentMethod: paymentMethodSlice.reducer,
   });

@@ -1,6 +1,6 @@
 //UTILS
 import { useEffect } from "react";
-import { getThumbnailPath } from "../helpers";
+import { getThumbnailPath } from "../helper";
 
 //COMPONENTS
 import {
@@ -31,7 +31,7 @@ export function ProductList() {
   const { dispatch, navigate, productState } =
     useOutletContext<ProductContext>();
 
-  const { fetching, totalPages, hasChanges } = productState;
+  const { fetching, totalPages, hasChanges} = productState;
   const products: Product[] = productState.products;
 
   useEffect(() => {
@@ -163,7 +163,7 @@ export function ProductList() {
   );
 }
 
-function InventoryData({ label, value }: any) {
+const InventoryData = ({ label, value }: any) => {
   return (
     <>
       <span className="space-x-1">

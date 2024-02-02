@@ -85,8 +85,12 @@ const Input = styled.input`
   padding: 0.5rem;
 
   &:disabled {
-    color: ${colors.inputFocus};
+    color: ${colors.disabledText};
     background-color: ${colors.gray05th};
+  }
+  &:read-only {
+    color: ${colors.disabledText};
+    background-color: ${colors.gray05th}; 
   }
   &::placeholder {
     color: ${colors.placeholder};

@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { TableHTMLAttributes } from "react";
+import { DefaultLoader } from "../../loader";
 
 interface Props extends TableHTMLAttributes<HTMLTableElement> {
   isLoading?: boolean;
@@ -23,7 +24,7 @@ export const Table = (props: Props) => {
       <StlyledTable {...tableProps} />
       {isLoading && (
         <div className="absolute flex justify-center items-center bg-modal z-10 top-0 h-full w-full modal-backdrop">
-          Fetching...
+          <DefaultLoader />
         </div>
       )}
     </div>

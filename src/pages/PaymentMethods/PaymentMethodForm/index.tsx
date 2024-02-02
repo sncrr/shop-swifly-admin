@@ -2,120 +2,91 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
   ButtonGroup,
   Form,
+  FormError,
   FormGroup,
   FormInput,
   FormLabel,
   FormSection,
-  FormSelect,
+  FormTextArea,
   FormToggle,
   Reset,
   Save,
   Submit,
 } from "../../../components/forms";
-import { Category } from "../../../models/Category";
+import { PaymentMethod } from "../../../models/PaymentMethod";
 import { useOutletContext, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CategorySchema, mapCreateCategory } from "./schema";
+import { PaymentMethodSchema } from "./schema";
 import { useEffect, useState } from "react";
 import { get } from "lodash";
-import { getCategory } from "../controllers";
+import { getPaymentMethod } from "../controllers";
 import { BackBtn } from "../../../components/buttons";
 import { hideLoader, showLoader } from "../../../components/modals/slice";
-import { fetchCategories, saveCategory } from "../slice";
+import { savePaymentMethod } from "../slice";
 import { Paths } from "../../../constants";
-import { CategoryContext } from "..";
-import { NONE_ITEM } from "../constants";
+import { PaymentMethodContext } from "..";
 
-export const CategoryForm = () => {
-  const { dispatch, categoryState, navigate } =
-    useOutletContext<CategoryContext>();
+export const PaymentMethodForm = () => {
+  const { dispatch, navigate, paymentMethodState } = useOutletContext<PaymentMethodContext>();
+  const { error } = paymentMethodState;
 
-  const { categories } = categoryState;
-
-  const [selected, setSelected] = useState<Category>();
-  const [loading, setLoading] = useState(true);
-  const [filteredCategories, setFilteredCategories] = useState(categories);
+  const [selected, setSelected] = useState<PaymentMethod>();
 
   const routePrams = useParams();
 
-  const getParent = (id: any) => {
-    if (id) return categories.find(({ _id }) => _id === id);
-    else return NONE_ITEM;
-  };
 
   const defaultValues = {
     name: selected && selected.name ? selected.name : "",
-    parent: selected && selected.parent ? getParent(selected.parent._id) : {},
+    code: selected && selected.code ? selected.code : "",
+    description: selected ? selected.description : "",
+    redirectUrl: selected && selected.redirectUrl ? selected.redirectUrl : {},
     isEnabled: selected ? !!selected.isEnabled : true,
-    description: selected && selected.description ? selected.description : "",
     continueEdit: false,
   };
 
   const formMethods = useForm({
-    resolver: yupResolver(CategorySchema),
+    resolver: yupResolver(PaymentMethodSchema),
     defaultValues,
   });
 
   const { handleSubmit, reset, setValue } = formMethods;
 
   useEffect(() => {
-    //Load Category
-    dispatch(fetchCategories({}));
-
+    dispatch(showLoader({}));
     //Load Selected Data
     const selectedId = get(routePrams, "id", "");
-    const loadSelectedCategory = async () => {
+    const loadSelectedPaymentMethod = async () => {
       try {
-        let result = await getCategory(selectedId);
+        let result = await getPaymentMethod(selectedId);
 
         if (result) {
           setSelected(result);
         }
       } catch (error) {
-        navigate(Paths.CATEGORY);
+        navigate(Paths.PAYMENT_METHOD);
       }
     };
 
     if (selectedId) {
-      loadSelectedCategory();
+      loadSelectedPaymentMethod();
     }
 
-    setLoading(false);
+    dispatch(hideLoader())
+    
   }, []);
 
   useEffect(() => {
     reset(defaultValues);
-  }, [categories, selected, loading]);
-
-  useEffect(() => {
-    if (loading || categoryState.fetching) {
-      dispatch(showLoader({ message: "Loading" }));
-    } else {
-      dispatch(hideLoader());
-    }
-
-    reset(defaultValues);
-  }, [loading, categoryState.fetching]);
-
-  //Remove the selected category from choices for parent
-  useEffect(() => {
-    if (selected) {
-      let newList = categories.filter(({ _id }) => selected._id != _id);
-      setFilteredCategories(newList);
-    } else {
-      setFilteredCategories(categories);
-    }
-
-    reset(defaultValues);
-  }, [categories]);
+    console.log(selected);
+  }, [selected]);
 
   const onSubmit = async (values: any) => {
-    const data = mapCreateCategory(values);
+    // const data = mapFormPaymentMethod(values);
 
     dispatch(
-      saveCategory({
+      savePaymentMethod({
         id: selected?._id,
-        data,
+        data: values,
         navigateBack: !values.continueEdit,
       })
     );
@@ -136,7 +107,12 @@ export const CategoryForm = () => {
           />
           <Submit text="Save" />
         </ButtonGroup>
-        <FormSection title="Category Information" isOpen>
+        
+        <FormError>
+          {error}
+        </FormError>
+
+        <FormSection title="Payment Method Information" isOpen>
           <FormGroup required>
             <FormLabel>Name</FormLabel>
             <FormInput name="name" />
@@ -147,19 +123,31 @@ export const CategoryForm = () => {
             <FormToggle name="isEnabled" />
           </FormGroup>
 
-          <FormGroup>
-            <FormLabel>Parent</FormLabel>
-            <FormSelect
-              name="parent"
-              labelKey="name"
-              valueKey="_id"
-              options={[NONE_ITEM, ...filteredCategories]}
-            />
+          <FormGroup required>
+            <FormLabel>Code</FormLabel>
+            <FormInput name="code" />
           </FormGroup>
 
           <FormGroup>
             <FormLabel>Description</FormLabel>
-            <FormInput name="description" />
+            <FormTextArea name="description" />
+          </FormGroup>
+        </FormSection>
+
+        <FormSection title="Redirect URLs" isOpen>
+          <FormGroup required>
+            <FormLabel>Gateway</FormLabel>
+            <FormInput name="redirectUrl.gateway" />
+          </FormGroup>
+
+          <FormGroup required>
+            <FormLabel>Success</FormLabel>
+            <FormInput name="redirectUrl.success" />
+          </FormGroup>
+
+          <FormGroup required>
+            <FormLabel>Failed</FormLabel>
+            <FormInput name="redirectUrl.failed" />
           </FormGroup>
         </FormSection>
       </Form>

@@ -17,7 +17,7 @@ import { Product } from "../../../models/Product";
 import { get } from "lodash";
 import { Paths } from "../../../constants";
 import { saveProductFailed } from "../slice";
-import { mapToFormData } from "../helpers";
+import { mapToFormData } from "../helper";
 import { hideLoader, showLoader } from "../../../components/modals/slice";
 import { failedToast, showToast } from "../../../components/toasts/slice";
 import { fetchStores } from "../../Store/slice";

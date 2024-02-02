@@ -1,4 +1,6 @@
-export const SERVER_URL = "https://mern-commerce-backend.cyclic.app";
+
+export const IS_LOCAL = false;
+export const SERVER_URL = IS_LOCAL ? "http://localhost:3000" : "https://mern-commerce-backend.cyclic.app";
 export const API_URL = `${SERVER_URL}/api`;
 export const MEDIA_BASE_URL = "https://shop-swiftly.s3.ap-southeast-1.amazonaws.com";
 

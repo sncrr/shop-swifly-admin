@@ -24,6 +24,8 @@ import { get } from "lodash";
 import { getStore } from "../controllers";
 import { Paths } from "../../../constants";
 import { hideLoader, showLoader } from "../../../components/modals/slice";
+import { saveStore } from "../slice";
+import { generateStoreCode } from "../helper";
 
 export function StoreForm() {
   const { dispatch, navigate, storeState } = useOutletContext<StoreContext>();
@@ -51,7 +53,7 @@ export function StoreForm() {
     defaultValues,
   });
 
-  const { handleSubmit, reset, setValue } = formMethods;
+  const { handleSubmit, reset, setValue, watch } = formMethods;
 
   useEffect(() => {
     const selectedId = get(routePrams, "id", "");
@@ -63,6 +65,13 @@ export function StoreForm() {
   useEffect(() => {
     reset(defaultValues);
   }, [selected]);
+
+  useEffect(() => {
+    if(!selected) {
+      let code = generateStoreCode(watch('name'));
+      setValue('code', code);
+    }
+  }, [watch('name')])
 
   const loadSelectedStore = async (id: string) => {
     dispatch(showLoader({}));
@@ -78,7 +87,20 @@ export function StoreForm() {
     dispatch(hideLoader());
   };
 
-  const onSubmit = () => {};
+  const onSubmit = (values: any) => {
+    if(selected) {
+      delete values.code;
+      console.log(values);
+    }
+
+    dispatch(
+      saveStore({
+        id: selected?._id,
+        data: values,
+        navigateBack: !values.continueEdit,
+      })
+    );
+  };
 
   return (
     <Section>
@@ -103,7 +125,7 @@ export function StoreForm() {
             </FormGroup>
             <FormGroup required>
               <FormLabel>Code</FormLabel>
-              <FormInput name="code" />
+              <FormInput name="code" readOnly={!!selected} />
             </FormGroup>
             <FormGroup required>
               <FormLabel>Is Active</FormLabel>

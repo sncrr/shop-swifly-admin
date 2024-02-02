@@ -17,27 +17,27 @@ import { LocalData } from "../../../types/Utils/Paginate";
 import { useEffect } from "react";
 import { deleteStore, fetchStores } from "../slice";
 import { showConfirmDialog } from "../../../components/alerts/actions";
+import { Section } from "../../../components/containers";
 
 export function StoreList() {
   //HOOKS & VARIABLES
   const localData: LocalData = getLocalData(STORE_LOCAL_KEY);
-  const { search } = localData;
 
   const { dispatch, navigate, storeState } = useOutletContext<StoreContext>();
 
-  const { stores } = storeState;
+  const { stores, totalPages } = storeState;
 
   useEffect(() => {
     getStoreList(localData.currentPage, localData.itemsCount);
   }, []);
 
   //FUNCTIONS
-  const getStoreList = async (page: number, itemsCount: number) => {
+  const getStoreList = async (page: number, itemsCount: number, search?: string) => {
     dispatch(
       fetchStores({
         page,
         itemsCount,
-        sort: "sku",
+        sort: "name",
         order: "asc",
         search,
       })
@@ -61,10 +61,26 @@ export function StoreList() {
     });
   };
 
+  const handleSearch = (value: string) => {
+    getStoreList(localData.currentPage, localData.itemsCount, value);
+    setLocalData(STORE_LOCAL_KEY, {
+      search: value,
+    });
+  };
+
   return (
-    <div className="p-4">
-      <TableControls />
-      <Table>
+    <Section>
+      <TableControls 
+        hasSearch
+        defaultSearchValue={localData.search}
+        totalPages={totalPages}
+        defaultCurrentPage={localData.currentPage}
+        defaultPageItemsCount={localData.itemsCount}
+        onPageChange={getStoreList}
+        onItemsCountChange={getStoreList}
+        onSearch={handleSearch}
+      />
+      <Table isLoading={storeState.fetching}>
         <THeader>
           <TRow>
             <THead></THead>
@@ -95,6 +111,6 @@ export function StoreList() {
           ))}
         </TBody>
       </Table>
-    </div>
+    </Section>
   );
 }

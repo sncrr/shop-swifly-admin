@@ -18,6 +18,7 @@ export const PICK_UP = '/admin/pick_up'
 
 export const ORDERS = '/admin/orders'
 export const INVOICES = '/admin/invoices'
+export const PAYMENT_METHOD = '/admin/payment_methods'
 
 export const CATEGORY = '/admin/categories'
 export const CATEGORY_ADD = '/admin/category/create'

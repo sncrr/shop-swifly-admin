@@ -4,7 +4,7 @@ import { Yup } from "../../../exporter/packages";
 import { Product } from "../../../models/Product";
 import { Store } from "../../../models/Store";
 import { Category } from "../../../models/Category";
-import { mapCategoriesById } from "../helpers";
+import { mapCategoriesById } from "../helper";
 import {
   GLOBAL_OVERRIDER_DEFAULT,
   MEDIA_BASE_URL,

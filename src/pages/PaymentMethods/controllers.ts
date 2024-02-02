@@ -1,14 +1,13 @@
-import { Store } from "../../models/Store";
-import { Paginate } from "../../types/Utils/Paginate";
+import { PaymentMethod } from "../../models/PaymentMethod";
 import { createQuery, request } from "../../utils/requestUtils";
 
-const SUB_PATH = 'store';
+const SUB_PATH = 'payment_method';
 
-export async function getAllStores() {
+export async function getAllPaymentMethods(payload: any) {
   try {
     const query = createQuery({
-      populate: "parent",
       sort: "name",
+      search: payload.search,
     });
 
     const response = await request.get(`/${SUB_PATH}/all?${query}`);
@@ -18,30 +17,7 @@ export async function getAllStores() {
   }
 }
 
-export async function getPaginateProducts(
-  page: number,
-  itemsCount: number,
-  sort: string,
-  order: string,
-  search: string
-): Promise<Paginate<Store>> {
-  try {
-    const query = createQuery({
-      sort,
-      order,
-      search,
-      page,
-      itemsCount,
-    });
-
-    const response = await request.get(`/${SUB_PATH}/all?${query}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function getStore(id: string): Promise<Store> {
+export async function getPaymentMethod(id: string): Promise<PaymentMethod> {
   try {
     const response = await request.get(`/${SUB_PATH}/${id}`);
     return response.data;
@@ -50,7 +26,7 @@ export async function getStore(id: string): Promise<Store> {
   }
 }
 
-export async function createStore(payload: any): Promise<Store> {
+export async function createPaymentMethod(payload: any): Promise<PaymentMethod> {
   try {
     const response = await request.post(`/${SUB_PATH}`, payload.data);
     return response.data;
@@ -59,7 +35,7 @@ export async function createStore(payload: any): Promise<Store> {
   }
 }
 
-export async function updateStore(payload: any): Promise<Store> {
+export async function updatePaymentMethod(payload: any): Promise<PaymentMethod> {
   try {
     const response = await request.put(`/${SUB_PATH}/${payload.id}`, payload.data);
     return response.data;
@@ -68,7 +44,7 @@ export async function updateStore(payload: any): Promise<Store> {
   }
 }
 
-export async function deleteStore(id: string): Promise<boolean> {
+export async function deletePaymentMethod(id: string): Promise<boolean> {
   try {
     const response = await request.delete(`/${SUB_PATH}/${id}`);
     return response.data;

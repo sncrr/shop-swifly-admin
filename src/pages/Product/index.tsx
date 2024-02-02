@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-
 import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CategoryState } from "../Category/slice";

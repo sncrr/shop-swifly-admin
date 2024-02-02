@@ -6,7 +6,7 @@ export function FailedToast(props: ToastProps) {
   return (
     <ToastContainer {...props}>
       <div className="bg-red-400 rounded p-2 w-72 h-12 m-2 text-white select-none">
-        <h1 className="font-bold">{props.message}</h1>
+        <span>{props.message}</span>
       </div>
     </ToastContainer>
   );

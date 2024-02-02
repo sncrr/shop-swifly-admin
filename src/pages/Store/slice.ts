@@ -34,6 +34,7 @@ const storeSlice = createSlice({
       hasChanges: false,
       stores: action.payload.data ? action.payload.data : action.payload,
       totalPages: action.payload.totalPages ? action.payload.totalPages : 1,
+      error: '',
     }),
     fetchStoresFailed: (state, action) => ({
       ...state,
@@ -45,12 +46,14 @@ const storeSlice = createSlice({
     saveStore: (state, action) => ({
       ...state,
       fetching: !!action.type,
+      error: ''
     }),
     saveStoreSuccess: (state, action) => ({
       ...state,
       fetching: false,
       hasChanges: true,
       data: action.payload,
+      error: ''
     }),
     saveStoreFailed: (state, action) => ({
       ...state,
@@ -62,12 +65,14 @@ const storeSlice = createSlice({
     deleteStore: (state, action) => ({
       ...state,
       fetching: !!action.type,
+      error: ''
     }),
     deleteStoreSuccess: (state, action) => ({
       ...state,
       fetching: false,
       hasChanges: true,
       data: action.payload,
+      error: ''
     }),
     deleteStoreFailed: (state, action) => ({
       ...state,

@@ -8,6 +8,7 @@ import { Category, CategoryRoutes } from "../pages/Category";
 import { Product, ProductRoutes } from "../pages/Product";
 import { SettingRoutes, Settings } from "../pages/Settings";
 import { Store, StoreRoutes } from "../pages/Store";
+import { PaymentMethod, PaymentMethodRoutes } from "../pages/PaymentMethods";
 
 export const router = createHashRouter([
   {
@@ -22,6 +23,7 @@ export const router = createHashRouter([
             path: Paths.DASHBOARD,
             element: <Dashboard />,
           },
+
           {
             path: Paths.CATEGORY,
             element: <Category />,
@@ -38,6 +40,17 @@ export const router = createHashRouter([
               element: <item.element />,
             })),
           },
+
+          {
+            path: Paths.PAYMENT_METHOD,
+            element: <PaymentMethod />,
+            children: PaymentMethodRoutes.map((item) => ({
+              path: item.path,
+              element: <item.element />,
+            })),
+          },
+          
+
           {
             path: Paths.STORE,
             element: <Store />,
