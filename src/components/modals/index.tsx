@@ -23,6 +23,7 @@ export const Modal: React.FC<Props> = ({children, isOpen}) => {
           padding: 0, 
           inset: 0,
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
         }

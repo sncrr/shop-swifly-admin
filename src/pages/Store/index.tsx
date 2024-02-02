@@ -1,24 +1,60 @@
 import { connect } from "react-redux";
-import { Route, Routes } from "react-router-dom";
-import { StoreList } from "./StoreList";
-import { StoreForm } from "./StoreForm";
+
+import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { StoreState } from "../Store/slice";
+import { RootState } from "../../root/reducers";
+import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { Paths } from "../../constants";
+import { StoreForm } from "./StoreForm";
+import { StoreList } from "./StoreList";
 
-function Main ({state}:any) {
+const basePath = Paths.STORE;
 
-  return (
-    <Routes>
-      <Route path={`/${Paths.BASE}`} element={<StoreList stores={state.stores} />} />
-      <Route path={`/${Paths.CREATE}`} element={<StoreForm />} />
-      <Route path={`/${Paths.EDIT}`} element={<StoreForm />} />
-    </Routes>
-  )
+export const StoreRoutes = [
+  {
+    path: `${basePath}/`,
+    element: StoreList,
+  },
+  {
+    path: `${basePath}/${Paths.CREATE}`,
+    element: StoreForm,
+  },
+  {
+    path: `${basePath}/${Paths.EDIT}`,
+    element: StoreForm,
+  },
+];
+
+interface Props {
+  storeState: StoreState;
 }
 
-const mapStateToProps = (state: any) => ({
-  state: state.store
+export interface StoreContext {
+  navigate: NavigateFunction;
+  dispatch: Dispatch<AnyAction>;
+  storeState: StoreState;
+}
+
+function Main(props: Props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  return (
+    <Outlet
+      context={
+        {
+          dispatch,
+          navigate,
+          storeState: props.storeState,
+        } satisfies StoreContext
+      }
+    />
+  );
+}
+
+const mapStateToProps = (state: RootState) => ({
+  storeState: state.store,
 });
 
-const Store = connect(mapStateToProps)(Main);
-
-export default Store;
+export const Store = connect(mapStateToProps)(Main);

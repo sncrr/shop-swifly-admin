@@ -1,24 +1,16 @@
 import { connect } from "react-redux";
 import { Routes } from "react-router-dom";
 
-interface Props {
+interface Props {}
 
-}
-
-const Main = (props : Props) => {
-  
+const Main = (props: Props) => {
   console.log(props);
 
-  return (
-    <Routes>
-
-    </Routes>
-  )
-  
-}
+  return <Routes></Routes>;
+};
 
 const mapStateToProps = (state: any) => ({
-	state: state.customer
+  state: state.customer,
 });
 
 const Customer = connect(mapStateToProps)(Main);

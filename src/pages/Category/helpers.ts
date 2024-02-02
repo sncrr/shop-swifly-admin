@@ -2,26 +2,27 @@ import { isArray } from "lodash";
 import { Category } from "../../models/Category";
 
 export const organizeByParent = (list: Category[]): any[] => {
+  if (!isArray(list)) return [];
 
-  if(!isArray(list)) return [];
-
-  let data = list.map(item => ({ ...item }));
+  let data = list.map((item) => ({ ...item }));
   let organizedData: any[] = [];
 
   const findParent = (itemId: string): any => {
-    let parent = data.find(item => item._id === itemId);
+    let parent = data.find((item) => item._id === itemId);
     return parent;
   };
 
-  data.forEach(item => {
+  data.forEach((item) => {
     if (!item.parent) {
-      if (!organizedData.some(existingItem => existingItem._id === item._id)) {
+      if (
+        !organizedData.some((existingItem) => existingItem._id === item._id)
+      ) {
         organizedData.push(item);
       }
     } else {
-
       //Get parent
-      let parent = item.parent && item.parent._id ? findParent(item.parent._id) : null;
+      let parent =
+        item.parent && item.parent._id ? findParent(item.parent._id) : null;
 
       // Create children
       if (parent) {
@@ -31,22 +32,19 @@ export const organizeByParent = (list: Category[]): any[] => {
         if (!parent.children.some((child: any) => child._id === item._id)) {
           parent.children.push(item);
         }
-      }
-      else {
+      } else {
         organizedData.push(item);
       }
     }
   });
 
   return organizedData;
-}
-
+};
 
 const CATEGORY_ROW_KEY = "catTblRowSts";
 
 //Use to retain the status of row even if refresh
 export const setRowStatus = (id: any, value: boolean) => {
-
   let numValue = value ? 1 : 0;
 
   let status: any = localStorage.getItem(CATEGORY_ROW_KEY);
@@ -62,26 +60,20 @@ export const setRowStatus = (id: any, value: boolean) => {
       }
     }
 
-    if (!found)
-      status = [...status, { id, value: numValue }]
-  }
-  else
-    status = [{id, value: numValue}];
+    if (!found) status = [...status, { id, value: numValue }];
+  } else status = [{ id, value: numValue }];
 
   localStorage.setItem(CATEGORY_ROW_KEY, JSON.stringify(status));
-}
+};
 
 //Use to retain the status of row even if refresh
 export const getRowStatus = (id: any) => {
-
   let status: any = localStorage.getItem(CATEGORY_ROW_KEY);
   if (status) {
     status = JSON.parse(status);
 
-    for (let item of status) 
-      if (item.id == id) 
-        return parseInt(item.value)
+    for (let item of status) if (item.id == id) return parseInt(item.value);
   }
 
   return 0;
-}
+};

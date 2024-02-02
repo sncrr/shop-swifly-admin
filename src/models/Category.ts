@@ -10,14 +10,4 @@ export class Category {
   
   readonly createdAt?: string;
   readonly updatedAt?: string;
-
-  // constructor() {
-  //   this._id = "";
-  //   this.name = "";
-  //   this.description = "";
-  //   this.parent = null;
-  //   this.children = [];
-  //   this.createdAt = "";
-  //   this.updatedAt = "";
-  // }
 }
