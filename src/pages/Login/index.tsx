@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FormGroup, FormInput, FormLabel, FormSection } from "../../components/forms";
 import { connect, useDispatch } from 'react-redux';
-import { AdminController } from "../../controllers";
 import { Submit } from '../../components/forms/Submit';
 import { setAccessToken } from '../../utils/authUtils';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -9,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from './schema';
 import { setUser } from '../Admin/slice';
 import { useNavigate } from 'react-router-dom';
+import { authenticate } from '../Admin/controller';
 
 function Main(props: any) {
 
@@ -41,7 +41,7 @@ function Main(props: any) {
     let username = getValues('username');
     let password = getValues('password');
 
-    let result = await AdminController.authenticate(username, password);
+    let result = await authenticate(username, password);
 
     if (result && result.access_token) {
       setAccessToken(result.access_token);
