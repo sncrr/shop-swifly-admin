@@ -20,8 +20,8 @@ export const ORDERS = '/admin/orders'
 export const INVOICES = '/admin/invoices'
 
 export const CATEGORY = '/admin/categories'
-// export const CATEGORY_ADD = '/admin/category/create'
-// export const CATEGORY_UPDATE = '/admin/category/edit/:id'
+export const CATEGORY_ADD = '/admin/category/create'
+export const CATEGORY_UPDATE = '/admin/category/edit/:id'
 
 export const PRODUCT = '/admin/products'
 export const PRODUCT_ADD = '/admin/products/add'

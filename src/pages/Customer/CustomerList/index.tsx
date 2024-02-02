@@ -1,23 +1,27 @@
 import { NavigateFunction } from "react-router-dom";
 import { Section } from "../../../components/containers";
-import { TBody, THead, THeader, TRow, Table, TableControls } from "../../../components/tables";
+import {
+  TBody,
+  THead,
+  THeader,
+  TRow,
+  Table,
+  TableControls,
+} from "../../../components/tables";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
 interface Props {
-  customerState: any,
-  navigate: NavigateFunction,
-  dispatch: Dispatch<AnyAction>
+  customerState: any;
+  navigate: NavigateFunction;
+  dispatch: Dispatch<AnyAction>;
 }
 
 const CustomerList = (props: Props) => {
-
   console.log("CUSTOMER ROUTE", props);
 
   return (
     <Section>
-      <TableControls
-        hasSearch
-      />
+      <TableControls hasSearch />
       <Table>
         <THeader>
           <TRow>
@@ -29,13 +33,10 @@ const CustomerList = (props: Props) => {
             <THead>Birthday</THead>
           </TRow>
         </THeader>
-        <TBody>
-
-        </TBody>
+        <TBody></TBody>
       </Table>
     </Section>
-
-  )
-}
+  );
+};
 
 export default CustomerList;

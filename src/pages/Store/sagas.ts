@@ -1,18 +1,25 @@
-import * as constant from './constants';
-import * as StoreController from './controllers';
-import * as StoreAction from './actions';
-import { put, call, takeLatest, takeLeading } from 'redux-saga/effects';
-import { Store } from '../../models/Store';
-import { replace } from 'connected-react-router';
-import { actionTypes, deleteStoreFailed, deleteStoreSuccess, fetchStoresFailed, fetchStoresSuccess, saveStoreFailed, saveStoreSuccess } from './slice';
+import * as constant from "./constants";
+import * as StoreController from "./controllers";
+import * as StoreAction from "./actions";
+import { put, call, takeLatest, takeLeading } from "redux-saga/effects";
+import { Store } from "../../models/Store";
+import { replace } from "connected-react-router";
+import {
+  actionTypes,
+  deleteStoreFailed,
+  deleteStoreSuccess,
+  fetchStoresFailed,
+  fetchStoresSuccess,
+  saveStoreFailed,
+  saveStoreSuccess,
+} from "./slice";
 
-function* onFetchStores () {
+function* onFetchStores() {
   try {
     const data: Store[] = yield call(StoreController.getAllStores);
-    
+
     yield put(fetchStoresSuccess(data));
-  } 
-  catch (error) {
+  } catch (error) {
     yield put(fetchStoresFailed(error));
   }
 }
@@ -24,15 +31,15 @@ function* onSaveStore(action: any) {
 
   try {
     const { id, navigateToItem } = action.payload;
-    const data: Store = id ? 
-      yield call(StoreController.updateStore, action.payload) :
-      yield call(StoreController.createStore, action.payload);
+    const data: Store = id
+      ? yield call(StoreController.updateStore, action.payload)
+      : yield call(StoreController.createStore, action.payload);
 
-    if(data._id) {
+    if (data._id) {
       yield put(saveStoreSuccess(data));
       yield put(StoreAction.fetchStores());
 
-      if(navigateToItem) {
+      if (navigateToItem) {
         yield put(replace(`?${data._id}`));
         yield put(StoreAction.selectStore(data));
       }
@@ -41,8 +48,7 @@ function* onSaveStore(action: any) {
     //   message: "Store saved successfully",
     //   result: ToastConstant.STATUS_SUCCESS
     // }));
-  } 
-  catch (error) {
+  } catch (error) {
     yield put(saveStoreFailed(error));
 
     // yield put(ToastAction.updateToast(toastId, {
@@ -53,15 +59,17 @@ function* onSaveStore(action: any) {
 }
 
 function* onDeleteStore(action: any) {
-  
   // const { toastId } = yield put(ToastAction.createPromiseToast({
   //   message: "Deleting store...",
   // }));
 
   try {
-    const data: boolean = yield call(StoreController.deleteStore, action.payload);
-    
-    if(data) {
+    const data: boolean = yield call(
+      StoreController.deleteStore,
+      action.payload
+    );
+
+    if (data) {
       yield put(deleteStoreSuccess(data));
       yield put(StoreAction.fetchStores());
       yield put(replace(``));
@@ -71,8 +79,7 @@ function* onDeleteStore(action: any) {
       //   result: ToastConstant.STATUS_SUCCESS
       // }));
     }
-  } 
-  catch (error) {
+  } catch (error) {
     yield put(deleteStoreFailed(error));
 
     // yield put(ToastAction.updateToast(toastId, {

@@ -72,7 +72,6 @@ const Input = styled.input`
   }
   &::placeholder {
     color: ${colors.placeholder};
-    /* font-style: italic; */
   }
 
 `;

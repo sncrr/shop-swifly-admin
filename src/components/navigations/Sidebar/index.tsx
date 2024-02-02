@@ -5,15 +5,13 @@ import { NavListItem } from "./NavListItem";
 import { NavSubList } from "./NavSubList";
 import { NavSubItem } from "./NavSubItem";
 import { styled } from "styled-components";
-import { sidebarNavigations } from "../../../root/Admin/paths";
+import { sidebarNavigations } from "../../../pages/Admin/paths";
 
 const ICON_SIZE = 32;
 const ICON_COLOR = colors.black;
 const ICON_ACTIVE_COLOR = colors.active;
 
-interface Props {
-
-}
+interface Props {}
 
 const Container = styled.aside`
   background-color: ${colors.white};
@@ -24,75 +22,61 @@ const Container = styled.aside`
   top: 5rem;
   left: 0;
   border-right: 0.3rem solid ${colors.navBorder};
-`
+`;
 
-export const Sidebar = ({ }: Props) => {
-
+export const Sidebar = ({}: Props) => {
   const location = useLocation();
 
   const getIsActive = (item: any) => {
-
-    if (item.path)
-      return location.pathname.includes(item.path)
-
+    if (item.path) return location.pathname.includes(item.path);
     else if (item.children)
       for (let child of item.children)
-        if (location.pathname.includes(child.path))
-          return true;
+        if (location.pathname.includes(child.path)) return true;
 
     return false;
-  }
+  };
 
   return (
     <Container>
       <NavList>
-        {
-          sidebarNavigations.map((item, index) => {
+        {sidebarNavigations.map((item, index) => {
+          let isActive = getIsActive(item);
 
-            let isActive = getIsActive(item)
-
-            return (
-              <NavListItem
-                key={index}
-                className="nav-list-item"
-                $isActive={isActive}
-              >
-                {
-                  item.children ? (
-                    <div>
-                      <item.icon
-                        color={isActive ? ICON_ACTIVE_COLOR : ICON_COLOR}
-                        size={ICON_SIZE}
-                      />
-                      <span>{item.label}</span>
-                      <NavSubList>
-                        <div className="title">{item.label}</div>
-                        {
-                          item.children.map((child, childIndex) => (
-                            <NavSubItem key={childIndex}>
-                              <Link to={child.path}>
-                                {child.label}
-                              </Link>
-                            </NavSubItem>
-                          ))
-                        }
-                      </NavSubList>
-                    </div>
-                  ) : (
-                    <Link to={item.path}>
-                      <item.icon
-                        color={isActive ? ICON_ACTIVE_COLOR : ICON_COLOR}
-                        size={ICON_SIZE}
-                      />
-                      <span>{item.label}</span>
-                    </Link>
-                  )
-                }
-              </NavListItem>
-            )
-          })
-        }
+          return (
+            <NavListItem
+              key={index}
+              className="nav-list-item"
+              $isActive={isActive}
+            >
+              {item.children ? (
+                <div>
+                  <item.icon
+                    color={isActive ? ICON_ACTIVE_COLOR : ICON_COLOR}
+                    size={ICON_SIZE}
+                  />
+                  <span>{item.label}</span>
+                  <NavSubList>
+                    <div className="title">{item.label}</div>
+                    {item.children.map((child, childIndex) => (
+                      <NavSubItem key={childIndex}>
+                        <Link to={child.path}>{child.label}</Link>
+                      </NavSubItem>
+                    ))}
+                  </NavSubList>
+                </div>
+              ) : (
+                <Link to={item.path}>
+                  <item.icon
+                    color={isActive ? ICON_ACTIVE_COLOR : ICON_COLOR}
+                    size={ICON_SIZE}
+                  />
+                  <span>{item.label}</span>
+                </Link>
+              )}
+            </NavListItem>
+          );
+        })}
       </NavList>
     </Container>
-  )
-}
+  );
+};

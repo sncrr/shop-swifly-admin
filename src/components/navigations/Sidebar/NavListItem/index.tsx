@@ -31,10 +31,6 @@ export const NavListItem = styled.li<NavListItemProps>`
     color: ${colors.black};
     transition: background-color 100ms ease-out;
 
-    /* span {
-      color: ${colors.active};
-    } */
-
     .nav-sub-list {
       display: block;
     }

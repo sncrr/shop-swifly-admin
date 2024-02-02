@@ -1,18 +1,15 @@
-import * as constant from './constants';
+import * as constant from "./constants";
 
 //SELECTOR
 export const selectProduct = (data: any) => ({
-    type: constant.SELECT_CUSTOMER,
-    data,
-})
+  type: constant.SELECT_CUSTOMER,
+  data,
+});
 
 //FETCH CUSTOMER
-export const fetchCustomers = (data: {
-  page: number,
-  itemsCount: number
-}) => ({
+export const fetchCustomers = (data: { page: number; itemsCount: number }) => ({
   type: constant.FETCH_CUSTOMERS,
-  data
+  data,
 });
 export const fetchCustomersSuccess = (data: any) => ({
   type: constant.FETCH_CUSTOMERS_SUCCESS,

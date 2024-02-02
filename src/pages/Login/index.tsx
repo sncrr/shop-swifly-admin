@@ -7,7 +7,7 @@ import { setAccessToken } from '../../utils/authUtils';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginSchema } from './schema';
-import { setUser } from '../../root/Admin/slice';
+import { setUser } from '../Admin/slice';
 import { useNavigate } from 'react-router-dom';
 
 function Main(props: any) {

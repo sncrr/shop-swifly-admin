@@ -4,12 +4,11 @@ import { colors } from "../../../theme";
 
 interface Props {
   buttons: {
-    label: string,
-    onClick: any
-  }[]
+    label: string;
+    onClick: any;
+  }[];
 }
 const Menu = styled.button`
-  
   position: relative;
 
   ul {
@@ -25,7 +24,7 @@ const Menu = styled.button`
       padding: 0.5rem 1rem;
       transition: background-color 150ms ease-in;
     }
-    
+
     li:hover {
       background-color: ${colors.inputFocus};
     }
@@ -36,24 +35,19 @@ const Menu = styled.button`
       display: block;
     }
   }
-`
+`;
 
-export const RowActions = ({buttons}: Props) => {
-  
-
-
+export const RowActions = ({ buttons }: Props) => {
   return (
     <Menu>
       <ul className="drop-shadow-md">
-        {
-          buttons.map((item, index) => (
-            <li key={index} onClick={item.onClick}>
-              {item.label}
-            </li>
-          ))
-        }
+        {buttons.map((item, index) => (
+          <li key={index} onClick={item.onClick}>
+            {item.label}
+          </li>
+        ))}
       </ul>
       <MoreHorizontal size={24} color={colors.mainColor} />
     </Menu>
-  )
-}
+  );
+};

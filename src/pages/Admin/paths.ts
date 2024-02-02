@@ -1,35 +1,14 @@
-import { MenuConfigs, MenuContents, MenuCustomers, MenuDashboard, MenuInventory, MenuStore } from "../../assets/svgs/Icons";
+import {
+  MenuConfigs,
+  MenuContents,
+  MenuCustomers,
+  MenuDashboard,
+  MenuInventory,
+  MenuStore,
+} from "../../assets/svgs/Icons";
 import { MenuTransactions } from "../../assets/svgs/Icons/MenuTransactions";
 import { Paths } from "../../constants";
-import Category from "../../pages/Category";
-import Settings from "../../pages/Settings";
-import Dashboard from "../../pages/Dashboard";
-import Product from "../../pages/Product";
-import Store from "../../pages/Store";
-import { SettingRoutes } from "../../pages/Settings/routes";
-
-export const paths = [
-  {
-    path: "/dashboard",
-    element: Dashboard
-  },
-  {
-    path: "/categories/*",
-    element: Category
-  },
-  {
-    path: "/products/*",
-    element: Product,
-  },
-  {
-    path: "/stores/*",
-    element: Store,
-  },
-  {
-    path: "/settings/*",
-    element: Settings,
-  }
-];
+import { SettingRoutes } from "../Settings";
 
 export const sidebarNavigations = [
   {
@@ -43,18 +22,18 @@ export const sidebarNavigations = [
     children: [
       {
         label: "Categories",
-        path: Paths.CATEGORY
+        path: Paths.CATEGORY,
       },
       {
         label: "Products",
-        path: Paths.PRODUCT
-      }
-    ]
+        path: Paths.PRODUCT,
+      },
+    ],
   },
   {
     label: "Customers",
     icon: MenuCustomers,
-    children: []
+    children: [],
   },
   {
     label: "Transactions",
@@ -62,13 +41,13 @@ export const sidebarNavigations = [
     children: [
       {
         label: "Orders",
-        path: Paths.INVOICES
+        path: Paths.INVOICES,
       },
       {
         label: "Invoices",
-        path: Paths.ORDERS
-      }
-    ]
+        path: Paths.ORDERS,
+      },
+    ],
   },
   {
     label: "Store",
@@ -85,18 +64,18 @@ export const sidebarNavigations = [
       {
         label: "Pick Up",
         path: Paths.PICK_UP,
-      }
-    ]
+      },
+    ],
   },
   {
     label: "Contents",
     icon: MenuContents,
-    children: []
+    children: [],
   },
   {
     label: "Settings",
     icon: MenuConfigs,
     path: Paths.SETTINGS,
-    children: SettingRoutes
-  }
-]
+    children: SettingRoutes,
+  },
+];

@@ -1,13 +1,11 @@
-
 export function getFormData(target: any) {
+  const form = new FormData(target);
 
-    const form = new FormData(target);
+  const formData: any = {};
 
-    const formData: any = {};
+  form.forEach(function (value: any, key: any) {
+    formData[key] = value == "None" ? null : value;
+  });
 
-    form.forEach(function (value: any, key: any) {
-        formData[key] = value == "None" ? null : value;
-    });
-
-    return formData;
+  return formData;
 }

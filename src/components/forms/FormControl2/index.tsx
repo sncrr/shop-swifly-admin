@@ -10,14 +10,6 @@ interface Props {
 }
 
 export const Content = styled.div<{ $unbordered?: boolean; $flexible?: boolean; }>`
-  
-  /* display: flex;
-  align-items: center;
-  min-height: calc(2.5rem + 2px);
-  border-radius: 0.1rem; */
-  
-  
-  /* padding: 0 0.5rem; */
 
   width: 100%;
   border-radius: 0.3rem;

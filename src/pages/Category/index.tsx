@@ -4,37 +4,56 @@ import { useDispatch } from "react-redux";
 import { CategoryState } from "./slice";
 import { RootState } from "../../root/reducers";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
+import { Paths } from "../../constants";
+import CategoryList from "./CategoryList";
+import { CategoryForm } from "./CategoryForm";
+
+const basePath = Paths.CATEGORY;
+
+export const CategoryRoutes = [
+  {
+    path: `${basePath}/`,
+    element: CategoryList,
+  },
+  {
+    path: `${basePath}/${Paths.CREATE}`,
+    element: CategoryForm,
+  },
+  {
+    path: `${basePath}/${Paths.EDIT}`,
+    element: CategoryForm,
+  },
+];
 
 interface Props {
-	categoryState: CategoryState,
+  categoryState: CategoryState;
 }
 
 export interface CategoryContext {
-	navigate: NavigateFunction,
-	dispatch: Dispatch<AnyAction>,
-	categoryState: CategoryState,
+  navigate: NavigateFunction;
+  dispatch: Dispatch<AnyAction>;
+  categoryState: CategoryState;
 }
 
-function Main(props: Props) {
+const Main = (props: Props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-
-	return (
-		<Outlet 
-			context={{
-				dispatch, 
-				navigate, 
-				categoryState: props.categoryState
-			} satisfies CategoryContext} 
-		/>
-	)
-}
+  return (
+    <Outlet
+      context={
+        {
+          dispatch,
+          navigate,
+          categoryState: props.categoryState,
+        } satisfies CategoryContext
+      }
+    />
+  );
+};
 
 const mapStateToProps = (state: RootState) => ({
-	categoryState: state.category,
+  categoryState: state.category,
 });
 
-const Category = connect(mapStateToProps)(Main);
-
-export default Category;
+export const Category = connect(mapStateToProps)(Main);

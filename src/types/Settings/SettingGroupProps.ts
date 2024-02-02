@@ -1,5 +1,4 @@
-
 export interface SettingGroupProps {
-    children: any[],
-    section: string,
+  children: any[];
+  section: string;
 }

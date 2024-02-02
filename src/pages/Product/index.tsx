@@ -7,46 +7,64 @@ import { StoreState } from "../Store/slice";
 import { ProductState } from "./slice";
 import { RootState } from "../../root/reducers";
 import { AnyAction, Dispatch } from "@reduxjs/toolkit";
+import { Paths } from "../../constants";
+import { ProductList } from "./ProductList";
+import { ProductForm } from "./ProductForm";
+
+const basePath = Paths.PRODUCT;
+
+export const ProductRoutes = [
+  {
+    path: `${basePath}/`,
+    element: ProductList,
+  },
+  {
+    path: `${basePath}/${Paths.CREATE}`,
+    element: ProductForm,
+  },
+  {
+    path: `${basePath}/${Paths.EDIT}`,
+    element: ProductForm,
+  },
+];
 
 interface Props {
-	productState: ProductState,
-	storeState: StoreState,
-	categoryState: CategoryState,
+  productState: ProductState;
+  storeState: StoreState;
+  categoryState: CategoryState;
 }
 
 export interface ProductContext {
-	navigate: NavigateFunction,
-	dispatch: Dispatch<AnyAction>,
-	productState: ProductState,
-	categoryState: CategoryState,
-	storeState: StoreState
+  navigate: NavigateFunction;
+  dispatch: Dispatch<AnyAction>;
+  productState: ProductState;
+  categoryState: CategoryState;
+  storeState: StoreState;
 }
 
-
 function Main(props: Props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-
-	return (
-		<Outlet 
-			context={{
-				dispatch, 
-				navigate, 
-				productState: props.productState,
-				categoryState: props.categoryState,
-				storeState: props.storeState,
-			} satisfies ProductContext} 
-		/>
-	)
+  return (
+    <Outlet
+      context={
+        {
+          dispatch,
+          navigate,
+          productState: props.productState,
+          categoryState: props.categoryState,
+          storeState: props.storeState,
+        } satisfies ProductContext
+      }
+    />
+  );
 }
 
 const mapStateToProps = (state: RootState) => ({
-	productState: state.product,
-	storeState: state.store,
-	categoryState: state.category,
+  productState: state.product,
+  storeState: state.store,
+  categoryState: state.category,
 });
 
-const Product = connect(mapStateToProps)(Main);
-
-export default Product;
+export const Product = connect(mapStateToProps)(Main);

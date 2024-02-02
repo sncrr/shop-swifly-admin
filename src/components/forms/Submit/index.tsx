@@ -2,22 +2,19 @@ import styled from 'styled-components';
 import { colors } from "../../../theme";
 
 interface Props {
-    text?: string,
-    disabled?: boolean,
+  text?: string,
+  disabled?: boolean,
 }
 
 const Button = styled.button.attrs(() => ({
-    id: 'submit',
-    type: 'submit'
+  id: 'submit',
+  type: 'submit'
 }))`
-  /* width: 100%; */
-  /* min-width: 4rem; */
   padding: 0.75rem 2.5rem;
   background-color: ${colors.mainColor};
   color: ${colors.white};
   font-size: 1rem;
   font-weight: 600;
-  /* padding: 0.6rem; */
   min-height: 2.5rem;
   border-radius: 0.2rem;
 
@@ -26,12 +23,12 @@ const Button = styled.button.attrs(() => ({
   }
 `;
 
-export function Submit(props : Props) {
-    return (
-        <Button
-            disabled={props.disabled}
-        >
-            { props.text }
-        </Button>
-    )
+export function Submit(props: Props) {
+  return (
+    <Button
+      disabled={props.disabled}
+    >
+      {props.text}
+    </Button>
+  )
 }

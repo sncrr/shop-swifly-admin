@@ -1,25 +1,24 @@
-import * as ProductController from './controllers';
-import { put, call, takeLatest, takeLeading, select } from 'redux-saga/effects';
-import { replace } from 'connected-react-router';
-import { hideLoader } from '../../components/modals/slice';
-import { Product } from '../../models/Product';
-import { 
-  actionTypes, 
-  deleteProductFailed, 
-  deleteProductSuccess, 
-  fetchProductsFailed, 
-  fetchProductsSuccess 
-} from './slice';
-import SagaProps from '../../types/Utils/SagaProps';
+import * as ProductController from "./controllers";
+import { put, call, takeLatest, takeLeading, select } from "redux-saga/effects";
+import { replace } from "connected-react-router";
+import { hideLoader } from "../../components/modals/slice";
+import { Product } from "../../models/Product";
+import {
+  actionTypes,
+  deleteProductFailed,
+  deleteProductSuccess,
+  fetchProductsFailed,
+  fetchProductsSuccess,
+} from "./slice";
+import SagaProps from "../../types/Utils/SagaProps";
 
-function* onFetchProducts (action: SagaProps) {
-
+function* onFetchProducts(action: SagaProps) {
   const { page, itemsCount, sort, order, search } = action.payload;
 
   try {
     const data: Product[] = yield call(
-      ProductController.getPaginateProducts, 
-      page, 
+      ProductController.getPaginateProducts,
+      page,
       itemsCount,
       sort,
       order,
@@ -28,14 +27,13 @@ function* onFetchProducts (action: SagaProps) {
 
     yield put(fetchProductsSuccess(data));
     yield put(hideLoader());
-  } 
-  catch (error) {
+  } catch (error) {
     yield put(fetchProductsFailed(error));
     yield put(hideLoader());
   }
 }
 
-function* onSaveProduct(action: any):any {
+function* onSaveProduct(action: any): any {
   console.log(action);
   // const { toastId } = yield put(ToastAction.createPromiseToast({
   //   message: "Saving Product",
@@ -52,7 +50,7 @@ function* onSaveProduct(action: any):any {
 
   //   const files = new FileList();
 
-  //   const result: Product = id ? 
+  //   const result: Product = id ?
   //     yield call(ProductController.updateProduct, formData) :
   //     yield call(ProductController.createProduct, formData);
 
@@ -72,7 +70,7 @@ function* onSaveProduct(action: any):any {
   //   //   message: "Product saved successfully",
   //   //   result: ToastConstant.STATUS_SUCCESS
   //   // }));
-  // } 
+  // }
   // catch (error) {
   //   yield put(saveProductFailed(JSON.stringify(error)));
 
@@ -83,21 +81,20 @@ function* onSaveProduct(action: any):any {
   // }
 }
 
-function* onDeleteProduct(action: any):any {
-  
+function* onDeleteProduct(action: any): any {
   try {
-    const data: boolean = yield call(ProductController.deleteProduct, action.payload);
-    
-    if(data) {
+    const data: boolean = yield call(
+      ProductController.deleteProduct,
+      action.payload
+    );
 
+    if (data) {
       yield select((state) => state.product);
 
       yield put(deleteProductSuccess(data));
       yield put(replace(``));
-
     }
-  } 
-  catch (error) {
+  } catch (error) {
     yield put(deleteProductFailed(error));
   }
 }

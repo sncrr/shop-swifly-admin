@@ -9,75 +9,62 @@ import { fetchSettings } from "../slice";
 import { SettingsContext } from "..";
 import { useOutletContext } from "react-router-dom";
 
-
 const General = (props: SettingGroupProps) => {
+  const { children, section } = props;
+  const { dispatch, settingState, onSubmit } =
+    useOutletContext<SettingsContext>();
 
-    const { children, section } = props;
-    const {
-        dispatch,
-        settingState,
-        onSubmit,
-    } = useOutletContext<SettingsContext>();
+  const { data } = settingState;
 
-    const { data } = settingState;
+  const [group, setGroup] = useState(getCurrentGroup(children));
 
-    const [group, setGroup] = useState(getCurrentGroup(children));
-    
-    const defaultValues = {
-        ...getDefaultValues(data),
-        section: `${section}/${group.code}`
-    };
+  const defaultValues = {
+    ...getDefaultValues(data),
+    section: `${section}/${group.code}`,
+  };
 
-    console.log("DEFAULT", settingState);
-    
-    const formMethods = useForm({
-        defaultValues: defaultValues
-    });
+  console.log("DEFAULT", settingState);
 
-    const {
-        handleSubmit,
-        reset
-    } = formMethods;
+  const formMethods = useForm({
+    defaultValues: defaultValues,
+  });
 
-    useEffect(() => {
-        reset(defaultValues);
-    }, [data])
+  const { handleSubmit, reset } = formMethods;
 
-    useEffect(() => {
-        reset(defaultValues);
-        dispatch(fetchSettings({
-            section,
-            group: group.code
-        }));
-    }, [group])
+  useEffect(() => {
+    reset(defaultValues);
+  }, [data]);
 
-    return (
-        <FormProvider {...formMethods}>
-            <FlexForm onSubmit={handleSubmit(onSubmit)}>
-                <SettingsPageTitle
-                    titles={[
-                        'General',
-                        group.label
-                    ]}
-                    section={section}
-                    group={group.code}
-                />
+  useEffect(() => {
+    reset(defaultValues);
+    dispatch(
+      fetchSettings({
+        section,
+        group: group.code,
+      })
+    );
+  }, [group]);
 
-                <div className="flex flex-1 py-4 px-4">
-                    <ConfigNavigator items={children} setGroup={setGroup} />
-                    {
-                        children.map((item: any, index: number) => (
-                            group.code === item.code ? 
-                                <item.element 
-                                    key={index} 
-                                    data={data}
-                                /> : null
-                        ))
-                    }
-                </div>
-            </FlexForm>
-        </FormProvider>
-    )
-}
+  return (
+    <FormProvider {...formMethods}>
+      <FlexForm onSubmit={handleSubmit(onSubmit)}>
+        <SettingsPageTitle
+          titles={["General", group.label]}
+          section={section}
+          group={group.code}
+        />
+
+        <div className="flex flex-1 py-4 px-4">
+          <ConfigNavigator items={children} setGroup={setGroup} />
+          {children.map((item: any, index: number) =>
+            group.code === item.code ? (
+              <item.element key={index} data={data} />
+            ) : null
+          )}
+        </div>
+      </FlexForm>
+    </FormProvider>
+  );
+};
 
 export default General;

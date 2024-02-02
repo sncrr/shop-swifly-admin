@@ -13,7 +13,7 @@ import { NavigateFunction, useOutletContext } from "react-router-dom";
 import { Checkbox } from "../../../components/inputs/Checkbox";
 import { Section } from "../../../components/containers";
 import { showConfirmDialog } from "../../../components/alerts/actions";
-import { getProductLocalData, setProductLocalData } from "../../../root/helper";
+import { getLocalData, setLocalData } from "../../../root/helper";
 import { CATEGORY_LOCAL_KEY } from "../../../constants/global";
 import { CategoryContext } from "..";
 
@@ -26,7 +26,7 @@ const CategoryList = () => {
     } = useOutletContext<CategoryContext>();
 
     //HOOKS & VARIABLES
-    const localData = getProductLocalData(CATEGORY_LOCAL_KEY);
+    const localData = getLocalData(CATEGORY_LOCAL_KEY);
     const { search } = localData;
     const {
         fetching,
@@ -48,7 +48,7 @@ const CategoryList = () => {
 
     const handleSearch = (value: string) => {
         dispatch(fetchCategories({search: value}));
-        setProductLocalData(CATEGORY_LOCAL_KEY, {
+        setLocalData(CATEGORY_LOCAL_KEY, {
 			search: value
 		});
     }

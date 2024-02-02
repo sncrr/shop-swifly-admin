@@ -1,4 +1,3 @@
-
 import { Outlet, useNavigate } from "react-router-dom";
 import { Sidebar } from "../../components/navigations/Sidebar";
 import { Header } from "../../components/navigations/Header";
@@ -7,41 +6,40 @@ import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { navigateStop } from "./slice";
 
-const MainContainer =styled.div`
+const MainContainer = styled.div`
   margin-top: 5rem;
   margin-left: 7rem;
   width: calc(100% - 7rem);
   padding: 0.5rem;
   min-height: calc(100% - 5rem);
-  display: flex;  
+  display: flex;
   flex-direction: column;
-`
+`;
 
-function Main (props : any) {
-
-  const {targetPath, navigateTo} = props.state;
+function Main(props: any) {
+  const { targetPath, navigateTo } = props.state;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = props.state;
-  
+
   useEffect(() => {
-    if(!user) {
-      navigate('/login')
+    if (!user) {
+      navigate("/login");
     }
   }, [user]);
-  
+
   useEffect(() => {
-    if(targetPath && navigateTo) {
+    if (targetPath && navigateTo) {
       navigate(targetPath);
       dispatch(navigateStop());
     }
   }, [targetPath, navigateTo]);
 
-  if(!user) return null;
+  if (!user) return null;
   return (
-    <>    
-      <Header user={user}/>
+    <>
+      <Header user={user} />
       <Sidebar />
 
       <MainContainer>
@@ -50,11 +48,11 @@ function Main (props : any) {
         </div>
       </MainContainer>
     </>
-  )
+  );
 }
 
 const mapStateToProps = (state: any) => ({
-	state: state.global
+  state: state.global,
 });
 
 export const Admin = connect(mapStateToProps)(Main);
