@@ -1,6 +1,8 @@
 import { Category } from "../../models/Category";
 import { createQuery, request } from "../../utils/requestUtils";
 
+const SUB_PATH = 'categories';
+
 export async function getAllCategories(payload: any) {
   try {
     const query = createQuery({
@@ -9,7 +11,7 @@ export async function getAllCategories(payload: any) {
       search: payload.search,
     });
 
-    const response = await request.get(`/category/all?${query}`);
+    const response = await request.get(`/${SUB_PATH}/all?${query}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -23,7 +25,7 @@ export async function getCategory(id: string): Promise<Category> {
       sort: "name",
     });
 
-    const response = await request.get(`/category/${id}?${query}`);
+    const response = await request.get(`/${SUB_PATH}/${id}?${query}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -35,7 +37,7 @@ export async function createCategory(payload: any): Promise<Category> {
     const query = createQuery({
       populate: "parent",
     });
-    const response = await request.post(`/category?${query}`, payload.data);
+    const response = await request.post(`/${SUB_PATH}?${query}`, payload.data);
     return response.data;
   } catch (error) {
     throw error;
@@ -48,7 +50,7 @@ export async function updateCategory(payload: any): Promise<Category> {
       populate: "parent",
     });
     const response = await request.put(
-      `/category/${payload.id}?${query}`,
+      `/${SUB_PATH}/${payload.id}?${query}`,
       payload.data
     );
     return response.data;
@@ -59,7 +61,7 @@ export async function updateCategory(payload: any): Promise<Category> {
 
 export async function deleteCategory(id: string): Promise<boolean> {
   try {
-    const response = await request.delete(`/category/${id}`);
+    const response = await request.delete(`/${SUB_PATH}/${id}`);
     return response.data;
   } catch (error) {
     throw error;

@@ -35,7 +35,6 @@ export function PaymentMethodList() {
 
   const { fetching, paymentMethods } = paymentMethodState;
 
-  console.log("STATE", paymentMethodState)
   useEffect(() => {
     dispatch(fetchPaymentMethods({}));
   }, []);

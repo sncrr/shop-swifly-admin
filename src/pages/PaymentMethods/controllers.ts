@@ -1,7 +1,7 @@
 import { PaymentMethod } from "../../models/PaymentMethod";
 import { createQuery, request } from "../../utils/requestUtils";
 
-const SUB_PATH = 'payment_method';
+const SUB_PATH = 'payment-methods';
 
 export async function getAllPaymentMethods(payload: any) {
   try {

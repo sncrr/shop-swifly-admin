@@ -5,10 +5,10 @@ import {
   MenuDashboard,
   MenuInventory,
   MenuStore,
-} from "../../assets/svgs/Icons";
-import { MenuTransactions } from "../../assets/svgs/Icons/MenuTransactions";
-import { Paths } from "../../constants";
-import { SettingRoutes } from "../Settings";
+} from "../assets/svgs/Icons";
+import { MenuTransactions } from "../assets/svgs/Icons/MenuTransactions";
+import { Paths } from "../constants";
+import { SettingRoutes } from "../pages/Settings";
 
 export const sidebarNavigations = [
   {
@@ -33,7 +33,31 @@ export const sidebarNavigations = [
   {
     label: "Customers",
     icon: MenuCustomers,
-    children: [],
+    children: [
+      {
+        label: "Customers",
+        path: Paths.CUSTOMER,
+      },
+      {
+        label: "Customer Group",
+        path: Paths.CUSTOMER_GROUP,
+      },
+      {
+        label: "Provinces",
+        path: Paths.PROVINCES,
+        group: "Address",
+      },
+      {
+        label: "Cities/Municipalities",
+        path: Paths.CITIES_MUNICIPALITIES,
+        group: "Address",
+      },
+      {
+        label: "Barangays",
+        path: Paths.BARANGAYS,
+        group: "Address",
+      }
+    ],
   },
   {
     label: "Transactions",
@@ -41,11 +65,11 @@ export const sidebarNavigations = [
     children: [
       {
         label: "Orders",
-        path: Paths.INVOICES,
+        path: Paths.ORDERS,
       },
       {
         label: "Invoices",
-        path: Paths.ORDERS,
+        path: Paths.INVOICES,
       },
       {
         label: "Payment Methods",

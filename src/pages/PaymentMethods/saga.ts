@@ -23,7 +23,6 @@ import { Response } from "../../utils/response";
 
 function* onFetchPaymentMethods(action: SagaProps) {
 
-  console.log(action)
   try {
     const res: Response = yield call(
       PaymentMethodController.getAllPaymentMethods, 
@@ -58,7 +57,7 @@ function* onSavePaymentMethod(action: SagaProps) {
     }
     yield put(showToast(successToast("Payment Method saved successfully")));
   } catch (error: any) {
-    console.log(error);
+    console.error(error);
     yield put(savePaymentMethodFailed(error.response.data.message));
     yield put(showToast(failedToast("Category saving failed")));
   }

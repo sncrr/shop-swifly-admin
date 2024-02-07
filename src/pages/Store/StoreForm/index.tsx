@@ -90,7 +90,6 @@ export function StoreForm() {
   const onSubmit = (values: any) => {
     if(selected) {
       delete values.code;
-      console.log(values);
     }
 
     dispatch(

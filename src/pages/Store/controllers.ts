@@ -2,7 +2,7 @@ import { Store } from "../../models/Store";
 import { Paginate } from "../../types/Utils/Paginate";
 import { createQuery, request } from "../../utils/requestUtils";
 
-const SUB_PATH = 'store';
+const SUB_PATH = 'stores';
 
 export async function getAllStores() {
   try {

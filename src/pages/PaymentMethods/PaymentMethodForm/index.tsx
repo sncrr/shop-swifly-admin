@@ -77,7 +77,6 @@ export const PaymentMethodForm = () => {
 
   useEffect(() => {
     reset(defaultValues);
-    console.log(selected);
   }, [selected]);
 
   const onSubmit = async (values: any) => {

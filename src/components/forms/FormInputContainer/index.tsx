@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colors } from "../../../theme";
 
-export const FormControl = styled.div<{ unbordered?: boolean; flexible?: boolean; }>`
+export const FormInputContainer = styled.div<{ unbordered?: boolean; flexible?: boolean; }>`
   width: 100%;
   max-width: 40rem;
   ${props => !props.flexible ? "max-width: 30rem;" : ""}

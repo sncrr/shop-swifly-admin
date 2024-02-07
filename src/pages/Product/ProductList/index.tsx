@@ -31,7 +31,7 @@ export function ProductList() {
   const { dispatch, navigate, productState } =
     useOutletContext<ProductContext>();
 
-  const { fetching, totalPages, hasChanges} = productState;
+  const { fetching, totalPages, totalItems, hasChanges} = productState;
   const products: Product[] = productState.products;
 
   useEffect(() => {
@@ -96,6 +96,7 @@ export function ProductList() {
         hasSearch
         defaultSearchValue={localData.search}
         totalPages={totalPages}
+        totalRows={totalItems}
         defaultCurrentPage={localData.currentPage}
         defaultPageItemsCount={localData.itemsCount}
         onPageChange={getProductList}

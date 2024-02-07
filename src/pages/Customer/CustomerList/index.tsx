@@ -8,16 +8,14 @@ import {
   Table,
   TableControls,
 } from "../../../components/tables";
-import { AnyAction, Dispatch } from "@reduxjs/toolkit";
 
-interface Props {
-  customerState: any;
-  navigate: NavigateFunction;
-  dispatch: Dispatch<AnyAction>;
-}
+// interface Props {
+//   customerState: any;
+//   navigate: NavigateFunction;
+//   dispatch: Dispatch<AnyAction>;
+// }
 
-const CustomerList = (props: Props) => {
-  console.log("CUSTOMER ROUTE", props);
+const CustomerList = () => {
 
   return (
     <Section>

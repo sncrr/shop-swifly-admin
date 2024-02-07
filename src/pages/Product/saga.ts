@@ -32,7 +32,7 @@ function* onFetchProducts(action: SagaProps) {
 }
 
 function* onSaveProduct(action: any): any {
-  console.log("SAGA Save product", action);
+  console.warn("SAGA Save product", action);
 }
 
 function* onDeleteProduct(action: any): any {

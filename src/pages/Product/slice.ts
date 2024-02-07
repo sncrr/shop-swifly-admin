@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Product } from "../../models/Product";
+import { get } from "lodash";
 
 export interface ProductState {
   fetching: boolean;
   products: Array<Product>;
   totalPages: number;
+  totalItems: number;
   hasChanges: boolean;
   error: string;
   data: any;
@@ -14,6 +16,7 @@ const initialState = {
   fetching: true,
   products: new Array<Product>(),
   totalPages: 1,
+  totalItems: 1,
   hasChanges: true,
   data: null,
   error: "",
@@ -32,8 +35,9 @@ const productSlice = createSlice({
       ...state,
       fetching: false,
       hasChanges: false,
-      products: action.payload.data,
-      totalPages: action.payload.totalPages,
+      products: action.payload.data ? action.payload.data : action.payload,
+      totalPages: get(action, 'payload.totalPages', 1),
+      totalItems: get(action, 'payload.totalRows', 1),
     }),
     fetchProductsFailed: (state, action) => ({
       ...state,

@@ -1,3 +1,4 @@
+import { get } from "lodash";
 import { DEFAULT_LOCAL_DATA } from "../constants/global";
 import { LocalData } from "../types/Utils/Paginate";
 
@@ -17,3 +18,7 @@ export const setLocalData = (key: string, data: any) => {
 
   localStorage.setItem(key, JSON.stringify(value));
 };
+
+export const getErrorMessage = (error: any) => {
+  return get(error, 'response.data.message', '');
+}

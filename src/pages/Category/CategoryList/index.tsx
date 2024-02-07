@@ -25,6 +25,7 @@ import { showConfirmDialog } from "../../../components/alerts/actions";
 import { getLocalData, setLocalData } from "../../../root/helper";
 import { CATEGORY_LOCAL_KEY } from "../../../constants/global";
 import { CategoryContext } from "..";
+import { hideLoader, showLoader } from "../../../components/modals/slice";
 
 const CategoryList = () => {
   const { dispatch, navigate, categoryState } =

@@ -31,7 +31,7 @@ export const Content = styled.div<{ $unbordered?: boolean; $flexible?: boolean; 
   ` : '' }
 `;
 
-export function FormControl2 (props : Props) {
+export function FormInputContainer2 (props : Props) {
 
   return (
     <div className={`p-1 ${props.className}`}>

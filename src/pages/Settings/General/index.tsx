@@ -23,8 +23,6 @@ const General = (props: SettingGroupProps) => {
     section: `${section}/${group.code}`,
   };
 
-  console.log("DEFAULT", settingState);
-
   const formMethods = useForm({
     defaultValues: defaultValues,
   });

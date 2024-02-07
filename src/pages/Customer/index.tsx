@@ -1,18 +1,59 @@
-import { connect } from "react-redux";
-import { Routes } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
+import { NavigateFunction, Outlet, Routes, useNavigate } from "react-router-dom";
+import { Paths } from "../../constants";
+import CustomerList from "./CustomerList";
+import { CustomerState } from "./slice";
+import { RootState } from "../../root/reducers";
+import { AnyAction } from "@reduxjs/toolkit";
+import { Dispatch } from "react";
+import { CustomerForm } from "./CustomerForm";
 
-interface Props {}
+const basePath = Paths.CUSTOMER;
+
+export const CustomerRoutes = [
+  {
+    path: `${basePath}/`,
+    element: CustomerList,
+  },
+  {
+    path: `${basePath}/${Paths.CREATE}`,
+    element: CustomerForm,
+  },
+  {
+    path: `${basePath}/${Paths.EDIT}`,
+    element: CustomerForm,
+  },
+];
+
+interface Props {
+  customerState: CustomerState;
+}
+
+export interface CustomerContext {
+  navigate: NavigateFunction;
+  dispatch: Dispatch<AnyAction>;
+  customerState: CustomerState;
+}
 
 const Main = (props: Props) => {
-  console.log(props);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  return <Routes></Routes>;
+  return (
+    <Outlet
+      context={
+        {
+          dispatch,
+          navigate,
+          customerState: props.customerState,
+        } satisfies CustomerContext
+      }
+    />
+  );
 };
 
-const mapStateToProps = (state: any) => ({
-  state: state.customer,
+const mapStateToProps = (state: RootState) => ({
+  customerState: state.customer,
 });
 
-const Customer = connect(mapStateToProps)(Main);
-
-export default Customer;
+export const Customer = connect(mapStateToProps)(Main);
