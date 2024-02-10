@@ -5,6 +5,7 @@ export class Customer {
   readonly email: string = '';
   readonly firstName: string = '';
   readonly lastName: string = '';
+  readonly dateOfBirth: string = '';
   
   readonly createdAt: string = '';
   readonly updatedAt: string = '';

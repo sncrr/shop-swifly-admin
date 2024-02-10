@@ -1,10 +1,10 @@
 import { createQuery, request } from "../../utils/requestUtils";
 import { Paginate } from "../../types/Utils/Paginate";
-import { Product } from "../../models/Product";
+import { Customer } from "../../models/Customer";
 
-const SUB_PATH = 'products';
+const SUB_PATH = 'customers';
 
-export async function getAllProducts(query: string) {
+export async function getAllCustomers(query: string) {
   try {
     const response = await request.get(`/${SUB_PATH}/all?${query}`);
     return response.data;
@@ -13,15 +13,15 @@ export async function getAllProducts(query: string) {
   }
 }
 
-export async function getPaginateProducts(
+export async function getPaginateCustomers(
   page: number,
   itemsCount: number,
   sort: string,
   search: string
-): Promise<Paginate<Product>> {
+): Promise<Paginate<Customer>> {
   try {
     const query = createQuery({
-      populate: "categories",
+      populate: "",
       sort,
       search,
       page,
@@ -35,7 +35,7 @@ export async function getPaginateProducts(
   }
 }
 
-export async function getProduct(id: string): Promise<Product> {
+export async function getCustomer(id: string): Promise<Customer> {
   try {
     const response = await request.get(`/${SUB_PATH}/${id}`);
     return response.data;
@@ -44,7 +44,7 @@ export async function getProduct(id: string): Promise<Product> {
   }
 }
 
-export async function createProduct(payload: any): Promise<Product> {
+export async function createCustomer(payload: any): Promise<Customer> {
   try {
     const response = await request.post(`/${SUB_PATH}`, payload);
     return response.data;
@@ -53,10 +53,10 @@ export async function createProduct(payload: any): Promise<Product> {
   }
 }
 
-export async function updateProduct(
+export async function updateCustomer(
   id: string,
   payload: any
-): Promise<Product> {
+): Promise<Customer> {
   try {
     const response = await request.put(`/${SUB_PATH}/${id}`, payload);
     return response.data;
@@ -65,7 +65,7 @@ export async function updateProduct(
   }
 }
 
-export async function deleteProduct(id: string): Promise<boolean> {
+export async function deleteCustomer(id: string): Promise<boolean> {
   try {
     const response = await request.delete(`/${SUB_PATH}/${id}`);
     return response.data;

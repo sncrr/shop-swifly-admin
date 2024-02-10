@@ -1,5 +1,5 @@
 import { connect, useDispatch } from "react-redux";
-import { NavigateFunction, Outlet, Routes, useNavigate } from "react-router-dom";
+import { NavigateFunction, Outlet, useNavigate } from "react-router-dom";
 import { Paths } from "../../constants";
 import CustomerList from "./CustomerList";
 import { CustomerState } from "./slice";

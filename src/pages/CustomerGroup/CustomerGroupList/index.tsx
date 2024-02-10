@@ -41,7 +41,7 @@ export function CustomerGroupList() {
 
   //FUNCTIONS
   const handleEdit = (id: any) => {
-    navigate(`${Paths.PAYMENT_METHOD}/edit/${id}`);
+    navigate(`${Paths.CUSTOMER_GROUP}/edit/${id}`);
   };
 
   const handleDelete = (id: any) => {

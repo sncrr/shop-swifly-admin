@@ -3,8 +3,6 @@ import { requiredMessage } from "../../../constants/forms";
 import { Yup } from "../../../exporter/packages";
 import { Product } from "../../../models/Product";
 import { Store } from "../../../models/Store";
-import { Category } from "../../../models/Category";
-import { mapCategoriesById } from "../helper";
 import {
   GLOBAL_OVERRIDER_DEFAULT,
   MEDIA_BASE_URL,
@@ -18,6 +16,7 @@ export const ProductSchema = Yup.object().shape({
   sku: Yup.string().max(8).required(requiredMessage),
 
   isActive: Yup.bool().required(requiredMessage),
+  // categories: Yup.array(Yup.string()).required(requiredMessage),
 
   weightUnit: Yup.object(),
   weightValue: Yup.string(),
@@ -40,7 +39,6 @@ export const ProductSchema = Yup.object().shape({
 export const mapFormDefaultValues = (
   selected: Product | undefined,
   stores: Store[],
-  categories: Category[],
   defaultSku: string
 ) => {
   return {
@@ -48,9 +46,7 @@ export const mapFormDefaultValues = (
     sku: selected && selected.sku ? selected.sku : defaultSku,
     isActive: selected ? !!selected.isActive : true,
     description: selected ? selected.description : "",
-    categories: selected
-      ? mapCategoriesById(selected.categories, categories)
-      : [],
+    categories: selected ? selected.categories : new Array<string>(),
     weightUnit:
       selected && selected.weight
         ? getDefaultWeightUnit(selected.weight.unit)

@@ -12,7 +12,6 @@ import {
   Save,
   Submit,
 } from "../../../components/forms";
-import { PaymentMethod } from "../../../models/PaymentMethod";
 import { useOutletContext, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CustomerSchema } from "./schema";
@@ -25,29 +24,24 @@ import { hideLoader, showLoader } from "../../../components/modals/slice";
 import { Paths } from "../../../constants";
 import { CustomerContext } from "..";
 import { GENDERS } from "../constants";
+import { getCustomer } from "../controllers";
+import { Customer } from "../../../models/Customer";
 
 export const CustomerForm = () => {
   const { dispatch, navigate, customerState } = useOutletContext<CustomerContext>();
   const { error } = customerState;
 
-  const [selected, setSelected] = useState<PaymentMethod>();
+  const [selected, setSelected] = useState<Customer>(new Customer());
 
   const routePrams = useParams();
 
-
   const defaultValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    dateOfBirth: '',
+    firstName: selected.firstName,
+    lastName: selected.lastName,
+    email: selected.email,
+    dateOfBirth: selected.dateOfBirth,
     group: '',
     gender: '',
-
-    // name: selected && selected.name ? selected.name : "",
-    // code: selected && selected.code ? selected.code : "",
-    // description: selected ? selected.description : "",
-    // redirectUrl: selected && selected.redirectUrl ? selected.redirectUrl : {},
-    // isEnabled: selected ? !!selected.isEnabled : true,
     continueEdit: false,
   };
 
@@ -62,21 +56,21 @@ export const CustomerForm = () => {
     dispatch(showLoader({}));
     //Load Selected Data
     const selectedId = get(routePrams, "id", "");
-    // const loadSelectedPaymentMethod = async () => {
-    //   try {
-    //     let result = await getPaymentMethod(selectedId);
+    const loadSelectedPaymentMethod = async () => {
+      try {
+        let result = await getCustomer(selectedId);
 
-    //     if (result) {
-    //       setSelected(result);
-    //     }
-    //   } catch (error) {
-    //     navigate(Paths.PAYMENT_METHOD);
-    //   }
-    // };
+        if (result) {
+          setSelected(result);
+        }
+      } catch (error) {
+        navigate(Paths.CUSTOMER);
+      }
+    };
 
-    // if (selectedId) {
-    //   loadSelectedPaymentMethod();
-    // }
+    if (selectedId) {
+      loadSelectedPaymentMethod();
+    }
 
     dispatch(hideLoader())
     
@@ -87,6 +81,7 @@ export const CustomerForm = () => {
   }, [selected]);
 
   const onSubmit = async (values: any) => {
+    console.log(values)
     // const data = mapFormPaymentMethod(values);
 
     // dispatch(
@@ -119,7 +114,7 @@ export const CustomerForm = () => {
         </FormError>
 
         <FormSection title="Customer Information" isOpen>
-          <FormGroup>
+          <FormGroup required>
             <FormLabel>Customer Group</FormLabel>
             <FormSelect
               name="group"

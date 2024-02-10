@@ -62,7 +62,6 @@ export function ProductForm() {
   const defaultValues = mapFormDefaultValues(
     selected,
     stores,
-    categories,
     defaultSku
   );
 

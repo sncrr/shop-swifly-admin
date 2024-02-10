@@ -25,7 +25,6 @@ import { showConfirmDialog } from "../../../components/alerts/actions";
 import { getLocalData, setLocalData } from "../../../root/helper";
 import { CATEGORY_LOCAL_KEY } from "../../../constants/global";
 import { CategoryContext } from "..";
-import { hideLoader, showLoader } from "../../../components/modals/slice";
 
 const CategoryList = () => {
   const { dispatch, navigate, categoryState } =
@@ -39,20 +38,30 @@ const CategoryList = () => {
   const organizedDefault = fetching ? [] : organizeByParent(categories);
 
   useEffect(() => {
-    dispatch(fetchCategories({ search }));
+    getCategoryList()
   }, []);
 
   useEffect(() => {
     if (hasChanges && !fetching) {
-      dispatch(fetchCategories({ search }));
+      getCategoryList();
     }
   }, [hasChanges, fetching]);
 
-  const handleSearch = (value: string) => {
-    dispatch(fetchCategories({ search: value }));
+  const getCategoryList = (searchValue?: string) => {
+    dispatch(fetchCategories({
+      query: {
+        search: searchValue != undefined ? searchValue : search,
+        countProducts: 1,
+        sort: 'name'
+      }
+    }));
+
     setLocalData(CATEGORY_LOCAL_KEY, {
-      search: value,
+      search: searchValue,
     });
+  }
+  const handleSearch = (value: string) => {
+    getCategoryList(value);
   };
 
   return (
@@ -173,7 +182,7 @@ const CategoryRow = (props: CategoryRowProps) => {
             <span className="pl-2">{item.name}</span>
           </div>
         </TData>
-        <TData></TData>
+        <TData>{item.productCount ? item.productCount : ''}</TData>
         <TData>{item.children?.length}</TData>
         <TData>
           <Checkbox

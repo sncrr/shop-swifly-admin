@@ -6,6 +6,7 @@ export interface CustomerState {
   fetching: boolean;
   customers: Array<Customer>;
   totalPages: number;
+  totalItems: number;
   hasChanges: boolean;
   error: string;
   data: any;
@@ -15,6 +16,7 @@ const initialState = {
   fetching: true,
   customers: new Array<Customer>(),
   totalPages: 1,
+  totalItems: 1,
   hasChanges: true,
   data: null,
   error: "",
@@ -35,10 +37,12 @@ const customerSlice = createSlice({
       hasChanges: false,
       customers: action.payload.data ? action.payload.data : action.payload,
       totalPages: get(action, 'payload.totalPages', 1),
+      totalItems: get(action, 'payload.totalRows', 1),
     }),
     fetchCustomersFailed: (state, action) => ({
       ...state,
       fetching: false,
+      hasChanges: false,
       error: action.payload,
     }),
 

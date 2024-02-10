@@ -1,5 +1,5 @@
 
-export const IS_LOCAL = true;
+export const IS_LOCAL = false;
 export const SERVER_URL = IS_LOCAL ? "http://localhost:3000" : "https://mern-commerce-backend.cyclic.app";
 export const API_URL = `${SERVER_URL}/api`;
 export const MEDIA_BASE_URL = "https://shop-swiftly.s3.ap-southeast-1.amazonaws.com";
@@ -10,6 +10,7 @@ export const DEFAULT_ITEMS_COUNT = 20;
 //LOCAL DATA KEYS
 export const CATEGORY_LOCAL_KEY = "category";
 export const PRODUCT_LOCAL_KEY = "product";
+export const CUSTOMER_LOCAL_KEY = "customer";
 export const STORE_LOCAL_KEY = "store";
 export const ADDRESS_PROVINCE_LOCAL_KEY = "address_province";
 
@@ -44,3 +45,8 @@ export const GLOBAL_OVERRIDER_DEFAULT = {
   value: "",
   useGlobal: true,
 };
+
+
+export const DATETIME_FORMAT = "MM-DD-yyyy HH:mm:ss";
+export const DATE_FORMAT = "MM-DD-YYYY";
+export const TIME_FORMAT = "HH:mm:ss"

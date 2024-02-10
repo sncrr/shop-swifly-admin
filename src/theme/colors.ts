@@ -17,6 +17,7 @@ export const gray10th = "#f2f2f2";
 export const placeholder = "#D2D2D2";
 export const disabledText = "#525252";
 export const inputFocus = "#c7d0dc";
+export const darkText = "#3A3B3C";
 
 export const tableHead = "#F6F7FC";
 

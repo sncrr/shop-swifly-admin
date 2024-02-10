@@ -79,15 +79,16 @@ export const FormSelect = (props: Props) => {
 
   const getSelectedItems = (selectedItems: Category[]) => {
 
+
     if (selectedItems && selectedItems.length > 0) {
       let items = [];
       for (let selected of selectedItems) {
-        let item = list.find(({ value }) => value === selected._id);
+        let item = list.find(({ value }) => value === selected);
         if (item) {
           items.push(item)
         }
       }
-
+      
       return items;
     }
     else
@@ -106,15 +107,6 @@ export const FormSelect = (props: Props) => {
           }
         }) => {
 
-          if (field.value) {
-            field = {
-              ...field,
-              value: props.multiple
-                ? getSelectedItems(field.value)
-                : getSelectedItem(field.value[valueKey])
-            }
-          }
-
           return (
             <>
               <Content $flexible={props.flexible} $unbordered={props.unbordered}>
@@ -124,6 +116,21 @@ export const FormSelect = (props: Props) => {
                     placeholder={placeholder}
                     isMulti={multiple}
                     options={list}
+                    value={
+                      multiple ? getSelectedItems(field.value) : getSelectedItem(field.value)
+                    }
+                    onChange={(e) => {
+                      if(multiple) {
+                        let selected = new Array<string>();
+                        for(let i of e) {
+                          selected.push(i.value);
+                        }
+                        field.onChange(selected);
+                      }
+                      else {
+                        field.onChange(e.value)
+                      }
+                    }}
                     styles={{
                       control: (baseStyles, state) => ({
                         ...baseStyles,

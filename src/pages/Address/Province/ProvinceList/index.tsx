@@ -17,8 +17,8 @@ import { deleteProvince, fetchProvinces } from "../slice";
 import { Province } from "../../../../models/Address";
 import { showConfirmDialog } from "../../../../components/alerts/actions";
 import { getErrorMessage, getLocalData, setLocalData } from "../../../../root/helper";
-import { LocalData } from "../../../../types/Utils/Paginate";
-import { ADDRESS_PROVINCE_LOCAL_KEY, DEFAULT_ITEMS_COUNT, SERVER_URL } from "../../../../constants/global";
+import { GetList, LocalData } from "../../../../types/Utils/Paginate";
+import { ADDRESS_PROVINCE_LOCAL_KEY, SERVER_URL } from "../../../../constants/global";
 import { ProvinceContext } from "..";
 import { useOutletContext } from "react-router-dom";
 import { hideLoader, showLoader } from "../../../../components/modals/slice";
@@ -28,7 +28,6 @@ import { uploadProvinces } from "../controllers";
 export function ProvinceList() {
   //HOOKS & VARIABLES
   const localData: LocalData = getLocalData(ADDRESS_PROVINCE_LOCAL_KEY);
-  const { search } = localData;
 
   const { dispatch, navigate, provinceState } =
     useOutletContext<ProvinceContext>();
@@ -37,23 +36,26 @@ export function ProvinceList() {
   const provinces: Province[] = provinceState.provinces;
 
   useEffect(() => {
-    getProvinceList(localData.currentPage, localData.itemsCount);
+    getProvinceList({});
   }, []);
 
   useEffect(() => {
     if (hasChanges && !fetching) {
-      getProvinceList(localData.currentPage, localData.itemsCount);
+      getProvinceList({});
     }
   }, [hasChanges, fetching]);
 
   //FUNCTIONS
-  const getProvinceList = async (page: number, itemsCount: number) => {
+  const getProvinceList = async ({
+    page = localData.currentPage, 
+    itemsCount = localData.itemsCount, 
+    search = localData.search
+  }: GetList) => {
     dispatch(
       fetchProvinces({
         page,
         itemsCount,
         sort: "name",
-        order: "asc",
         search,
       })
     );
@@ -61,6 +63,7 @@ export function ProvinceList() {
     setLocalData(ADDRESS_PROVINCE_LOCAL_KEY, {
       currentPage: page,
       itemsCount,
+      search: search,
     });
   };
 
@@ -77,18 +80,9 @@ export function ProvinceList() {
   };
 
   const handleSearch = (value: string) => {
-    dispatch(
-      fetchProvinces({
-        page: localData.currentPage,
-        itemsCount: localData.itemsCount,
-        sort: "name",
-        order: "asc",
-        search: value,
-      })
-    );
-    setLocalData(ADDRESS_PROVINCE_LOCAL_KEY, {
-      search: value,
-    });
+    getProvinceList({
+      search: value
+    })
   };
 
   const handleImportProvince = async (file: any) => {
@@ -104,7 +98,7 @@ export function ProvinceList() {
 
       if(result.success) {
         dispatch(showToast(successToast(`${result.itemsUploaded} Provinces uploaded successfully`)))
-        getProvinceList(1, DEFAULT_ITEMS_COUNT);
+        getProvinceList({ page: 1 });
       }
       else {
         dispatch(showToast(failedToast('Uploading provinces failed')))
@@ -128,8 +122,7 @@ export function ProvinceList() {
         totalRows={totalItems}
         defaultCurrentPage={localData.currentPage}
         defaultPageItemsCount={localData.itemsCount}
-        onPageChange={getProvinceList}
-        onItemsCountChange={getProvinceList}
+        onRefreshList={getProvinceList}
         onSearch={handleSearch}
         onImportCSV={handleImportProvince}
         importSampleLink={`${SERVER_URL}/files/csv/import-province.csv`}

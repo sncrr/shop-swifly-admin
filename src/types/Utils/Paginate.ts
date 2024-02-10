@@ -19,3 +19,9 @@ export interface LocalData {
   currentPage: number;
   search: string;
 }
+
+export interface GetList {
+  page?: number, 
+  itemsCount?: number, 
+  search?: string, 
+}

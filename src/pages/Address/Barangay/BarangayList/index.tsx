@@ -17,8 +17,8 @@ import { deleteBarangay, fetchBarangays } from "../slice";
 import { Barangay } from "../../../../models/Address";
 import { showConfirmDialog } from "../../../../components/alerts/actions";
 import { getErrorMessage, getLocalData, setLocalData } from "../../../../root/helper";
-import { LocalData } from "../../../../types/Utils/Paginate";
-import { ADDRESS_PROVINCE_LOCAL_KEY, DEFAULT_ITEMS_COUNT, SERVER_URL } from "../../../../constants/global";
+import { GetList, LocalData } from "../../../../types/Utils/Paginate";
+import { ADDRESS_PROVINCE_LOCAL_KEY, SERVER_URL } from "../../../../constants/global";
 import { BarangayContext } from "..";
 import { useOutletContext } from "react-router-dom";
 import { hideLoader, showLoader } from "../../../../components/modals/slice";
@@ -28,7 +28,6 @@ import { uploadBarangays } from "../controllers";
 export function BarangayList() {
   //HOOKS & VARIABLES
   const localData: LocalData = getLocalData(ADDRESS_PROVINCE_LOCAL_KEY);
-  const { search } = localData;
 
   const { dispatch, navigate, barangayState } =
     useOutletContext<BarangayContext>();
@@ -37,30 +36,35 @@ export function BarangayList() {
   const barangays: Barangay[] = barangayState.barangays;
 
   useEffect(() => {
-    getBarangayList(localData.currentPage, localData.itemsCount);
+    getBarangayList({});
   }, []);
 
   useEffect(() => {
     if (hasChanges && !fetching) {
-      getBarangayList(localData.currentPage, localData.itemsCount);
+      getBarangayList({});
     }
   }, [hasChanges, fetching]);
 
   //FUNCTIONS
-  const getBarangayList = async (page: number, itemsCount: number) => {
+  const getBarangayList = async ({
+    page = localData.currentPage, 
+    itemsCount = localData.itemsCount, 
+    search = localData.search
+  }: GetList) => {
+
     dispatch(
       fetchBarangays({
-        page,
-        itemsCount,
+        page: page,
+        itemsCount: itemsCount,
         sort: "name",
-        order: "asc",
-        search,
+        search: search,
       })
     );
 
     setLocalData(ADDRESS_PROVINCE_LOCAL_KEY, {
       currentPage: page,
       itemsCount,
+      search,
     });
   };
 
@@ -77,17 +81,8 @@ export function BarangayList() {
   };
 
   const handleSearch = (value: string) => {
-    dispatch(
-      fetchBarangays({
-        page: localData.currentPage,
-        itemsCount: localData.itemsCount,
-        sort: "name",
-        order: "asc",
-        search: value,
-      })
-    );
-    setLocalData(ADDRESS_PROVINCE_LOCAL_KEY, {
-      search: value,
+    getBarangayList({
+      search: value
     });
   };
 
@@ -104,7 +99,7 @@ export function BarangayList() {
 
       if(result.success) {
         dispatch(showToast(successToast(`${result.itemsUploaded} Barangays uploaded successfully`)))
-        getBarangayList(1, DEFAULT_ITEMS_COUNT);
+        getBarangayList({page: 1});
       }
       else {
         dispatch(showToast(failedToast('Uploading barangays failed')))
@@ -128,8 +123,7 @@ export function BarangayList() {
         totalRows={totalItems}
         defaultCurrentPage={localData.currentPage}
         defaultPageItemsCount={localData.itemsCount}
-        onPageChange={getBarangayList}
-        onItemsCountChange={getBarangayList}
+        onRefreshList={getBarangayList}
         onSearch={handleSearch}
         onImportCSV={handleImportBarangay}
         importSampleLink={`${SERVER_URL}/files/csv/import-barangay.csv`}

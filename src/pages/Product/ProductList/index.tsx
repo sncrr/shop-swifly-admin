@@ -15,10 +15,9 @@ import {
 } from "../../../components/tables";
 import { Section } from "../../../components/containers";
 import { deleteProduct, fetchProducts } from "../slice";
-import { Product } from "../../../models/Product";
 import { showConfirmDialog } from "../../../components/alerts/actions";
 import { getLocalData, setLocalData } from "../../../root/helper";
-import { LocalData } from "../../../types/Utils/Paginate";
+import { GetList, LocalData } from "../../../types/Utils/Paginate";
 import { PRODUCT_LOCAL_KEY } from "../../../constants/global";
 import { ProductContext } from "..";
 import { useOutletContext } from "react-router-dom";
@@ -26,32 +25,39 @@ import { useOutletContext } from "react-router-dom";
 export function ProductList() {
   //HOOKS & VARIABLES
   const localData: LocalData = getLocalData(PRODUCT_LOCAL_KEY);
-  const { search } = localData;
 
   const { dispatch, navigate, productState } =
     useOutletContext<ProductContext>();
 
-  const { fetching, totalPages, totalItems, hasChanges} = productState;
-  const products: Product[] = productState.products;
+  const { 
+    fetching, 
+    totalPages, 
+    totalItems, 
+    hasChanges,
+    products
+  } = productState;
 
   useEffect(() => {
-    getProductList(localData.currentPage, localData.itemsCount);
+    getProductList({});
   }, []);
 
   useEffect(() => {
     if (hasChanges && !fetching) {
-      getProductList(localData.currentPage, localData.itemsCount);
+      getProductList({});
     }
   }, [hasChanges, fetching]);
 
   //FUNCTIONS
-  const getProductList = async (page: number, itemsCount: number) => {
+  const getProductList = async ({
+    page = localData.currentPage, 
+    itemsCount = localData.itemsCount, 
+    search = localData.search
+  }: GetList) => {
     dispatch(
       fetchProducts({
         page,
         itemsCount,
         sort: "sku",
-        order: "asc",
         search,
       })
     );
@@ -59,6 +65,7 @@ export function ProductList() {
     setLocalData(PRODUCT_LOCAL_KEY, {
       currentPage: page,
       itemsCount,
+      search
     });
   };
 
@@ -80,7 +87,6 @@ export function ProductList() {
         page: localData.currentPage,
         itemsCount: localData.itemsCount,
         sort: "sku",
-        order: "asc",
         search: value,
       })
     );
@@ -99,8 +105,7 @@ export function ProductList() {
         totalRows={totalItems}
         defaultCurrentPage={localData.currentPage}
         defaultPageItemsCount={localData.itemsCount}
-        onPageChange={getProductList}
-        onItemsCountChange={getProductList}
+        onRefreshList={getProductList}
         onSearch={handleSearch}
       />
       <Table isLoading={fetching}>

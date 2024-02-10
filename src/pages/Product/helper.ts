@@ -29,7 +29,7 @@ export const mapToFormData = (values: any, event: any) => {
 
   formData = appendFilesToFormData(formData, values, event, "thumbnail");
   formData = appendFilesToFormData(formData, values, event, "views", true);
-  formData = mapCategoriesToFormData(formData, values.categories);
+  formData = mapStringifyToFormData(formData, "categories", values.categories);
 
   formData = mapStringifyToFormData(formData, "prices", values.prices);
   formData = mapStringifyToFormData(formData, "stocks", values.stocks);
@@ -54,21 +54,6 @@ export const mapStringifyToFormData = (
   }
 
   formData.append(key, isString(value) ? value : JSON.stringify(value));
-  return formData;
-};
-
-export const mapCategoriesToFormData = (
-  formData: FormData,
-  categories: Category[]
-) => {
-  if (categories) {
-    let ids = [];
-    for (let item of categories) {
-      ids.push(item._id);
-    }
-    formData.append("categories", JSON.stringify(ids));
-  }
-
   return formData;
 };
 

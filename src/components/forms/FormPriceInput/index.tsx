@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { colors } from '../../../theme';
 import { Controller, useFormContext } from 'react-hook-form';
 import { FormInputContainer } from '..';
-import { NumericFormat } from 'react-number-format';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string,

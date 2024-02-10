@@ -63,7 +63,7 @@ export const CustomerGroupForm = () => {
           setSelected(result);
         }
       } catch (error) {
-        navigate(Paths.PAYMENT_METHOD);
+        navigate(Paths.CUSTOMER);
       }
     };
 

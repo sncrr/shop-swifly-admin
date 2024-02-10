@@ -38,6 +38,7 @@ const categorySlice = createSlice({
     fetchCategoriesFailed: (state, action) => ({
       ...state,
       fetching: false,
+      hasChanges: false,
       error: action.payload,
     }),
 

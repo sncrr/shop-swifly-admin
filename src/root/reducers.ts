@@ -6,7 +6,6 @@ import categorySlice, { CategoryState } from "../pages/Category/slice";
 import productSlice, { ProductState } from "../pages/Product/slice";
 import storeSlice, { StoreState } from "../pages/Store/slice";
 import settingSlice from "../pages/Settings/slice";
-import paymentMethodSlice, { PaymentMethodState } from "../pages/PaymentMethods/slice";
 import customerSlice, { CustomerState } from "../pages/Customer/slice";
 import customerGroupSlice, { CustomerGroupState } from "../pages/CustomerGroup/slice";
 import provinceSlice, { ProvinceState } from "../pages/Address/Province/slice";
@@ -30,19 +29,17 @@ export interface RootState {
   barangay: BarangayState,
 
   store: StoreState;
-  paymentMethod: PaymentMethodState;
 }
 
 export const rootReducer = () =>
   combineReducers<RootState>({
     global: globalSlice.reducer,
     settings: settingSlice.reducer,
-
     modal: modalSlice.reducer,
     toast: toastSlice.reducer,
     // alert: alertSlice,
 
-    //Pages,
+    //Inventory,
     category: categorySlice.reducer,
     product: productSlice.reducer,
 
@@ -55,5 +52,4 @@ export const rootReducer = () =>
     barangay: barangaySlice.reducer,
 
     store: storeSlice.reducer,
-    paymentMethod: paymentMethodSlice.reducer,
   });

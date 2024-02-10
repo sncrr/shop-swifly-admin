@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { TableHTMLAttributes, useEffect } from "react";
-import { DefaultLoader } from "../../loader";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../modals/slice";
 

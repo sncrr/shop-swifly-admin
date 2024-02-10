@@ -16,7 +16,7 @@ const initialState = {
   fetching: true,
   barangays: new Array<Barangay>(),
   totalPages: 1,
-  totalRows: 1,
+  totalItems: 1,
   hasChanges: true,
   data: null,
   error: "",

@@ -17,8 +17,8 @@ import { deleteCity, fetchCities } from "../slice";
 import { City } from "../../../../models/Address";
 import { showConfirmDialog } from "../../../../components/alerts/actions";
 import { getErrorMessage, getLocalData, setLocalData } from "../../../../root/helper";
-import { LocalData } from "../../../../types/Utils/Paginate";
-import { ADDRESS_PROVINCE_LOCAL_KEY, DEFAULT_ITEMS_COUNT, SERVER_URL } from "../../../../constants/global";
+import { GetList, LocalData } from "../../../../types/Utils/Paginate";
+import { ADDRESS_PROVINCE_LOCAL_KEY, SERVER_URL } from "../../../../constants/global";
 import { CityContext } from "..";
 import { useOutletContext } from "react-router-dom";
 import { hideLoader, showLoader } from "../../../../components/modals/slice";
@@ -28,7 +28,6 @@ import { uploadCities } from "../controllers";
 export function CityList() {
   //HOOKS & VARIABLES
   const localData: LocalData = getLocalData(ADDRESS_PROVINCE_LOCAL_KEY);
-  const { search } = localData;
 
   const { dispatch, navigate, cityState } =
     useOutletContext<CityContext>();
@@ -37,23 +36,26 @@ export function CityList() {
   const cities: City[] = cityState.cities;
 
   useEffect(() => {
-    getCityList(localData.currentPage, localData.itemsCount);
+    getCityList({});
   }, []);
 
   useEffect(() => {
     if (hasChanges && !fetching) {
-      getCityList(localData.currentPage, localData.itemsCount);
+      getCityList({});
     }
   }, [hasChanges, fetching]);
 
   //FUNCTIONS
-  const getCityList = async (page: number, itemsCount: number) => {
+  const getCityList = async ({
+    page = localData.currentPage, 
+    itemsCount = localData.itemsCount, 
+    search = localData.search
+  }: GetList) => {
     dispatch(
       fetchCities({
         page,
         itemsCount,
         sort: "name",
-        order: "asc",
         search,
       })
     );
@@ -61,6 +63,7 @@ export function CityList() {
     setLocalData(ADDRESS_PROVINCE_LOCAL_KEY, {
       currentPage: page,
       itemsCount,
+      search
     });
   };
 
@@ -77,18 +80,9 @@ export function CityList() {
   };
 
   const handleSearch = (value: string) => {
-    dispatch(
-      fetchCities({
-        page: localData.currentPage,
-        itemsCount: localData.itemsCount,
-        sort: "name",
-        order: "asc",
-        search: value,
-      })
-    );
-    setLocalData(ADDRESS_PROVINCE_LOCAL_KEY, {
-      search: value,
-    });
+    getCityList({
+      search: value
+    })
   };
 
   const handleImportCity = async (file: any) => {
@@ -104,7 +98,7 @@ export function CityList() {
 
       if(result.success) {
         dispatch(showToast(successToast(`${result.itemsUploaded} Cities uploaded successfully`)))
-        getCityList(1, DEFAULT_ITEMS_COUNT);
+        getCityList({page: 1});
       }
       else {
         dispatch(showToast(failedToast('Uploading cities failed')))
@@ -128,8 +122,7 @@ export function CityList() {
         totalRows={totalItems}
         defaultCurrentPage={localData.currentPage}
         defaultPageItemsCount={localData.itemsCount}
-        onPageChange={getCityList}
-        onItemsCountChange={getCityList}
+        onRefreshList={getCityList}
         onSearch={handleSearch}
         onImportCSV={handleImportCity}
         importSampleLink={`${SERVER_URL}/files/csv/import-city.csv`}

@@ -1,9 +1,7 @@
 import _, { isArray } from "lodash";
 import { requiredMessage } from "../../../constants/forms";
 import { Yup } from "../../../exporter/packages";
-import { Product } from "../../../models/Product";
 import { Store } from "../../../models/Store";
-import { Category } from "../../../models/Category";
 import {
   MEDIA_BASE_URL,
   WEIGHT_UNITS,
@@ -15,10 +13,10 @@ export const CustomerSchema = Yup.object().shape({
   lastName: Yup.string().max(50).required(requiredMessage),
   email: Yup.string().email().required(requiredMessage),
 
-  group: Yup.string().required(requiredMessage),
+  group: Yup.mixed().required(requiredMessage).not(['']),
 
   dateOfBirth: Yup.string().max(11),
-  gender: Yup.string().oneOf(['male', 'female']),
+  gender: Yup.mixed(),
   
 
   // hasWeight: Yup.object({
@@ -34,10 +32,10 @@ export const CustomerSchema = Yup.object().shape({
 });
 
 export const mapFormDefaultValues = (
-  selected: Product | undefined,
-  stores: Store[],
-  categories: Category[],
-  defaultSku: string
+  // selected: Product | undefined,
+  // stores: Store[],
+  // categories: Category[],
+  // defaultSku: string
 ) => {
   // return {
   //   name: selected && selected.name ? selected.name : "",

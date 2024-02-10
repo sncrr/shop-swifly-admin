@@ -32,22 +32,22 @@ export const CategoryForm = () => {
 
   const { categories } = categoryState;
 
-  const [selected, setSelected] = useState<Category>();
+  const [selected, setSelected] = useState<Category>(new Category());
   const [loading, setLoading] = useState(true);
   const [filteredCategories, setFilteredCategories] = useState(categories);
 
   const routePrams = useParams();
 
-  const getParent = (id: any) => {
-    if (id) return categories.find(({ _id }) => _id === id);
-    else return NONE_ITEM;
-  };
+  // const getParent = (id: any) => {
+  //   if (id) return categories.find(({ _id }) => _id === id);
+  //   else return NONE_ITEM;
+  // };
 
   const defaultValues = {
-    name: selected && selected.name ? selected.name : "",
-    parent: selected && selected.parent ? getParent(selected.parent._id) : {},
-    isEnabled: selected ? !!selected.isEnabled : true,
-    description: selected && selected.description ? selected.description : "",
+    name: selected.name,
+    parent: selected.parent && selected.parent._id ? selected.parent._id : '',
+    isEnabled: selected.isEnabled,
+    description: selected.description,
     continueEdit: false,
   };
 
@@ -110,6 +110,8 @@ export const CategoryForm = () => {
   }, [categories]);
 
   const onSubmit = async (values: any) => {
+    console.log(values);
+    return;
     const data = mapCreateCategory(values);
 
     dispatch(
