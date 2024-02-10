@@ -13,7 +13,7 @@ import {
 import { STORE_LOCAL_KEY } from "../../../constants/global";
 import { Store } from "../../../models/Store";
 import { getLocalData, setLocalData } from "../../../root/helper";
-import { LocalData } from "../../../types/Utils/Paginate";
+import { GetList, LocalData } from "../../../types/Utils/Paginate";
 import { useEffect } from "react";
 import { deleteStore, fetchStores } from "../slice";
 import { showConfirmDialog } from "../../../components/alerts/actions";
@@ -28,17 +28,20 @@ export function StoreList() {
   const { stores, totalPages } = storeState;
 
   useEffect(() => {
-    getStoreList(localData.currentPage, localData.itemsCount);
+    getStoreList({});
   }, []);
 
   //FUNCTIONS
-  const getStoreList = async (page: number, itemsCount: number, search?: string) => {
+  const getStoreList = async ({
+    page = localData.currentPage, 
+    itemsCount = localData.itemsCount, 
+    search = localData.search
+  }: GetList) => {
     dispatch(
       fetchStores({
         page,
         itemsCount,
         sort: "name",
-        order: "asc",
         search,
       })
     );
@@ -46,6 +49,7 @@ export function StoreList() {
     setLocalData(STORE_LOCAL_KEY, {
       currentPage: page,
       itemsCount,
+      search
     });
   };
 
@@ -62,10 +66,7 @@ export function StoreList() {
   };
 
   const handleSearch = (value: string) => {
-    getStoreList(localData.currentPage, localData.itemsCount, value);
-    setLocalData(STORE_LOCAL_KEY, {
-      search: value,
-    });
+    getStoreList({search: value});
   };
 
   return (
@@ -76,8 +77,7 @@ export function StoreList() {
         totalPages={totalPages}
         defaultCurrentPage={localData.currentPage}
         defaultPageItemsCount={localData.itemsCount}
-        onPageChange={getStoreList}
-        onItemsCountChange={getStoreList}
+        onRefreshList={getStoreList}
         onSearch={handleSearch}
       />
       <Table isLoading={storeState.fetching}>

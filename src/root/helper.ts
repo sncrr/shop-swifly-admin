@@ -1,5 +1,7 @@
-import { DEFAULT_LOCAL_DATA } from "../constants/global";
+import { get } from "lodash";
+import { DATETIME_FORMAT, DEFAULT_LOCAL_DATA } from "../constants/global";
 import { LocalData } from "../types/Utils/Paginate";
+import moment from "moment";
 
 export const getLocalData = (key: string): LocalData => {
   let data = localStorage.getItem(key);
@@ -17,3 +19,11 @@ export const setLocalData = (key: string, data: any) => {
 
   localStorage.setItem(key, JSON.stringify(value));
 };
+
+export const getErrorMessage = (error: any) => {
+  return get(error, 'response.data.message', '');
+}
+
+export const formatDateTime = (dateTime: string) => {
+  return moment(dateTime).format(DATETIME_FORMAT);
+}

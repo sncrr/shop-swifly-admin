@@ -1,4 +1,4 @@
-import { isArray } from "lodash";
+import { isArray, isString } from "lodash";
 import { Category } from "../../models/Category";
 
 export const organizeByParent = (list: Category[]): any[] => {
@@ -21,8 +21,15 @@ export const organizeByParent = (list: Category[]): any[] => {
       }
     } else {
       //Get parent
-      let parent =
-        item.parent && item.parent._id ? findParent(item.parent._id) : null;
+      let parent = null;
+      if(item.parent) {
+        if(isString(item.parent)) {
+          parent = findParent(item.parent)
+        }
+        else {
+          parent = findParent(item.parent._id);
+        }
+      }
 
       // Create children
       if (parent) {

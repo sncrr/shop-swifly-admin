@@ -1,4 +1,5 @@
 import { FormCheckBox, FormInput } from "../../../../components/forms";
+import { FormPriceInput } from "../../../../components/forms/FormPriceInput";
 import {
   TData,
   THead,
@@ -28,7 +29,7 @@ function Cell(props: CellProps) {
       <Table>
         <tbody>
           <TRow>
-            <FormInput
+            <FormPriceInput
               type="number"
               disabled={checked}
               min={0}

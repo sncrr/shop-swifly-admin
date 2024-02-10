@@ -2,7 +2,7 @@ import { InputHTMLAttributes, ReactNode } from 'react';
 import styled from "styled-components";
 import { colors } from '../../../theme';
 import { Controller, useFormContext } from 'react-hook-form';
-import { FormControl } from '..';
+import { FormInputContainer } from '..';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string,
@@ -43,12 +43,12 @@ export const FormInput = (props: Props) => {
           }
         }) => (
           <>
-            <FormControl flexible={props.flexible} unbordered={props.unbordered}>
+            <FormInputContainer flexible={props.flexible} unbordered={props.unbordered}>
               <Input
                 {...inputProps}
                 {...field}
               />
-            </FormControl>
+            </FormInputContainer>
             {
               props.description ? (
                 <div className='text-xs h-2 mb-3 mt-1 pl-3 text-gray-600'>

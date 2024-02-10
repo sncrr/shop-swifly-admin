@@ -8,7 +8,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        "mainColor" : "#34455d",
+        "mainColor" : "#2F88FF",
+        "mainLight" : "#78B2FF",
+        "mainDark" : "#10458C",
         "modal" : "#FFFFFFAA"
       }
     },

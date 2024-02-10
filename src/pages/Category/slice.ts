@@ -38,6 +38,7 @@ const categorySlice = createSlice({
     fetchCategoriesFailed: (state, action) => ({
       ...state,
       fetching: false,
+      hasChanges: false,
       error: action.payload,
     }),
 
@@ -66,6 +67,7 @@ const categorySlice = createSlice({
     deleteCategorySuccess: (state, action) => ({
       ...state,
       fetching: false,
+      hasChanges: true,
       data: action.payload,
     }),
     deleteCategoryFailed: (state, action) => ({

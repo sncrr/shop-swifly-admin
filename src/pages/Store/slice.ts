@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Store } from "../../models/Store";
+import { get } from "lodash";
 
 export interface StoreState {
   fetching: boolean;
@@ -33,7 +34,7 @@ const storeSlice = createSlice({
       fetching: false,
       hasChanges: false,
       stores: action.payload.data ? action.payload.data : action.payload,
-      totalPages: action.payload.totalPages ? action.payload.totalPages : 1,
+      totalPages: get(action, 'payload.totalPages', 1),
       error: '',
     }),
     fetchStoresFailed: (state, action) => ({

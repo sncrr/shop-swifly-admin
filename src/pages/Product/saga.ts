@@ -14,14 +14,13 @@ import SagaProps from "../../types/Utils/SagaProps";
 import { failedToast, showToast } from "../../components/toasts/slice";
 
 function* onFetchProducts(action: SagaProps) {
-  const { page, itemsCount, sort, order, search } = action.payload;
+  const { page, itemsCount, sort, search } = action.payload;
 
   try {
     const data: Product[] = yield call(ProductController.getPaginateProducts,
       page,
       itemsCount,
       sort,
-      order,
       search
     );
 
@@ -32,7 +31,7 @@ function* onFetchProducts(action: SagaProps) {
 }
 
 function* onSaveProduct(action: any): any {
-  console.log("SAGA Save product", action);
+  console.warn("SAGA Save product", action);
 }
 
 function* onDeleteProduct(action: any): any {

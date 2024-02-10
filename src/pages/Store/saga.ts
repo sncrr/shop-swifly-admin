@@ -23,12 +23,11 @@ import {
 function* onFetchStores(action: SagaProps) {
 
   try {
-    const { page, itemsCount, sort, order, search } = action.payload;
+    const { page, itemsCount, sort, search } = action.payload;
     const data: Store[] = yield call(StoreController.getPaginateProducts,
       page,
       itemsCount,
       sort,
-      order,
       search
     );
 

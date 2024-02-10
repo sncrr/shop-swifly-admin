@@ -8,9 +8,11 @@ export const MEDIA_BASE_URL = "https://shop-swiftly.s3.ap-southeast-1.amazonaws.
 export const DEFAULT_ITEMS_COUNT = 20;
 
 //LOCAL DATA KEYS
-export const CATEGORY_LOCAL_KEY = "category_data";
-export const PRODUCT_LOCAL_KEY = "product_data";
-export const STORE_LOCAL_KEY = "store_data";
+export const CATEGORY_LOCAL_KEY = "category";
+export const PRODUCT_LOCAL_KEY = "product";
+export const CUSTOMER_LOCAL_KEY = "customer";
+export const STORE_LOCAL_KEY = "store";
+export const ADDRESS_PROVINCE_LOCAL_KEY = "address_province";
 
 export const WEIGHT_UNITS = [
   { value: "", label: "None" },
@@ -43,3 +45,8 @@ export const GLOBAL_OVERRIDER_DEFAULT = {
   value: "",
   useGlobal: true,
 };
+
+
+export const DATETIME_FORMAT = "MM-DD-yyyy HH:mm:ss";
+export const DATE_FORMAT = "MM-DD-YYYY";
+export const TIME_FORMAT = "HH:mm:ss"

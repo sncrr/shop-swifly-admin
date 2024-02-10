@@ -25,7 +25,7 @@ function* onFetchCategories(action: SagaProps) {
   try {
     const res: Response = yield call(
       CategoryController.getAllCategories,
-      action.payload
+      action.payload.query
     );
 
     yield put(fetchCategoriesSuccess(res.data));

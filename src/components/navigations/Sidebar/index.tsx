@@ -5,7 +5,8 @@ import { NavListItem } from "./NavListItem";
 import { NavSubList } from "./NavSubList";
 import { NavSubItem } from "./NavSubItem";
 import { styled } from "styled-components";
-import { sidebarNavigations } from "../../../pages/Admin/paths";
+import { sidebarNavigations } from "../../../root/paths";
+import { useEffect } from "react";
 
 const ICON_SIZE = 32;
 const ICON_COLOR = colors.black;
@@ -36,6 +37,42 @@ export const Sidebar = ({}: Props) => {
     return false;
   };
 
+  useEffect(() => {
+    for(let item of sidebarNavigations) {
+      if(item.children && item.children.length > 0) {
+        getChildrenGroups(item);
+      }
+    }
+  }, [])
+
+  const getChildrenGroups = (listItem: any) => {
+    let groups:any = [
+      {
+        label: listItem.label,
+        children: []
+      }
+    ];
+
+    for(let child of listItem.children) {
+
+      let groupLabel = child.group ? child.group : listItem.label;
+
+      let group = groups.find((item:any) => item.label == groupLabel);
+
+      if(!group) {
+        group = {
+          label: groupLabel,
+          children: [],
+        }
+        groups.push(group);
+      }
+      
+      group.children.push(child);
+    }
+
+    return groups;
+  }
+
   return (
     <Container>
       <NavList>
@@ -56,13 +93,20 @@ export const Sidebar = ({}: Props) => {
                   />
                   <span>{item.label}</span>
                   <NavSubList>
-                    <div className="title">{item.label}</div>
-                    {item.children.map((child, childIndex) => (
-                      <NavSubItem key={childIndex}>
-                        <Link to={child.path}>{child.label}</Link>
-                      </NavSubItem>
-                    ))}
+                    {
+                      getChildrenGroups(item).map((group: any, index: number) => (
+                        <div key={index}>
+                          <div className="title">{group.label}</div>
+                          {group.children.map((child:any, childIndex: number) => (
+                            <NavSubItem key={childIndex}>
+                              <Link to={child.path}>{child.label}</Link>
+                            </NavSubItem>
+                          ))}
+                        </div>
+                      ))
+                    }
                   </NavSubList>
+                  
                 </div>
               ) : (
                 <Link to={item.path}>

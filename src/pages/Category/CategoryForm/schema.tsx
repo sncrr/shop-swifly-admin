@@ -6,7 +6,7 @@ export const CategorySchema = Yup.object().shape({
   name: Yup.string()
     .max(50)
     .required(requiredMessage),
-  // parent: Yup.object(),
+
   isEnabled: Yup.bool(),
   description: Yup.string()
     .max(200),
@@ -17,7 +17,7 @@ export const CategorySchema = Yup.object().shape({
 
 export const mapCreateCategory = (values: any) => {
 
-  let parent = _.get(values, 'parent._id');
+  // let parent = _.get(values, 'parent._id');
 
   let category = {
     name: _.get(values, 'name', ''),

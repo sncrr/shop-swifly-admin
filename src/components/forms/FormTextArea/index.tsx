@@ -1,7 +1,7 @@
 import { TextareaHTMLAttributes } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from "styled-components";
-import { FormControl } from '..';
+import { FormInputContainer } from '..';
 
 
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -35,12 +35,12 @@ export function FormTextArea(props: Props) {
           }
         }) => (
           <>
-            <FormControl flexible={props.flexible} unbordered={props.unbordered}>
+            <FormInputContainer flexible={props.flexible} unbordered={props.unbordered}>
               <TextArea
                 {...inputProps}
                 {...field}
               />
-            </FormControl>
+            </FormInputContainer>
             <div className='text-red-500 text-xs h-2 pl-3'>
               {error?.message}
             </div>

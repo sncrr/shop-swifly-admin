@@ -75,7 +75,7 @@ function NonTabular({ children }: { children: ReactNode }) {
 
 export function FormSection(props: Props) {
 
-  const [open, setOpen] = useState(props.isOpen || false);
+  const [open, setOpen] = useState(props.isOpen ? props.isOpen : false);
 
   useEffect(() => {
 

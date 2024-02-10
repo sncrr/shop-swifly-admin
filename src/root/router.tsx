@@ -8,12 +8,17 @@ import { Category, CategoryRoutes } from "../pages/Category";
 import { Product, ProductRoutes } from "../pages/Product";
 import { SettingRoutes, Settings } from "../pages/Settings";
 import { Store, StoreRoutes } from "../pages/Store";
-import { PaymentMethod, PaymentMethodRoutes } from "../pages/PaymentMethods";
+import { Customer, CustomerRoutes } from "../pages/Customer";
+import { CustomerGroup, CustomerGroupRoutes } from "../pages/CustomerGroup";
+import { Province, ProvinceRoutes } from "../pages/Address/Province";
+import { City, CityRoutes } from "../pages/Address/City";
+import { Barangay, BarangayRoutes } from "../pages/Address/Barangay";
 
 export const router = createHashRouter([
   {
     path: "/",
     element: <Outlet />,
+    errorElement: <NotFound />,
     children: [
       {
         path: Paths.ADMIN,
@@ -24,6 +29,7 @@ export const router = createHashRouter([
             element: <Dashboard />,
           },
 
+          // Inventory
           {
             path: Paths.CATEGORY,
             element: <Category />,
@@ -41,16 +47,50 @@ export const router = createHashRouter([
             })),
           },
 
+          // Customers
           {
-            path: Paths.PAYMENT_METHOD,
-            element: <PaymentMethod />,
-            children: PaymentMethodRoutes.map((item) => ({
+            path: Paths.CUSTOMER,
+            element: <Customer />,
+            children: CustomerRoutes.map((item) => ({
               path: item.path,
               element: <item.element />,
             })),
           },
-          
+          {
+            path: Paths.CUSTOMER_GROUP,
+            element: <CustomerGroup />,
+            children: CustomerGroupRoutes.map((item) => ({
+              path: item.path,
+              element: <item.element />,
+            })),
+          },
+          // Address
+          {
+            path: Paths.PROVINCES,
+            element: <Province />,
+            children: ProvinceRoutes.map((item) => ({
+              path: item.path,
+              element: <item.element />,
+            })),
+          },
+          {
+            path: Paths.CITIES_MUNICIPALITIES,
+            element: <City />,
+            children: CityRoutes.map((item) => ({
+              path: item.path,
+              element: <item.element />,
+            })),
+          },
+          {
+            path: Paths.BARANGAYS,
+            element: <Barangay />,
+            children: BarangayRoutes.map((item) => ({
+              path: item.path,
+              element: <item.element />,
+            })),
+          },
 
+          //Stores
           {
             path: Paths.STORE,
             element: <Store />,
@@ -91,10 +131,10 @@ export const router = createHashRouter([
         path: "/",
         element: <Navigate to="/admin" />,
       },
-      {
-        path: "*",
-        element: <Navigate to="/not-found" />,
-      },
+      // {
+      //   path: "*",
+      //   element: <Navigate to="/not-found" />,
+      // },
     ],
   },
 ]);

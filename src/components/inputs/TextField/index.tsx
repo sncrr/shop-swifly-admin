@@ -4,10 +4,15 @@ import styled from "styled-components";
 import { Control } from "..";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  children?: ReactNode,
-  onSubmit?: any,
   rounded?: boolean,
   unbordered?: boolean,
+
+  children?: ReactNode,
+  leftNode?: ReactNode,
+  rightNode?: ReactNode,
+
+  onSubmitValue?: (value: string) => any,
+  onChangeText?: (value: string) => any,
 }
 
 export const TextField = (props: Props) => {
@@ -16,8 +21,10 @@ export const TextField = (props: Props) => {
     name,
     rounded,
     unbordered,
-    children,
-    onSubmit,
+    onSubmitValue,
+    leftNode,
+    rightNode,
+    onChangeText
   } = props;
 
   const inputProps = {
@@ -25,7 +32,10 @@ export const TextField = (props: Props) => {
     children: undefined,
     rounded: undefined,
     unbordered: undefined,
-    onSubmit: undefined
+    leftNode: undefined,
+    rightNode: undefined,
+    onSubmitValue: undefined,
+    onChangeText: undefined,
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -33,10 +43,10 @@ export const TextField = (props: Props) => {
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
-    const value = data.get(name ? name : 'input');
+    const value: any = data.get(name ? name : 'input');
 
-    if (onSubmit) {
-      onSubmit(value);
+    if (onSubmitValue) {
+      onSubmitValue(value ? value : '');
     }
   };
   
@@ -47,11 +57,13 @@ export const TextField = (props: Props) => {
       $unbordered={unbordered}
       onSubmit={handleSubmit}
     >
-      {children}
+      { leftNode }
       <Input
         {...inputProps}
+        onChange={(e) => onChangeText ? onChangeText(e.target.value) : {}}
         name={name ? name : 'input'}
       />
+      { rightNode }
     </Control>
   )
 }

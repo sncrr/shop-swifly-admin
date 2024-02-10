@@ -10,6 +10,12 @@ export const SIGN_UP = '/sign_up'
 export const ADMIN = '/admin'
 export const DASHBOARD = '/admin/dashboard'
 
+export const CUSTOMER = '/admin/customers'
+export const CUSTOMER_GROUP = '/admin/customer_groups'
+export const PROVINCES = '/admin/provinces'
+export const CITIES_MUNICIPALITIES = '/admin/cities_municipalities'
+export const BARANGAYS = '/admin/barangays'
+
 export const STORE = '/admin/stores'
 export const STORE_ADD = '/admin/stores/add'
 export const STORE_EDIT = '/admin/stores/edit/:id'
@@ -18,7 +24,6 @@ export const PICK_UP = '/admin/pick_up'
 
 export const ORDERS = '/admin/orders'
 export const INVOICES = '/admin/invoices'
-export const PAYMENT_METHOD = '/admin/payment_methods'
 
 export const CATEGORY = '/admin/categories'
 export const CATEGORY_ADD = '/admin/category/create'
