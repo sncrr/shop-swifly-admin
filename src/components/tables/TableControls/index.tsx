@@ -23,7 +23,7 @@ const VIEW_COLUMN = "view_column";
 interface Props {
   singleColumn?: boolean;
   hasCreateButton?: boolean;
-  hasImportButton?: boolean;
+  hasImportCSV?: boolean;
   importSampleLink?: string;
   hasEditColumn?: boolean;
   hasFilter?: boolean;
@@ -62,7 +62,7 @@ export const TableControls: React.FC<Props> = (props) => {
   const {
     singleColumn,
     hasCreateButton,
-    hasImportButton,
+    hasImportCSV,
     importSampleLink,
     hasEditColumn,
     hasFilter,
@@ -223,7 +223,7 @@ export const TableControls: React.FC<Props> = (props) => {
 
   return (
     <>
-      {hasImportButton && (
+      {hasImportCSV && (
         <ImportModal
           importOpen={importOpen}
           setImportOpen={setImportOpen}
@@ -245,7 +245,7 @@ export const TableControls: React.FC<Props> = (props) => {
               <label htmlFor="column-toggle">Columns</label>
             </div>
           )}
-          {hasImportButton && renderImport()}
+          {hasImportCSV && renderImport()}
           {hasCreateButton && <FillLink to={Paths.CREATE}>Create New</FillLink>}
         </div>
 

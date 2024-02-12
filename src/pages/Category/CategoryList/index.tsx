@@ -81,6 +81,7 @@ const CategoryList = () => {
           <TRow>
             <THead fixWidth width="1rem"></THead>
             <THead>Name</THead>
+            <THead>ID</THead>
             <THead>Products</THead>
             <THead>Subcategories</THead>
             <THead>Is Enabled</THead>
@@ -182,6 +183,7 @@ const CategoryRow = (props: CategoryRowProps) => {
             <span className="pl-2">{item.name}</span>
           </div>
         </TData>
+        <TData>{item._id}</TData>
         <TData>{item.productCount ? item.productCount : ''}</TData>
         <TData>{item.children?.length}</TData>
         <TData>

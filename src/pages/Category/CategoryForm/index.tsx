@@ -110,8 +110,7 @@ export const CategoryForm = () => {
   }, [categories]);
 
   const onSubmit = async (values: any) => {
-    console.log(values);
-    return;
+
     const data = mapCreateCategory(values);
 
     dispatch(
