@@ -18,7 +18,7 @@ import { deleteProduct, fetchProducts } from "../slice";
 import { showConfirmDialog } from "../../../components/alerts/actions";
 import { getErrorMessage, getLocalData, setLocalData } from "../../../root/helper";
 import { GetList, LocalData } from "../../../types/Utils/Paginate";
-import { PRODUCT_LOCAL_KEY } from "../../../constants/global";
+import { PRODUCT_LOCAL_KEY, SERVER_URL } from "../../../constants/global";
 import { ProductContext } from "..";
 import { useOutletContext } from "react-router-dom";
 import { hideLoader, showLoader } from "../../../components/modals/slice";
@@ -138,6 +138,7 @@ export function ProductList() {
         onRefreshList={getProductList}
         onSearch={handleSearch}
         onImportCSV={handleImportProducts}
+        importSampleLink={`${SERVER_URL}/files/csv/import-products.csv`}
       />
       <Table isLoading={fetching}>
         <THeader>
