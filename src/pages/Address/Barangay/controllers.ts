@@ -43,9 +43,9 @@ export async function updateBarangay(payload: any): Promise<Barangay> {
   }
 }
 
-export async function uploadBarangays(payload: any): Promise<Barangay> {
+export async function importBarangays(payload: any): Promise<Barangay> {
   try {
-    const response = await request.post(`/${SUB_PATH}/upload`, payload.data);
+    const response = await request.post(`/${SUB_PATH}/import`, payload.data);
     return response.data;
   } catch (error) {
     throw error;

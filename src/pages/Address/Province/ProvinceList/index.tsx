@@ -23,7 +23,7 @@ import { ProvinceContext } from "..";
 import { useOutletContext } from "react-router-dom";
 import { hideLoader, showLoader } from "../../../../components/modals/slice";
 import { failedToast, showToast, successToast } from "../../../../components/toasts/slice";
-import { uploadProvinces } from "../controllers";
+import { importProvinces } from "../controllers";
 
 export function ProvinceList() {
   //HOOKS & VARIABLES
@@ -92,7 +92,7 @@ export function ProvinceList() {
       let formData = new FormData();
       formData.append('file', file);
 
-      let result: any = await uploadProvinces({
+      let result: any = await importProvinces({
         data: formData
       });
 
@@ -116,7 +116,7 @@ export function ProvinceList() {
     <Section>
       <TableControls
         hasSearch
-        hasImportButton
+        hasImportCSV
         defaultSearchValue={localData.search}
         totalPages={totalPages}
         totalRows={totalItems}

@@ -16,11 +16,14 @@ import {
 import { Section } from "../../../components/containers";
 import { deleteProduct, fetchProducts } from "../slice";
 import { showConfirmDialog } from "../../../components/alerts/actions";
-import { getLocalData, setLocalData } from "../../../root/helper";
+import { getErrorMessage, getLocalData, setLocalData } from "../../../root/helper";
 import { GetList, LocalData } from "../../../types/Utils/Paginate";
 import { PRODUCT_LOCAL_KEY } from "../../../constants/global";
 import { ProductContext } from "..";
 import { useOutletContext } from "react-router-dom";
+import { hideLoader, showLoader } from "../../../components/modals/slice";
+import { failedToast, showToast, successToast } from "../../../components/toasts/slice";
+import { importProducts } from "../controllers";
 
 export function ProductList() {
   //HOOKS & VARIABLES
@@ -95,11 +98,38 @@ export function ProductList() {
     });
   };
 
+  const handleImportProducts = async (file: any) => {
+    dispatch(showLoader({text: "Uploading Products..."}))
+
+    try {
+      let formData = new FormData();
+      formData.append('file', file);
+
+      let result: any = await importProducts({
+        data: formData
+      });
+
+      if(result.success) {
+        dispatch(showToast(successToast(`${result.itemsUploaded} Barangays uploaded successfully`)))
+        getProductList({page: 1});
+      }
+      else {
+        dispatch(showToast(failedToast('Uploading products failed')))
+      }
+      
+    } catch (error: any) {
+      dispatch(showToast(failedToast(getErrorMessage(error))))
+    }
+
+    dispatch(hideLoader())
+  }
+
   //RETURN
   return (
     <Section>
       <TableControls
         hasSearch
+        hasImportCSV
         defaultSearchValue={localData.search}
         totalPages={totalPages}
         totalRows={totalItems}
@@ -107,6 +137,7 @@ export function ProductList() {
         defaultPageItemsCount={localData.itemsCount}
         onRefreshList={getProductList}
         onSearch={handleSearch}
+        onImportCSV={handleImportProducts}
       />
       <Table isLoading={fetching}>
         <THeader>

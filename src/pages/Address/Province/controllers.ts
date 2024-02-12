@@ -43,9 +43,9 @@ export async function updateProvince(payload: any): Promise<Province> {
   }
 }
 
-export async function uploadProvinces(payload: any): Promise<Province> {
+export async function importProvinces(payload: any): Promise<Province> {
   try {
-    const response = await request.post(`/${SUB_PATH}/upload`, payload.data);
+    const response = await request.post(`/${SUB_PATH}/import`, payload.data);
     return response.data;
   } catch (error) {
     throw error;

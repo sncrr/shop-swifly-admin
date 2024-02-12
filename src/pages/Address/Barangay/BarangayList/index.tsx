@@ -23,7 +23,7 @@ import { BarangayContext } from "..";
 import { useOutletContext } from "react-router-dom";
 import { hideLoader, showLoader } from "../../../../components/modals/slice";
 import { failedToast, showToast, successToast } from "../../../../components/toasts/slice";
-import { uploadBarangays } from "../controllers";
+import { importBarangays } from "../controllers";
 
 export function BarangayList() {
   //HOOKS & VARIABLES
@@ -93,7 +93,7 @@ export function BarangayList() {
       let formData = new FormData();
       formData.append('file', file);
 
-      let result: any = await uploadBarangays({
+      let result: any = await importBarangays({
         data: formData
       });
 
@@ -117,7 +117,7 @@ export function BarangayList() {
     <Section>
       <TableControls
         hasSearch
-        hasImportButton
+        hasImportCSV
         defaultSearchValue={localData.search}
         totalPages={totalPages}
         totalRows={totalItems}

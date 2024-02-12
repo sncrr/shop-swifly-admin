@@ -23,7 +23,7 @@ import { CityContext } from "..";
 import { useOutletContext } from "react-router-dom";
 import { hideLoader, showLoader } from "../../../../components/modals/slice";
 import { failedToast, showToast, successToast } from "../../../../components/toasts/slice";
-import { uploadCities } from "../controllers";
+import { importCities } from "../controllers";
 
 export function CityList() {
   //HOOKS & VARIABLES
@@ -92,7 +92,7 @@ export function CityList() {
       let formData = new FormData();
       formData.append('file', file);
 
-      let result: any = await uploadCities({
+      let result: any = await importCities({
         data: formData
       });
 
@@ -116,7 +116,7 @@ export function CityList() {
     <Section>
       <TableControls
         hasSearch
-        hasImportButton
+        hasImportCSV
         defaultSearchValue={localData.search}
         totalPages={totalPages}
         totalRows={totalItems}

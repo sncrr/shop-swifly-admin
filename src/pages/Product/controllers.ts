@@ -65,6 +65,15 @@ export async function updateProduct(
   }
 }
 
+export const importProducts = async (payload: any): Promise<Product> => {
+  try {
+    const response = await request.post(`/${SUB_PATH}/import`, payload.data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function deleteProduct(id: string): Promise<boolean> {
   try {
     const response = await request.delete(`/${SUB_PATH}/${id}`);
@@ -82,3 +91,4 @@ export async function generateNewSku(): Promise<string> {
     throw error;
   }
 }
+

@@ -43,9 +43,9 @@ export async function updateCity(payload: any): Promise<City> {
   }
 }
 
-export async function uploadCities(payload: any): Promise<City> {
+export async function importCities(payload: any): Promise<City> {
   try {
-    const response = await request.post(`/${SUB_PATH}/upload`, payload.data);
+    const response = await request.post(`/${SUB_PATH}/import`, payload.data);
     return response.data;
   } catch (error) {
     throw error;
