@@ -21,7 +21,7 @@ export const mapCreateCategory = (values: any) => {
 
   let category = {
     name: _.get(values, 'name', ''),
-    parent: parent ? parent : null,
+    parent: values.parent ? values.parent : null,
     description: _.get(values, 'description', '')
   }
 
