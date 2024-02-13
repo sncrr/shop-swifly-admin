@@ -26,6 +26,7 @@ import { CustomerContext } from "..";
 import { GENDERS } from "../constants";
 import { getCustomer } from "../controllers";
 import { Customer } from "../../../models/Customer";
+import { saveCustomer } from "../slice";
 
 export const CustomerForm = () => {
   const { dispatch, navigate, customerState } = useOutletContext<CustomerContext>();
@@ -81,16 +82,15 @@ export const CustomerForm = () => {
   }, [selected]);
 
   const onSubmit = async (values: any) => {
-    console.log(values)
     // const data = mapFormPaymentMethod(values);
 
-    // dispatch(
-    //   savePaymentMethod({
-    //     id: selected?._id,
-    //     data: values,
-    //     navigateBack: !values.continueEdit,
-    //   })
-    // );
+    dispatch(
+      saveCustomer({
+        id: selected?._id,
+        data: values,
+        navigateBack: !values.continueEdit,
+      })
+    );
 
     setValue("continueEdit", false);
   };

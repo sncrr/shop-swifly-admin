@@ -18,8 +18,8 @@ export const ProductSchema = Yup.object().shape({
   isActive: Yup.bool().required(requiredMessage),
   // categories: Yup.array(Yup.string()).required(requiredMessage),
 
-  weightUnit: Yup.object(),
-  weightValue: Yup.string(),
+  // weightUnit: Yup.object(),
+  // weightValue: Yup.string(),
 
   minCartQty: GlobalOverriderSchema,
   maxCartQty: GlobalOverriderSchema,
@@ -47,11 +47,11 @@ export const mapFormDefaultValues = (
     isActive: selected ? !!selected.isActive : true,
     description: selected ? selected.description : "",
     categories: selected ? selected.categories : new Array<string>(),
-    weightUnit:
-      selected && selected.weight
-        ? getDefaultWeightUnit(selected.weight.unit)
-        : WEIGHT_UNITS[0],
-    weightValue: selected && selected.weight ? selected.weight.value : "",
+    // weightUnit:
+    //   selected && selected.weight
+    //     ? getDefaultWeightUnit(selected.weight.unit)
+    //     : WEIGHT_UNITS[0],
+    // weightValue: selected && selected.weight ? selected.weight.value : "",
 
     prices: getDefaultStoreValues(stores, selected?.prices, "price"),
     stocks: getDefaultStoreValues(stores, selected?.stocks, "quantity"),

@@ -5,9 +5,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "deploy": "gh-pages -d build",
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "vite --mode development",
+    "staging": "vite --mode staging",
+    "build:dev": "tsc && vite build --mode development",
+    "build:staging": "tsc && vite build --mode staging",
+    
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -17,6 +19,7 @@
     "@types/lodash": "^4.14.202",
     "axios": "^1.4.0",
     "connected-react-router": "^6.9.3",
+    "dotenv": "^16.4.3",
     "history": "^5.3.0",
     "moment": "^2.30.1",
     "nookies": "^2.5.2",

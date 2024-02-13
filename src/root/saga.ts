@@ -9,6 +9,7 @@ import provinceSaga from "../pages/Address/Province/saga";
 import citySaga from "../pages/Address/City/saga";
 import barangaySaga from "../pages/Address/Barangay/saga";
 import customerSaga from "../pages/Customer/saga";
+import promotionSaga from "../pages/Promotion/saga";
 
 export function* rootSaga() {
   yield all([
@@ -16,6 +17,7 @@ export function* rootSaga() {
 
     categorySaga(),
     productSaga(),
+    promotionSaga(),
     storeSaga(),
 
     customerSaga(),

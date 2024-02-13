@@ -101,6 +101,7 @@ export const TableControls: React.FC<Props> = (props) => {
       props.onSearch(value);
     }
     setSearch(value);
+    setCurrentPage(1);
   }
 
   
@@ -228,6 +229,7 @@ export const TableControls: React.FC<Props> = (props) => {
           importOpen={importOpen}
           setImportOpen={setImportOpen}
           onImport={handleImport}
+          setCurrentPage={setCurrentPage}
         />
       )}
 
@@ -340,7 +342,7 @@ export const TableControls: React.FC<Props> = (props) => {
   );
 };
 
-const ImportModal = ({ importOpen, setImportOpen, onImport }: any) => {
+const ImportModal = ({ importOpen, setImportOpen, onImport, setCurrentPage }: any) => {
   const [file, setFile] = useState<any>(null);
 
   const handleSubmit = (e: any) => {
@@ -348,6 +350,7 @@ const ImportModal = ({ importOpen, setImportOpen, onImport }: any) => {
     onImport(file);
     setImportOpen(false);
     setFile(null);
+    setCurrentPage(1);
   };
 
   return (

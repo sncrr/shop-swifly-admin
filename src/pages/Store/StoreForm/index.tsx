@@ -25,7 +25,7 @@ import { getStore } from "../controllers";
 import { Paths } from "../../../constants";
 import { hideLoader, showLoader } from "../../../components/modals/slice";
 import { saveStore } from "../slice";
-import { generateStoreCode } from "../helper";
+import { generateCodeFromName } from "../../../root/helper";
 
 export function StoreForm() {
   const { dispatch, navigate, storeState } = useOutletContext<StoreContext>();
@@ -68,7 +68,7 @@ export function StoreForm() {
 
   useEffect(() => {
     if(!selected) {
-      let code = generateStoreCode(watch('name'));
+      let code = generateCodeFromName(watch('name'));
       setValue('code', code);
     }
   }, [watch('name')])
