@@ -11,6 +11,7 @@ import customerGroupSlice, { CustomerGroupState } from "../pages/CustomerGroup/s
 import provinceSlice, { ProvinceState } from "../pages/Address/Province/slice";
 import citySlice, { CityState } from "../pages/Address/City/slice";
 import barangaySlice, { BarangayState } from "../pages/Address/Barangay/slice";
+import promotionSlice, { PromotionState } from "../pages/Promotion/slice";
 
 export interface RootState {
   global: GlobalState;
@@ -20,6 +21,7 @@ export interface RootState {
 
   category: CategoryState;
   product: ProductState;
+  promotion: PromotionState;
 
   customer: CustomerState;
   customerGroup: CustomerGroupState,
@@ -42,6 +44,7 @@ export const rootReducer = () =>
     //Inventory,
     category: categorySlice.reducer,
     product: productSlice.reducer,
+    promotion: promotionSlice.reducer,
 
     //Customers
     customer: customerSlice.reducer,

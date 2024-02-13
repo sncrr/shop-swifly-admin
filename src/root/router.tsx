@@ -13,6 +13,7 @@ import { CustomerGroup, CustomerGroupRoutes } from "../pages/CustomerGroup";
 import { Province, ProvinceRoutes } from "../pages/Address/Province";
 import { City, CityRoutes } from "../pages/Address/City";
 import { Barangay, BarangayRoutes } from "../pages/Address/Barangay";
+import { Promotion, PromotionRoutes } from "../pages/Promotion";
 
 export const router = createHashRouter([
   {
@@ -42,6 +43,14 @@ export const router = createHashRouter([
             path: Paths.PRODUCT,
             element: <Product />,
             children: ProductRoutes.map((item) => ({
+              path: item.path,
+              element: <item.element />,
+            })),
+          },
+          {
+            path: Paths.PROMOTION,
+            element: <Promotion />,
+            children: PromotionRoutes.map((item) => ({
               path: item.path,
               element: <item.element />,
             })),

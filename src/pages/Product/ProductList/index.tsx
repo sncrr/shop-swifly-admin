@@ -85,17 +85,10 @@ export function ProductList() {
   };
 
   const handleSearch = (value: string) => {
-    dispatch(
-      fetchProducts({
-        page: localData.currentPage,
-        itemsCount: localData.itemsCount,
-        sort: "sku",
-        search: value,
-      })
-    );
-    setLocalData(PRODUCT_LOCAL_KEY, {
-      search: value,
-    });
+    getProductList({
+      page: 1,
+      search: value
+    })
   };
 
   const handleImportProducts = async (file: any) => {
@@ -110,7 +103,7 @@ export function ProductList() {
       });
 
       if(result.success) {
-        dispatch(showToast(successToast(`${result.itemsUploaded} Barangays uploaded successfully`)))
+        dispatch(showToast(successToast(`${result.itemsUploaded} products uploaded successfully`)))
         getProductList({page: 1});
       }
       else {

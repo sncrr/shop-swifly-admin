@@ -28,6 +28,10 @@ export const sidebarNavigations = [
         label: "Products",
         path: Paths.PRODUCT,
       },
+      {
+        label: "Promotions",
+        path: Paths.PROMOTION,
+      },
     ],
   },
   {

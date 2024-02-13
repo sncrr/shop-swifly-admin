@@ -11,7 +11,6 @@ import { useOutletContext, useParams } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProductSchema, mapFormDefaultValues } from "./schema";
-import { WEIGHT_UNITS } from "../../../constants/global";
 import { fetchCategories, saveCategorySuccess } from "../../Category/slice";
 import { Product } from "../../../models/Product";
 import { get } from "lodash";
@@ -212,7 +211,7 @@ export function ProductForm() {
               <FormTextArea name="description" />
             </FormGroup>
 
-            <FormGroup>
+            {/* <FormGroup>
               <FormLabel>Weight</FormLabel>
               <FormInput
                 name="weightValue"
@@ -224,7 +223,7 @@ export function ProductForm() {
                 placeholder="None"
                 options={WEIGHT_UNITS}
               />
-            </FormGroup>
+            </FormGroup> */}
           </FormSection>
 
           <FormSection

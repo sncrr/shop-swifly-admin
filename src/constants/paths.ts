@@ -33,4 +33,8 @@ export const PRODUCT = '/admin/products'
 export const PRODUCT_ADD = '/admin/products/add'
 export const PRODUCT_EDIT = '/admin/products/edit/:id'
 
+export const PROMOTION = '/admin/promotions'
+export const PROMOTION_ADD = '/admin/promotions/add'
+export const PROMOTION_EDIT = '/admin/promotions/edit/:id'
+
 export const SETTINGS = '/admin/settings'

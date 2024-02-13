@@ -27,3 +27,13 @@ export const getErrorMessage = (error: any) => {
 export const formatDateTime = (dateTime: string) => {
   return moment(dateTime).format(DATETIME_FORMAT);
 }
+
+
+export const generateCodeFromName = (name: string): string => {
+  let code = '';
+  if (name) {
+    // Convert to lowercase and replace spaces with underscores
+    code = name.toLowerCase().replace(/\s+/g, '_');
+  }
+  return code;
+};

@@ -8,7 +8,7 @@ export class Product {
   readonly isActive: boolean = true;
   readonly description: string = '';
   readonly categories: any = new Array<string>();
-  readonly weight: ProductWeight = new ProductWeight();
+  // readonly weight: ProductWeight = new ProductWeight();
 
   readonly prices: ProductPrice[] = new Array<ProductPrice>();
   readonly stocks: ProductStock[] = new Array<ProductStock>();
