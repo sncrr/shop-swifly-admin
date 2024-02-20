@@ -98,6 +98,9 @@ export const getDefaultStorePriceValues = (
     let saleFrom = getValueByStore(values, "default", "saleFrom", '');
     let saleTo = getValueByStore(values, "default", "saleTo", '');
 
+    
+    console.log("DEFAULT",saleFrom);
+
     data.default.saleFrom = parseDateToLocaleString(saleFrom);
     data.default.saleTo = parseDateToLocaleString(saleTo);
   }
@@ -118,6 +121,8 @@ export const getDefaultStorePriceValues = (
       if(salePrice != 0) {
         let saleFrom = getValueByStore(values, store.code, "saleFrom", '');
         let saleTo = getValueByStore(values, store.code, "saleTo", '');
+
+        console.log("SALEFROM",saleFrom);
 
         data[store.code].salePrice = salePrice.toString();
         data[store.code].saleFrom = parseDateToLocaleString(saleFrom);
