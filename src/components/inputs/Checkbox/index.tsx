@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes, useEffect, useState } from "react";
 import { colors } from "../../../theme";
 import styled from "styled-components";
 
@@ -28,9 +28,9 @@ export const Checkbox = (props: Props) => {
     onSubmit: undefined
   }
 
-  // useEffect(() => {
-  //   handleSubmit();
-  // }, [checked]);
+  useEffect(() => {
+    setChecked(props.defaultValue)
+  }, [props.defaultValue]);
 
   const handleSubmit = (value: boolean) => {
 

@@ -1,5 +1,5 @@
 //UTILS
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   createProduct,
   generateNewSku,
@@ -58,11 +58,13 @@ export function ProductForm() {
 
   const routePrams = useParams();
 
-  const defaultValues = mapFormDefaultValues(
-    selected,
-    stores,
-    defaultSku
-  );
+  const defaultValues = useMemo(() => {
+    return mapFormDefaultValues(
+      selected,
+      stores,
+      defaultSku
+    )
+  }, [selected]);
 
   const formMethods = useForm({
     resolver: yupResolver(ProductSchema),
@@ -224,6 +226,7 @@ export function ProductForm() {
                 options={WEIGHT_UNITS}
               />
             </FormGroup> */}
+
           </FormSection>
 
           <FormSection
@@ -234,9 +237,32 @@ export function ProductForm() {
           >
             <tr>
               <td className="w-full pb-8" colSpan={2}>
-                <SourceInput stores={stores} />
+                <SourceInput stores={stores} defaultValues={defaultValues} />
               </td>
             </tr>
+          </FormSection>
+
+          <FormSection
+            id="media_gallery"
+            title="Media Gallery"
+            hasRequired
+            isOpen
+          >
+            <FormGroup required>
+              <FormLabel>Thumbnail</FormLabel>
+              <ImageUpload name="thumbnail" />
+            </FormGroup>
+
+            <FormGroup>
+              <FormLabel>Images</FormLabel>
+              <MultiImageUpload name="views" />
+            </FormGroup>
+          </FormSection>
+
+          <FormSection
+            id="advanced"
+            title="Advanced"
+          >
             <FormGroup>
               <FormLabel>Minimum Cart Qty</FormLabel>
               <FormInput
@@ -271,23 +297,6 @@ export function ProductForm() {
                 name="maxCartQty.useGlobal"
                 className="py-0"
               />
-            </FormGroup>
-          </FormSection>
-
-          <FormSection
-            id="media_gallery"
-            title="Media Gallery"
-            hasRequired
-            isOpen
-          >
-            <FormGroup required>
-              <FormLabel>Thumbnail</FormLabel>
-              <ImageUpload name="thumbnail" />
-            </FormGroup>
-
-            <FormGroup>
-              <FormLabel>Images</FormLabel>
-              <MultiImageUpload name="views" />
             </FormGroup>
           </FormSection>
         </Form>

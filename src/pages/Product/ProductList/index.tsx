@@ -166,6 +166,7 @@ export function ProductList() {
                     key={i.toString()}
                     label={price.source}
                     value={price.price}
+                    useDefault={price.useDefault}
                   />
                 ))}
               </TData>
@@ -175,6 +176,7 @@ export function ProductList() {
                     key={i.toString()}
                     label={stock.source}
                     value={stock.quantity}
+                    useDefault={stock.useDefault}
                   />
                 ))}
               </TData>
@@ -194,13 +196,17 @@ export function ProductList() {
   );
 }
 
-const InventoryData = ({ label, value }: any) => {
+const InventoryData = ({ label, value, useDefault }: any) => {
   return (
     <>
       <span className="space-x-1">
         <span>{label}</span>
         <span>:</span>
-        <span className=" font-semibold">{value}</span>
+        <span className="font-semibold">
+          {
+            useDefault && label != 'default' ? 'default' : value
+          }
+        </span>
       </span>
       <br />
     </>

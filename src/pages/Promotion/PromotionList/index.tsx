@@ -149,7 +149,7 @@ const PromotionList = () => {
                 <TData>{item.products.length}</TData>
                 <TData>
                   <Checkbox
-                    defaultValue={item.isEnabled}
+                    defaultChecked={item.isEnabled}
                     onSubmit={(value: boolean) => handleOnChangeStatus(item._id, value)}
                   />
                 </TData>

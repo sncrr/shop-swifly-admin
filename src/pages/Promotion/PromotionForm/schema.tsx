@@ -10,6 +10,8 @@ export const PromotionSchema = Yup.object().shape({
   code: Yup.string()
     .required(requiredMessage),
 
+  sortOrder: Yup.number(),
+
   isEnabled: Yup.boolean(),
   description: Yup.string()
     .max(200),
