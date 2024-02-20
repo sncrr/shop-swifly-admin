@@ -45,6 +45,7 @@ export const PromotionForm = () => {
   const defaultValues = {
     name: selected.name,
     code: selected.code,
+    sortOrder: selected.sortOrder,
     isEnabled: selected.isEnabled,
     description: selected.description,
     startDate: selected.startDate,
@@ -150,6 +151,11 @@ export const PromotionForm = () => {
           <FormGroup required>
             <FormLabel>Is Enabled</FormLabel>
             <FormToggle name="isEnabled" />
+          </FormGroup>
+
+          <FormGroup>
+            <FormLabel>Sort Order</FormLabel>
+            <FormInput name="sortOrder" type="number" />
           </FormGroup>
 
           <FormGroup>

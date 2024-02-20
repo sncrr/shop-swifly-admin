@@ -6,6 +6,7 @@ export class Promotion {
   readonly name: string = '';
   readonly description: string = '';
   readonly code: string = '';
+  readonly sortOrder: number = 1;
   readonly products: Product[] = new Array<Product>();
   readonly isEnabled: boolean = true;
   readonly startDate: string = '';

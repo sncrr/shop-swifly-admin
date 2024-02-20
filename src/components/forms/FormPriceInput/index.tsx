@@ -6,6 +6,7 @@ import { FormInputContainer } from '..';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   name: string,
+  nonTabular?: boolean,
   addionalNode?: ReactNode,
   flexible?: boolean,
   unbordered?: boolean,
@@ -27,12 +28,12 @@ export const FormPriceInput = (props: Props) => {
     description: undefined,
     defaultValue: undefined,
     addionalNode: undefined,
+    nonTabular: undefined,
   }
 
   return (
-    <td className={`form-control py-2 ${props.className ? props.className : ''}`}>
+    <Parent nonTabular={props.nonTabular} className={`form-control py-2 ${props.className ? props.className : ''}`} >
       <Controller
-        
         defaultValue={props.defaultValue ? props.defaultValue : ''}
         control={control}
         name={props.name}
@@ -48,6 +49,8 @@ export const FormPriceInput = (props: Props) => {
               <Input
                 {...inputProps}
                 {...field}
+                type='number'
+                pattern="^\d*(\.\d{0,2})?$"
               />
             </FormInputContainer>
             {
@@ -70,8 +73,33 @@ export const FormPriceInput = (props: Props) => {
           </div>
         ) : null
       }
-    </td>
+    </Parent>
   )
+}
+
+
+const Parent = (props: any) => {
+
+  const containerProps = {
+    ...props
+  };
+
+  delete containerProps.nonTabular;
+
+  if(props.nonTabular) {
+    return(
+      <div {...containerProps}>
+        {containerProps.children}
+      </div>
+    )
+  }
+  else {
+    return (
+      <td {...containerProps}>
+        {containerProps.children}
+      </td>
+    )
+  }
 }
 
 const Input = styled.input`

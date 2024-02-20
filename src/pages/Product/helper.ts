@@ -12,6 +12,7 @@ export const getThumbnailPath = (product: Product) => {
 };
 
 export const mapToFormData = (values: any, event: any) => {
+
   let formData = new FormData();
 
   for (const key in values) {
@@ -33,11 +34,11 @@ export const mapToFormData = (values: any, event: any) => {
 
   formData = mapStringifyToFormData(formData, "prices", values.prices);
   formData = mapStringifyToFormData(formData, "stocks", values.stocks);
-  formData = mapStringifyToFormData(
-    formData,
-    "weightUnit",
-    values.weightUnit.value
-  );
+  // formData = mapStringifyToFormData(
+  //   formData,
+  //   "weightUnit",
+  //   values.weightUnit.value
+  // );
   formData = mapStringifyToFormData(formData, "minCartQty", values.minCartQty);
   formData = mapStringifyToFormData(formData, "maxCartQty", values.maxCartQty);
 
