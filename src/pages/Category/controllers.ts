@@ -6,7 +6,10 @@ const SUB_PATH = 'categories';
 export async function getAllCategories(payload: any) {
   try {
     
-    const query = createQuery(payload);
+    const query = createQuery({
+      ...payload,
+      includeInactive: '1',
+    });
 
     const response = await request.get(`/${SUB_PATH}/all?${query}`);
     return response.data;

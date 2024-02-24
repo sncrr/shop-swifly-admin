@@ -6,6 +6,8 @@ export const CategorySchema = Yup.object().shape({
   name: Yup.string()
     .max(50)
     .required(requiredMessage),
+  slug: Yup.string()
+    .required(requiredMessage),
 
   isEnabled: Yup.bool(),
   description: Yup.string()

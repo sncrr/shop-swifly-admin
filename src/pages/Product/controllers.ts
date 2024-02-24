@@ -26,6 +26,7 @@ export async function getPaginateProducts(
       search,
       page,
       itemsCount,
+      includeInactive: '1',
     });
 
     const response = await request.get(`/${SUB_PATH}/all?${query}`);
